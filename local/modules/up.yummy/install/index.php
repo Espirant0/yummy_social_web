@@ -2,6 +2,7 @@
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\ModuleManager;
+use Bitrix\Main\Config\Option;
 
 Loc::loadMessages(__FILE__);
 
@@ -74,6 +75,36 @@ class up_yummy extends CModule
 	{
 	}
 
+	public function installLinks():void
+	{
+	$itemData = array(
+			'TEXT' => 'Ссылка',
+			'LINK' => '/',
+			'ID' => 'yummy',
+			'NEW_PAGE' => 'Y',
+		);
+
+		$adminOption = Option::get('intranet', 'left_menu_items_to_all_' . SITE_ID, '', SITE_ID);
+
+		if (!empty($adminOption))
+		{
+			$adminOption = unserialize($adminOption, ['allowed_classes' => false]);
+			foreach ($adminOption as $item)
+			{
+				if ($item['ID'] == $itemData['ID'])
+					break;
+			}
+			$adminOption[] = $itemData;
+		}
+		else
+		{
+			$adminOption = array($itemData);
+		}
+
+		Option::set('intranet', 'left_menu_items_to_all_' . SITE_ID, serialize($adminOption), false, SITE_ID);
+
+	}
+
 
 	public function doInstall(): void
 	{
@@ -86,6 +117,7 @@ class up_yummy extends CModule
 
 		$this->installDB();
 		$this->installFiles();
+		$this->installLinks();
 		$this->installEvents();
 
 		$APPLICATION->IncludeAdminFile(
