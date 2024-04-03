@@ -6,6 +6,6 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Tasker documentation");
 
-$APPLICATION->IncludeComponent('up:task.doc', '', []);
+$APPLICATION->IncludeComponent('up:feed', '', []);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
