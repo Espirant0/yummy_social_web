@@ -29,29 +29,3 @@
 .tabs-content .pagination-list {
 	flex-grow: 0;
 }
-.not-found{
-	text-align: center;
-}
-
-.low-priority{
-	background-color: #3e8dce !important;
-	color: white !important;
-}
-.normal-priority{
-	background-color: #47c58d !important;
-	color: white !important;
-}
-.high-priority{
-	background-color: #ef4567 !important;
-	color: white !important;
-}
-.delete:hover{
-	background-color: #ef4567;
-	transition: 0.3s all ease-out;
-}
-.page-disable{
-	display: none;
-}
-.page-active {
-	display: block;
-}

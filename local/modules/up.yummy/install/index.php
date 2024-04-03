@@ -51,21 +51,21 @@ class up_yummy extends CModule
 	{
 		CopyDirFiles(
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/components',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/components/',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/components',
 			true,
 			true
 		);
 
 		CopyDirFiles(
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/templates',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/templates/',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/templates/yummy',
 			true,
 			true
 		);
 
 		CopyDirFiles(
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/routes',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/routes/',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/routes',
 			true,
 			true
 		);
@@ -73,27 +73,36 @@ class up_yummy extends CModule
 
 	public function uninstallFiles(): void
 	{
-	}
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/components',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/components/up'
 
-	public function installLinks():void
-	{
-	$itemData = array(
-			'TEXT' => 'Ссылка',
-			'LINK' => '/',
-			'ID' => 'yummy',
-			'NEW_PAGE' => 'Y',
 		);
 
-		$adminOption = Option::get('intranet', 'left_menu_items_to_all_' . SITE_ID, '', SITE_ID);
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/templates',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/templates/yummy',
+		);
+
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/routes',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/routes',
+		);
+	}
+
+	public function installLinks(array $itemData): void
+	{
+		$siteId = 's1';
+		$adminOption = Option::get('intranet', 'left_menu_items_to_all_' . $siteId, '', $siteId);
 
 		if (!empty($adminOption))
 		{
 			$adminOption = unserialize($adminOption, ['allowed_classes' => false]);
-			foreach ($adminOption as $item)
-			{
-				if ($item['ID'] == $itemData['ID'])
-					break;
-			}
+				foreach ($adminOption as $item)
+				{
+					if ($item['ID'] == $itemData['ID'])
+						break;
+				}
 			$adminOption[] = $itemData;
 		}
 		else
@@ -101,10 +110,38 @@ class up_yummy extends CModule
 			$adminOption = array($itemData);
 		}
 
-		Option::set('intranet', 'left_menu_items_to_all_' . SITE_ID, serialize($adminOption), false, SITE_ID);
-
+		Option::set('intranet', 'left_menu_items_to_all_' . $siteId, serialize($adminOption), false, $siteId);
 	}
 
+	public function uninstallLinks(array $itemData):void
+	{
+		$siteId = 's1';
+		foreach (['left_menu_items_to_all_' . $siteId, 'left_menu_items_marketplace_' . $siteId] as $optionName)
+		{
+			if (($adminOption = Option::get('intranet', $optionName, '', $siteId))
+				&& !empty($adminOption)
+				&& ($adminOption = unserialize($adminOption, ['allowed_classes' => false]))
+			)
+			{
+				foreach ($adminOption as $key => $item)
+				{
+					if ($item['ID'] == $itemData['ID'])
+					{
+						unset($adminOption[$key]);
+						if (empty($adminOption))
+						{
+							\COption::RemoveOption('intranet', $optionName);
+						}
+						else
+						{
+							Option::set('intranet', $optionName, serialize($adminOption), $siteId);
+						}
+						break 2;
+					}
+				}
+			}
+		}
+	}
 
 	public function doInstall(): void
 	{
@@ -114,12 +151,35 @@ class up_yummy extends CModule
 		{
 			return;
 		}
+		$links = array(
+			array(
+			'TEXT' => 'Добавить рецепт',
+			'LINK' => '/create/',
+			'ID' => 'newCreateId',
+			'NEW_PAGE' => 'Y',
+			),
+			array(
+				'TEXT' => 'Планировщик',
+				'LINK' => '/planner/',
+				'ID' => 'plannerId',
+				'NEW_PAGE' => 'Y',
+			),
+			array(
+				'TEXT' => 'Детальная',
+				'LINK' => '/detail/1/',
+				'ID' => 'detailId',
+				'NEW_PAGE' => 'Y',
+			),
+		);
 
 		$this->installDB();
 		$this->installFiles();
-		$this->installLinks();
 		$this->installEvents();
 
+		foreach ($links as $link)
+		{
+			$this->installLinks($link);
+		}
 		$APPLICATION->IncludeAdminFile(
 			Loc::getMessage('UP_YUMMY_INSTALL_TITLE'),
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/step.php'
@@ -130,24 +190,49 @@ class up_yummy extends CModule
 	{
 		global $USER, $APPLICATION, $step;
 
+		$links = array(
+			array(
+				'TEXT' => 'Добавить рецепт',
+				'LINK' => '/create/',
+				'ID' => 'newCreateId',
+				'NEW_PAGE' => 'Y',
+			),
+			array(
+				'TEXT' => 'Планировщик',
+				'LINK' => '/planner/',
+				'ID' => 'plannerId',
+				'NEW_PAGE' => 'Y',
+			),
+			array(
+				'TEXT' => 'Детальная',
+				'LINK' => '/detail/1/',
+				'ID' => 'detailId',
+				'NEW_PAGE' => 'Y',
+			),
+		);
+
 		if (!$USER->isAdmin())
 		{
 			return;
 		}
 
 		$step = (int)$step;
-		if($step < 2)
+		if ($step < 2)
 		{
 			$APPLICATION->IncludeAdminFile(
 				Loc::getMessage('UP_YUMMY_UNINSTALL_TITLE'),
 				$_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/unstep1.php'
 			);
 		}
-		elseif($step === 2)
+		elseif ($step === 2)
 		{
 			$this->uninstallDB();
 			$this->uninstallFiles();
 			$this->uninstallEvents();
+			foreach ($links as $link)
+			{
+				$this->uninstallLinks($link);
+			}
 
 			$APPLICATION->IncludeAdminFile(
 				Loc::getMessage('UP_YUMMY_UNINSTALL_TITLE'),

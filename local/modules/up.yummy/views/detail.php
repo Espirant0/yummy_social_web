@@ -5,8 +5,9 @@
  */
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("");
+$APPLICATION->SetTitle("Деталка");
 
-$APPLICATION->IncludeComponent('up:detail.doc', '', []);
+$APPLICATION->IncludeComponent('up:detail', '', []);
+
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php");
