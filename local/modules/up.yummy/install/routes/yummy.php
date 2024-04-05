@@ -15,5 +15,6 @@ return function (RoutingConfigurator $routes) {
 			LocalRedirect('/');
 		}
 	));
+	$routes->get('/404/', new PublicPageController('/local/modules/up.yummy/views/404.php'));
 
 };

@@ -46,6 +46,7 @@ class RecipeProductTable extends DataManager
 			new IntegerField(
 				'recipe_id',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PRODUCT_ENTITY_RECIPE_ID_FIELD')
 				]
 			),
@@ -56,6 +57,7 @@ class RecipeProductTable extends DataManager
 			new IntegerField(
 				'product_id',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PRODUCT_ENTITY_PRODUCT_ID_FIELD')
 				]
 			),

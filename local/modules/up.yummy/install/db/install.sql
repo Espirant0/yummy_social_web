@@ -96,3 +96,25 @@ VALUES
 ('мл'),
 ('шт'),
 ('По вкусу');
+INSERT INTO `products`(`name`, `calories`, `proteins`, `carbs`, `fats`, `category_id`, `measure_id`)
+VALUES
+    ('Баклажан',24,1.2,4.5,0.1,5,1),
+    ('Огурец',15,0.8,2.8,0.1,5,1),
+    ('Помидор',20,1.2,3.2,1,5,1),
+    ('Чеснок',143,6.5,30,0.5,5,1),
+    ('Морковь',32,1.3,6.7,0.1,5,1),
+    ('Лук Репччатый',47,1.4,10,0.1,5,1),
+    ('Баранина',209,15.6,0,16.3,1,1),
+    ('Говядина',187,18.9,0,12.4,1,1),
+    ('Мясо Гуся',412,15.2,0,39,1,1),
+    ('Грудинка Индейки',84,19.2,0,0.7,1,1);
+INSERT INTO `recipes`(`description`, `time`, `author_id`)
+VALUES ('Пожарьте говядину и добавьте морковки',45,'01');
+INSERT INTO `recipe_product`(`recipe_id`, `product_id`, `value`)
+VALUES ('01',5,2),
+       ('01',8,2);
+ALTER TABLE recipes
+    ADD COLUMN title varchar(255);
+UPDATE recipes
+SET title = 'Говядина с морковкой'
+WHERE ID = 1;

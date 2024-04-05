@@ -19,6 +19,7 @@ Loc::loadMessages(__FILE__);
  * <ul>
  * <li> id int mandatory
  * <li> description text optional
+ * <li> title text optional
  * <li> time int optional
  * <li> author_id int optional
  * <li> calories double optional
@@ -62,6 +63,12 @@ class RecipesTable extends DataManager
 				'description',
 				[
 					'title' => Loc::getMessage('_ENTITY_DESCRIPTION_FIELD')
+				]
+			),
+			new TextField(
+				'title',
+				[
+					'title' => Loc::getMessage('_ENTITY_TITLE_FIELD')
 				]
 			),
 			new IntegerField(

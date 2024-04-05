@@ -4,8 +4,20 @@ class DetailComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->prepareTemplateParams();
-		$this->includeComponentTemplate();
+		$id=request()['id'];
+		if(\Up\Yummy\Service\ValidationService::ValidateRecipeId($id))
+		{
+			$this->arResult['RECIPE'] = Up\Yummy\Repository\RecipeRepository::showRecipeDetail($id);
+			$this->arResult['PRODUCTS'] = Up\Yummy\Repository\RecipeRepository::getRecipeProducts($id);
+			$this->prepareTemplateParams();
+			$this->includeComponentTemplate();
+		}
+		else
+		{
+			LocalRedirect('/404/');
+
+		}
+
 	}
 
 	protected function prepareTemplateParams(): void
