@@ -4,6 +4,7 @@ class TaskDocComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->arResult['recipes']=Up\Yummy\Repository\RecipeRepository::getRecipeFeed();
 		$this->prepareTemplateParams();
 		$this->includeComponentTemplate();
 	}

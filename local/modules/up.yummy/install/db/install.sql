@@ -270,3 +270,8 @@ ALTER  TABLE course
 ALTER  TABLE featured
     CHANGE user_id USER_ID int,
     CHANGE recipe_id RECIPE_ID int;
+INSERT INTO `recipes`(`ID`,`DESCRIPTION`, `TIME`, `AUTHOR_ID`, `title`)
+VALUES
+    ('ТУТ ЕЩЕ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 1'),
+    ('ТУТ ЕЩЕ ОДИН ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 2'),
+    ('ТУТ ЕЩЕ ВТОРОЙ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 3');

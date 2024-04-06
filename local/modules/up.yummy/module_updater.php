@@ -423,3 +423,13 @@ __yummyMigrate(43, function ($updater, $DB) {
     CHANGE recipe_id RECIPE_ID int;
 ");}
 });
+__yummyMigrate(44, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("INSERT INTO `recipes`(`ID`,`DESCRIPTION`, `TIME`, `AUTHOR_ID`, `title`)
+VALUES 
+('ТУТ ЕЩЕ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 1'),
+('ТУТ ЕЩЕ ОДИН ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 2'),
+('ТУТ ЕЩЕ ВТОРОЙ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 3');
+");}
+});

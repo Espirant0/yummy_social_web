@@ -33,4 +33,10 @@ class RecipeRepository
 	{
 		return null;
 	}
+	public static function getRecipeFeed()
+	{
+		$recipes=RecipesTable::query()->setSelect(['*']);
+		$recipes=$recipes->fetchAll();
+		return $recipes;
+	}
 }
