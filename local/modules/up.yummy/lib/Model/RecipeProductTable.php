@@ -1,6 +1,7 @@
 <?php
 namespace Up\Yummy\Model;
 
+use Bitrix\Crm\Measure;
 use Bitrix\Main\Entity\ReferenceField;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
@@ -32,7 +33,7 @@ class RecipeProductTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'recipe_product';
+		return 'up_final_recipe_product';
 	}
 
 	/**
@@ -44,32 +45,42 @@ class RecipeProductTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'recipe_id',
+				'RECIPE_ID',
 				[
 					'primary' => true,
-					'title' => Loc::getMessage('PRODUCT_ENTITY_RECIPE_ID_FIELD')
+					'title' => Loc::getMessage('RECIPE_PRODUCT_ENTITY_RECIPE_ID_FIELD')
 				]
 			),
-			'recipe' => new ReferenceField(
-				'recipe_id',
-				RecipesTable::class, Join::on('this.recipe_id', 'ref.ID')
+			'RECIPE' => new ReferenceField(
+				'RECIPE_ID',
+				RecipesTable::class, Join::on('this.RECIPE_ID', 'ref.ID')
 			),
 			new IntegerField(
-				'product_id',
+				'PRODUCT_ID',
 				[
 					'primary' => true,
-					'title' => Loc::getMessage('PRODUCT_ENTITY_PRODUCT_ID_FIELD')
+					'title' => Loc::getMessage('RECIPE_PRODUCT_ENTITY_PRODUCT_ID_FIELD')
 				]
 			),
 			(new ReferenceField(
-				'product',
-				ProductsTable::class, Join::on('this.product_id', 'ref.id')))
+				'PRODUCT',
+				ProductsTable::class, Join::on('this.PRODUCT_ID', 'ref.ID')))
 				->configureJoinType('LEFT'),
 			new FloatField(
-				'value',
+				'VALUE',
 				[
-					'title' => Loc::getMessage('PRODUCT_ENTITY_VALUE_FIELD')
+					'title' => Loc::getMessage('RECIPE_PRODUCT_ENTITY_VALUE_FIELD')
 				]
+			),
+			new IntegerField(
+				'MEASURE_ID',
+				[
+					'title' => Loc::getMessage('RECIPE_PRODUCT_ENTITY_MEASURE_ID_FIELD')
+				]
+			),
+			'MEASURE' => new ReferenceField(
+				'MEASURE_ID',
+				MeasuresTable::class, Join::on('this.MEASURE_ID', 'ref.ID')
 			),
 		];
 	}

@@ -1,71 +1,73 @@
-CREATE TABLE IF NOT EXISTS `recipes` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `description` text,
-  `time` int,
-  `author_id` int,
-  `calories` float,
-  `proteins` float,
-  `carbs` float,
-  `fats` float
+CREATE TABLE IF NOT EXISTS `up_final_recipes` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(255),
+  `DESCRIPTION` text,
+  `TIME` int,
+  `AUTHOR_ID` int,
+  `CALORIES` float,
+  `PROTEINS` float,
+  `CARBS` float,
+  `FATS` float
 );
 
-CREATE TABLE IF NOT EXISTS`products` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(255),
-  `calories` float,
-  `proteins` float,
-  `carbs` float,
-  `fats` float,
-  `category_id` int,
-  `measure_id` int
+CREATE TABLE IF NOT EXISTS`up_final_products` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255),
+  `CALORIES` float,
+  `PROTEINS` float,
+  `CARBS` float,
+  `FATS` float,
+  `CATEGORY_ID` int,
+  `WEIGHT_PER_UNIT` float NULL
 );
 
-CREATE TABLE IF NOT EXISTS`recipe_product` (
-  `recipe_id` int,
-  `product_id` int,
-  `value` float
+CREATE TABLE IF NOT EXISTS`up_final_recipe_product` (
+  `RECIPE_ID` int,
+  `PRODUCT_ID` int,
+  `VALUE` float,
+  `MEASURE_ID` int
 );
 
-CREATE TABLE IF NOT EXISTS `measures` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `title` varchar(255)
+CREATE TABLE IF NOT EXISTS `up_final_measures` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(255),
+  `COEFFICIENT` float NULL
 );
 
-CREATE TABLE IF NOT EXISTS `user_product` (
-  `user_id` int,
-  `product_id` int,
-  `value` float
+CREATE TABLE IF NOT EXISTS `up_final_categories` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(255)
 );
 
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `title` varchar(255)
+CREATE TABLE IF NOT EXISTS `up_final_images` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `PATH` varchar(255),
+  `RECIPE_ID` int,
+  `IS_COVER` tinyint(1)
 );
 
-CREATE TABLE IF NOT EXISTS `images` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `path` varchar(255),
-  `recipe_id` int,
-  `is_cover` tinyint(1)
+CREATE TABLE IF NOT EXISTS `up_final_planner` (
+  `RECIPE_ID` int,
+  `USER_ID` int,
+  `COURSE_ID` int,
+  `DATE` date
 );
 
-CREATE TABLE IF NOT EXISTS `planner` (
-  `recipe_id` int,
-  `user_id` int,
-  `course_id` int,
-  `date` date
+CREATE TABLE IF NOT EXISTS `up_final_course` (
+  `ID` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(255)
 );
 
-CREATE TABLE IF NOT EXISTS `course` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `title` varchar(255)
+CREATE TABLE IF NOT EXISTS `up_final_featured` (
+  `USER_ID` int,
+  `RECIPE_ID` int
 );
 
-CREATE TABLE IF NOT EXISTS `featured` (
-  `user_id` int,
-  `recipe_id` int
+CREATE TABLE IF NOT EXISTS `up_final_product_measures` (
+  PRODUCT_ID int  ,
+  MEASURE_ID int
 );
-INSERT INTO categories(title)
+INSERT INTO up_final_categories(TITLE)
 VALUES
     ('Мясо'),
     ('Рыба'),
@@ -75,7 +77,7 @@ VALUES
     ('Фрукты'),
     ('Зелень'),
     ('Грибы'),
-    ('Яйца/Яичные прдукты'),
+    ('Яйца/Яичные продукты'),
     ('Молоко/Молочные продукты'),
     ('Соя/Соевые продукты'),
     ('Жиры/Масла'),
@@ -86,70 +88,44 @@ VALUES
     ('Специи/Пряности'),
     ('Сладости'),
     ('Напитки/Соки');
-INSERT INTO measures(title)
+
+INSERT INTO up_final_measures(TITLE, COEFFICIENT)
 VALUES
-('гр'),
-('кг'),
-('чн. лжк.'),
-('ст. лжк.'),
-('л'),
-('мл'),
-('шт'),
-('По вкусу');
-INSERT INTO `products`(`name`, `calories`, `proteins`, `carbs`, `fats`, `category_id`, `measure_id`)
+('гр', 1),
+('кг', 1000),
+('чн. лжк.', 5),
+('ст. лжк.', 15),
+('л', 1000),
+('мл', 1),
+('шт', NULL),
+('По вкусу', NULL);
+
+INSERT INTO `up_final_products` (NAME, CALORIES, PROTEINS, CARBS, FATS, CATEGORY_ID, WEIGHT_PER_UNIT)
 VALUES
-    ('Баклажан',24,1.2,4.5,0.1,5,1),
-    ('Огурец',15,0.8,2.8,0.1,5,1),
-    ('Помидор',20,1.2,3.2,1,5,1),
-    ('Чеснок',143,6.5,30,0.5,5,1),
-    ('Морковь',32,1.3,6.7,0.1,5,1),
-    ('Лук Репччатый',47,1.4,10,0.1,5,1),
-    ('Баранина',209,15.6,0,16.3,1,1),
-    ('Говядина',187,18.9,0,12.4,1,1),
-    ('Мясо Гуся',412,15.2,0,39,1,1),
-    ('Грудинка Индейки',84,19.2,0,0.7,1,1);
-INSERT INTO `recipes`(`description`, `time`, `author_id`)
-VALUES ('Пожарьте говядину и добавьте морковки',45,'01');
-INSERT INTO `recipe_product`(`recipe_id`, `product_id`, `value`)
-VALUES ('01',5,2),
-       ('01',8,2);
-ALTER TABLE recipes
-    ADD COLUMN title varchar(255);
-UPDATE recipes
-SET title = 'Говядина с морковкой'
-WHERE ID = 1;
-
-CREATE TABLE IF NOT EXISTS `product_measures` (
- PRODUCT_ID int  ,
- MEASURE_ID int
-);
-ALTER TABLE products
-    ADD COLUMN WEIGHT_PER_UNIT float;
+    ('Баклажан',24,1.2,4.5,0.1,5,200),
+    ('Огурец',15,0.8,2.8,0.1,5,120),
+    ('Помидор',20,1.2,3.2,1,5,125),
+    ('Чеснок',143,6.5,30,0.5,5,40),
+    ('Морковь',32,1.3,6.7,0.1,5,100),
+    ('Лук Репчатый',47,1.4,10,0.1,5,150),
+    ('Баранина',209,15.6,0,16.3,1,NULL),
+    ('Говядина',187,18.9,0,12.4,1,NULL),
+    ('Мясо Гуся',412,15.2,0,39,1,NULL),
+    ('Грудинка Индейки',84,19.2,0,0.7,1,NULL);
 
 
-UPDATE products
-SET WEIGHT_PER_UNIT = 200
-WHERE ID = 1;
+INSERT INTO `up_final_recipes` (TITLE, DESCRIPTION, TIME, AUTHOR_ID, CALORIES, PROTEINS, CARBS, FATS)
+VALUES ('Говядина с морковкой', 'Пожарьте говядину и добавьте морковки', 45, 1, 0, 0, 0, 0),
+       ('ТУТ ЕЩЕ ПРИМЕР РЕЦЕПТА','ПРИМЕР РЕЦЕПТА 1',120, 1, 433, 3, 54, 5),
+       ('ТУТ ЕЩЕ ОДИН ПРИМЕР РЕЦЕПТА', 'ПРИМЕР РЕЦЕПТА 2', 120,2,432, 5, 1, 6),
+       ('ТУТ ЕЩЕ ВТОРОЙ ПРИМЕР РЕЦЕПТА', 'ПРИМЕР РЕЦЕПТА 3', 120,2,64, 6, 6, 8);
 
-UPDATE products
-SET WEIGHT_PER_UNIT = 120
-WHERE ID = 2;
-UPDATE products
-SET WEIGHT_PER_UNIT =125
-WHERE ID = 3;
-UPDATE products
-SET WEIGHT_PER_UNIT =40
-WHERE ID = 4;
-UPDATE products
-SET WEIGHT_PER_UNIT = 100
-WHERE ID = 5;
-UPDATE products
-SET WEIGHT_PER_UNIT = 150
-WHERE ID = 6;
 
-ALTER TABLE products
-    DROP COLUMN measure_id;
-INSERT INTO product_measures(PRODUCT_ID, MEASURE_ID) VALUES
+INSERT INTO `up_final_recipe_product` (RECIPE_ID, PRODUCT_ID, VALUE, MEASURE_ID)
+VALUES (1 ,5, 200, 1),
+       (1, 8, 1.5, 2);
+
+INSERT INTO up_final_product_measures(PRODUCT_ID, MEASURE_ID) VALUES
 (1,1),
 (1,2),
 (1,7),
@@ -177,101 +153,3 @@ INSERT INTO product_measures(PRODUCT_ID, MEASURE_ID) VALUES
 (9,2),
 (10,1),
 (10,2);
-
-ALTER TABLE measures
-    ADD COLUMN COEFFICIENT float;
-ALTER TABLE recipe_product
-    ADD COLUMN MEASURE_ID int;
-
-UPDATE measures
-SET COEFFICIENT = 1
-WHERE ID = 1;
-
-UPDATE measures
-SET COEFFICIENT =1000
-WHERE ID = 2;
-
-UPDATE measures
-SET COEFFICIENT =5
-WHERE ID = 3;
-UPDATE measures
-SET COEFFICIENT =15
-WHERE ID = 4;
-
-UPDATE measures
-SET COEFFICIENT = 1000
-WHERE ID = 5;
-
-UPDATE measures
-SET COEFFICIENT = 1
-WHERE ID = 6;
-
-UPDATE measures
-SET COEFFICIENT = NULL
-WHERE ID = 7;
-
-UPDATE measures
-SET COEFFICIENT = 0
-WHERE ID =8;
-
-UPDATE recipe_product
-SET MEASURE_ID = 2;
-
-ALTER TABLE categories
-    CHANGE id  ID int  ,
-    CHANGE title  TITLE varchar(255);
-ALTER TABLE recipes
-    CHANGE id ID int ,
-    CHANGE description DESCRIPTION text,
-    CHANGE time TIME int,
-    CHANGE author_id AUTHOR_ID int,
-    CHANGE calories CALORIES float,
-    CHANGE proteins PROTEINS float,
-    CHANGE carbs CARBS float,
-    CHANGE  fats  FATS float;
-ALTER TABLE products
-     CHANGE id ID int,
-    CHANGE name NAME varchar(255),
-     CHANGE calories CALORIES float,
-     CHANGE proteins PROTEINS float,
-     CHANGE carbs CARBS float,
-     CHANGE fats FATS float,
-     CHANGE category_id CATEGORY_ID int;
-ALTER TABLE recipe_product
-   CHANGE recipe_id RECIPE_ID int,
-    CHANGE product_id PRODUCT_ID int,
-    CHANGE value VALUE float;
-ALTER TABLE  measures
-      CHANGE id ID int,
-    CHANGE title TITLE varchar(255);
-
-
-ALTER TABLE  user_product
-    CHANGE user_id USER_ID int,
-    CHANGE  product_id PRODUCT_ID int,
-    CHANGE  value VALUE float;
-
-ALTER  TABLE  images
-    CHANGE id ID int ,
-    CHANGE path PATH varchar(255),
-    CHANGE recipe_id RECIPE_ID int,
-    CHANGE is_cover IS_COVER tinyint(1);
-
-ALTER  TABLE  planner
-    CHANGE recipe_id RECIPE_ID int,
-    CHANGE user_id USER_ID int,
-    CHANGE course_id COURSE_ID int,
-    CHANGE  date DATE date;
-
-ALTER  TABLE course
-    CHANGE  id ID int ,
-    CHANGE title TITLE varchar(255);
-
-ALTER  TABLE featured
-    CHANGE user_id USER_ID int,
-    CHANGE recipe_id RECIPE_ID int;
-INSERT INTO `recipes`(`ID`,`DESCRIPTION`, `TIME`, `AUTHOR_ID`, `title`)
-VALUES
-    ('ТУТ ЕЩЕ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 1'),
-    ('ТУТ ЕЩЕ ОДИН ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 2'),
-    ('ТУТ ЕЩЕ ВТОРОЙ ПРИМЕР РЕЦЕПТА',120,1,'ПРИМЕР РЕЦЕПТА 3');

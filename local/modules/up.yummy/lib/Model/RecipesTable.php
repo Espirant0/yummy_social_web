@@ -7,6 +7,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\FloatField,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Fields\StringField;
+use Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\UserTable;
 
@@ -40,7 +42,7 @@ class RecipesTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'recipes';
+		return 'up_final_recipes';
 	}
 
 	/**
@@ -52,65 +54,78 @@ class RecipesTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_ID_FIELD')
+				]
+			),
+			new StringField(
+				'TITLE',
+				[
+					'validation' => [__CLASS__, 'validateTitle'],
+					'title' => Loc::getMessage('RECIPES_ENTITY_TITLE_FIELD')
 				]
 			),
 			new TextField(
-				'description',
+				'DESCRIPTION',
 				[
-					'title' => Loc::getMessage('_ENTITY_DESCRIPTION_FIELD')
-				]
-			),
-			new TextField(
-				'title',
-				[
-					'title' => Loc::getMessage('_ENTITY_TITLE_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_DESCRIPTION_FIELD')
 				]
 			),
 			new IntegerField(
-				'time',
+				'TIME',
 				[
-					'title' => Loc::getMessage('_ENTITY_TIME_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_TIME_FIELD')
 				]
 			),
 			new IntegerField(
-				'author_id',
+				'AUTHOR_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_AUTHOR_ID_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_AUTHOR_ID_FIELD')
 				]
 			),
-			'author' => new ReferenceField(
-				'author_id',
-				UserTable::class, Join::on('this.author_id', 'ref.ID')
+			'AUTHOR' => new ReferenceField(
+				'AUTHOR_ID',
+				UserTable::class, Join::on('this.AUTHOR_ID', 'ref.ID')
 			),
 			new FloatField(
-				'calories',
+				'CALORIES',
 				[
-					'title' => Loc::getMessage('_ENTITY_CALORIES_FIELD')
-				]
-			),
-			new FloatField(
-				'proteins',
-				[
-					'title' => Loc::getMessage('_ENTITY_PROTEINS_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_CALORIES_FIELD')
 				]
 			),
 			new FloatField(
-				'carbs',
+				'PROTEINS',
 				[
-					'title' => Loc::getMessage('_ENTITY_CARBS_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_PROTEINS_FIELD')
 				]
 			),
 			new FloatField(
-				'fats',
+				'CARBS',
 				[
-					'title' => Loc::getMessage('_ENTITY_FATS_FIELD')
+					'title' => Loc::getMessage('RECIPES_ENTITY_CARBS_FIELD')
 				]
 			),
+			new FloatField(
+				'FATS',
+				[
+					'title' => Loc::getMessage('RECIPES_ENTITY_FATS_FIELD')
+				]
+			),
+		];
+	}
+
+	/**
+	 * Returns validators for TITLE field.
+	 *
+	 * @return array
+	 */
+	public static function validateTitle()
+	{
+		return [
+			new LengthValidator(null, 255),
 		];
 	}
 }

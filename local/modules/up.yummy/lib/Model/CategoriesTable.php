@@ -30,7 +30,7 @@ class CategoriesTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'categories';
+		return 'up_final_categories';
 	}
 
 	/**
@@ -42,25 +42,25 @@ class CategoriesTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('CATEGORIES_ENTITY_ID_FIELD')
 				]
 			),
 			new StringField(
-				'title',
+				'TITLE',
 				[
 					'validation' => [__CLASS__, 'validateTitle'],
-					'title' => Loc::getMessage('_ENTITY_TITLE_FIELD')
+					'title' => Loc::getMessage('CATEGORIES_ENTITY_TITLE_FIELD')
 				]
 			),
 		];
 	}
 
 	/**
-	 * Returns validators for title field.
+	 * Returns validators for TITLE field.
 	 *
 	 * @return array
 	 */

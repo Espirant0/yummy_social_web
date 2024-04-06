@@ -12,10 +12,8 @@
 				<input class="input is-half" type="text" placeholder="Поиск рецепта" />
 				<button class="button is-light ml-3">Искать</button>
 			</div>
-
-
-            <?php foreach($arResult['recipes'] as $recipe):?>
-			<a href="/detail/<?=$recipe['id']?>/">
+            <?php foreach($arResult['RECIPES'] as $recipe):?>
+			<a href="/detail/<?=$recipe['ID']?>/">
 				<div class="card column recipe_card">
 					<div class="card-image column is-two-thirds is-offset-one-fifth">
 						<figure class="image card_image">
@@ -28,8 +26,8 @@
 							<div class="media-left">
 							</div>
 							<div class="media-content">
-								<p class="title is-4 "><?=$recipe['title']?></p>
-								<p class="subtitle is-6"><?=$recipe['description']?></p>
+								<p class="title is-4 "><?=$recipe['TITLE']?></p>
+								<p class="subtitle is-6"><?=$recipe['DESCRIPTION']?></p>
 							</div>
 						</div>
 						<div class="content">
@@ -40,8 +38,8 @@
 							</div>
 							<div class="columns">
 								<div class="column">5423423</div>
-								<div class="column">321 / 4324 / 421</div>
-								<div class="column"><?=$recipe['time']?> мин</div>
+								<div class="column"><?=$recipe['PROTEINS']?> / <?=$recipe['FATS']?> / <?=$recipe['CARBS']?></div>
+								<div class="column"><?=$recipe['TIME']?> мин</div>
 							</div>
 						</div>
 					</div>
@@ -67,9 +65,9 @@
 								<p class="title is-4">Рецепт</p>
 							</div>
 						</div>
-
 					</div>
-				</div></a>
+				</div>
+			</a>
 		</div>
 	</div>
 </div>

@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\FloatField;
 
 Loc::loadMessages(__FILE__);
 
@@ -30,7 +31,7 @@ class MeasuresTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'measures';
+		return 'up_final_measures';
 	}
 
 	/**
@@ -42,25 +43,31 @@ class MeasuresTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('MEASURES_ENTITY_ID_FIELD')
 				]
 			),
 			new StringField(
-				'title',
+				'TITLE',
 				[
 					'validation' => [__CLASS__, 'validateTitle'],
-					'title' => Loc::getMessage('_ENTITY_TITLE_FIELD')
+					'title' => Loc::getMessage('MEASURES_ENTITY_TITLE_FIELD')
+				]
+			),
+			new FloatField(
+				'COEFFICIENT',
+				[
+					'title' => Loc::getMessage('MEASURES_ENTITY_COEFFICIENT_FIELD')
 				]
 			),
 		];
 	}
 
 	/**
-	 * Returns validators for title field.
+	 * Returns validators for TITLE field.
 	 *
 	 * @return array
 	 */

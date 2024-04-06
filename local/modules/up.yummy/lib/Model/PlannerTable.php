@@ -34,7 +34,7 @@ class PlannerTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'planner';
+		return 'up_final_planner';
 	}
 
 	/**
@@ -46,39 +46,39 @@ class PlannerTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'recipe_id',
+				'RECIPE_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_RECIPE_ID_FIELD')
+					'title' => Loc::getMessage('PLANNER_ENTITY_RECIPE_ID_FIELD')
 				]
 			),
-			'recipe' => new ReferenceField(
-				'recipe_id',
-				RecipesTable::class, Join::on('this.recipe_id', 'ref.ID')
+			'RECIPE' => new ReferenceField(
+				'RECIPE_ID',
+				RecipesTable::class, Join::on('this.RECIPE_ID', 'ref.ID')
 			),
 			new IntegerField(
-				'user_id',
+				'USER_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_USER_ID_FIELD')
+					'title' => Loc::getMessage('PLANNER_ENTITY_USER_ID_FIELD')
 				]
 			),
-			'user' => new ReferenceField(
-				'user_id',
-				UserTable::class, Join::on('this.user_id', 'ref.ID')
+			'USER' => new ReferenceField(
+				'USER_ID',
+				UserTable::class, Join::on('this.USER_ID', 'ref.ID')
 			),
 			new IntegerField(
-				'course_id',
+				'COURSE_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_COURSE_ID_FIELD')
+					'title' => Loc::getMessage('PLANNER_ENTITY_COURSE_ID_FIELD')
 				]
 			),
-			'course' => new ReferenceField(
-				'course_id',
-				CourseTable::class, Join::on('this.course_id', 'ref.ID')
+			'COURSE' => new ReferenceField(
+				'COURSE_ID',
+				CourseTable::class, Join::on('this.COURSE_ID', 'ref.ID')
 			),
 			new DateField(
-				'date',
+				'DATE',
 				[
-					'title' => Loc::getMessage('_ENTITY_DATE_FIELD')
+					'title' => Loc::getMessage('PLANNER_ENTITY_DATE_FIELD')
 				]
 			),
 		];

@@ -30,7 +30,7 @@ class CourseTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'course';
+		return 'up_final_course';
 	}
 
 	/**
@@ -42,25 +42,25 @@ class CourseTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('COURSE_ENTITY_ID_FIELD')
 				]
 			),
 			new StringField(
-				'title',
+				'TITLE',
 				[
 					'validation' => [__CLASS__, 'validateTitle'],
-					'title' => Loc::getMessage('_ENTITY_TITLE_FIELD')
+					'title' => Loc::getMessage('COURSE_ENTITY_TITLE_FIELD')
 				]
 			),
 		];
 	}
 
 	/**
-	 * Returns validators for title field.
+	 * Returns validators for TITLE field.
 	 *
 	 * @return array
 	 */

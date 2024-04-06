@@ -40,7 +40,7 @@ class ProductsTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'products';
+		return 'up_final_products';
 	}
 
 	/**
@@ -52,69 +52,65 @@ class ProductsTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_ID_FIELD')
 				]
 			),
 			new StringField(
-				'name',
+				'NAME',
 				[
 					'validation' => [__CLASS__, 'validateName'],
-					'title' => Loc::getMessage('_ENTITY_NAME_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_NAME_FIELD')
 				]
 			),
 			new FloatField(
-				'calories',
+				'CALORIES',
 				[
-					'title' => Loc::getMessage('_ENTITY_CALORIES_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_CALORIES_FIELD')
 				]
 			),
 			new FloatField(
-				'proteins',
+				'PROTEINS',
 				[
-					'title' => Loc::getMessage('_ENTITY_PROTEINS_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_PROTEINS_FIELD')
 				]
 			),
 			new FloatField(
-				'carbs',
+				'CARBS',
 				[
-					'title' => Loc::getMessage('_ENTITY_CARBS_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_CARBS_FIELD')
 				]
 			),
 			new FloatField(
-				'fats',
+				'FATS',
 				[
-					'title' => Loc::getMessage('_ENTITY_FATS_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_FATS_FIELD')
 				]
 			),
 			new IntegerField(
-				'category_id',
+				'CATEGORY_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_CATEGORY_ID_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_CATEGORY_ID_FIELD')
 				]
 			),
-			'category' => new ReferenceField(
-				'category_id',
-				CategoriesTable::class, Join::on('this.category_id', 'ref.ID')
+			'CATEGORY' => new ReferenceField(
+				'CATEGORY_ID',
+				CategoriesTable::class, Join::on('this.CATEGORY_ID', 'ref.ID')
 			),
-			new IntegerField(
-				'measure_id',
+			new FloatField(
+				'WEIGHT_PER_UNIT',
 				[
-					'title' => Loc::getMessage('_ENTITY_MEASURE_ID_FIELD')
+					'title' => Loc::getMessage('PRODUCTS_ENTITY_WEIGHT_PER_UNIT_FIELD')
 				]
-			),
-			'measure' => new ReferenceField(
-				'measure_id',
-				MeasuresTable::class, Join::on('this.measure_id', 'ref.ID')
 			),
 		];
 	}
 
 	/**
-	 * Returns validators for name field.
+	 * Returns validators for NAME field.
 	 *
 	 * @return array
 	 */

@@ -15,7 +15,7 @@ $recipe=$arResult['RECIPE'];
 			<img src="<?=$arParams['IMAGE']?>"/>
 		</div>
 		<div class="column">
-			<p class="title"><?=$recipe['title']?></p>
+			<p class="title"><?=$recipe['TITLE']?></p>
 			<div class="columns">
 				<div class="column">
 					<h5>Калории</h5>
@@ -34,7 +34,7 @@ $recipe=$arResult['RECIPE'];
 					<p>534534</p>
 				</div>
 			</div>
-			<p><strong>Время приготовления:</strong><?=$recipe['time']?> мин</p>
+			<p><strong>Время приготовления:</strong><?=$recipe['TIME']?> мин</p>
 			<div class="buttons">
 				<button class="button is-success">Опубликовать рецепт</button>
 				<button class="button is-warning">Изменить рецепт</button>
@@ -55,8 +55,8 @@ $recipe=$arResult['RECIPE'];
 				<tbody>
                 <?php foreach($arResult['PRODUCTS'] as $product):?>
 				<tr>
-					<td><?= $product['title']?></td>
-					<td><?= $product['value']?> гр</td>
+					<td><?= $product['TITLE']?></td>
+					<td><?= $product['VALUE']?> <?= $product['MEASURE_NAME']?></td>
 				</tr>
 				<?php endforeach;?>
 				</tbody>
@@ -65,7 +65,7 @@ $recipe=$arResult['RECIPE'];
 
 		<div class="notification is-info">
 			<p class="title">Описание</p><br>
-			<?=$recipe['description']?>
+			<?=$recipe['DESCRIPTION']?>
 		</div>
 		</div>
 	</div>

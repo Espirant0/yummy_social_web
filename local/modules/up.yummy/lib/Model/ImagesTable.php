@@ -32,7 +32,7 @@ class ImagesTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'images';
+		return 'up_final_images';
 	}
 
 	/**
@@ -44,37 +44,37 @@ class ImagesTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'id',
+				'ID',
 				[
 					'primary' => true,
 					'autocomplete' => true,
-					'title' => Loc::getMessage('_ENTITY_ID_FIELD')
+					'title' => Loc::getMessage('IMAGES_ENTITY_ID_FIELD')
 				]
 			),
 			new StringField(
-				'path',
+				'PATH',
 				[
 					'validation' => [__CLASS__, 'validatePath'],
-					'title' => Loc::getMessage('_ENTITY_PATH_FIELD')
+					'title' => Loc::getMessage('IMAGES_ENTITY_PATH_FIELD')
 				]
 			),
 			new IntegerField(
-				'recipe_id',
+				'RECIPE_ID',
 				[
-					'title' => Loc::getMessage('_ENTITY_RECIPE_ID_FIELD')
+					'title' => Loc::getMessage('IMAGES_ENTITY_RECIPE_ID_FIELD')
 				]
 			),
 			new IntegerField(
-				'is_cover',
+				'IS_COVER',
 				[
-					'title' => Loc::getMessage('_ENTITY_IS_COVER_FIELD')
+					'title' => Loc::getMessage('IMAGES_ENTITY_IS_COVER_FIELD')
 				]
 			),
 		];
 	}
 
 	/**
-	 * Returns validators for path field.
+	 * Returns validators for PATH field.
 	 *
 	 * @return array
 	 */

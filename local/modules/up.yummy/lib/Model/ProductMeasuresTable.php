@@ -1,28 +1,28 @@
 <?php
 namespace Up\Yummy\Model;
 
+use Bitrix\Crm\Volume\Product;
 use Bitrix\Main\Entity\ReferenceField;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField;
 use Bitrix\Main\ORM\Query\Join;
-use Bitrix\Main\UserTable;
 
 Loc::loadMessages(__FILE__);
 
 /**
- * Class FeaturedTable
+ * Class ProductMeasuresTable
  *
  * Fields:
  * <ul>
- * <li> user_id int optional
- * <li> recipe_id int optional
+ * <li> PRODUCT_ID int optional
+ * <li> MEASURE_ID int optional
  * </ul>
  *
  * @package Up\Yummy\Model
  **/
 
-class FeaturedTable extends DataManager
+class ProductMeasuresTable extends DataManager
 {
 	/**
 	 * Returns DB table name for entity.
@@ -31,7 +31,7 @@ class FeaturedTable extends DataManager
 	 */
 	public static function getTableName()
 	{
-		return 'up_final_featured';
+		return 'up_final_product_measures';
 	}
 
 	/**
@@ -43,24 +43,24 @@ class FeaturedTable extends DataManager
 	{
 		return [
 			new IntegerField(
-				'USER_ID',
+				'PRODUCT_ID',
 				[
-					'title' => Loc::getMessage('FEATURED_ENTITY_USER_ID_FIELD')
+					'title' => Loc::getMessage('PRODUCT_MEASURES_ENTITY_PRODUCT_ID_FIELD')
 				]
 			),
-			'USER' => new ReferenceField(
-				'USER_ID',
-				UserTable::class, Join::on('this.USER_ID', 'ref.ID')
+			'PRODUCT' => new ReferenceField(
+				'PRODUCT_ID',
+				ProductsTable::class, Join::on('this.PRODUCT_ID', 'ref.ID')
 			),
 			new IntegerField(
-				'RECIPE_ID',
+				'MEASURE_ID',
 				[
-					'title' => Loc::getMessage('FEATURED_ENTITY_RECIPE_ID_FIELD')
+					'title' => Loc::getMessage('PRODUCT_MEASURES_ENTITY_MEASURE_ID_FIELD')
 				]
 			),
-			'RECIPE' => new ReferenceField(
-				'RECIPE_ID',
-				RecipesTable::class, Join::on('this.RECIPE_ID', 'ref.ID')
+			'MEASURE' => new ReferenceField(
+				'MEASURE_ID',
+				MeasuresTable::class, Join::on('this.MEASURE_ID', 'ref.ID')
 			),
 		];
 	}

@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `up_final_recipes`;
+DROP TABLE IF EXISTS `up_final_products`;
+DROP TABLE IF EXISTS `up_final_recipe_product`;
+DROP TABLE IF EXISTS `up_final_measures`;
+DROP TABLE IF EXISTS `up_final_categories`;
+DROP TABLE IF EXISTS `up_final_images`;
+DROP TABLE IF EXISTS `up_final_planner`;
+DROP TABLE IF EXISTS `up_final_course`;
+DROP TABLE IF EXISTS `up_final_featured`;
+DROP TABLE IF EXISTS `up_final_product_measures`;
