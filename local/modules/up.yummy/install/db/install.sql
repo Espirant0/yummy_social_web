@@ -215,4 +215,58 @@ SET COEFFICIENT = 0
 WHERE ID =8;
 
 UPDATE recipe_product
-SET MEASURE_ID = 2
+SET MEASURE_ID = 2;
+
+ALTER TABLE categories
+    CHANGE id  ID int  ,
+    CHANGE title  TITLE varchar(255);
+ALTER TABLE recipes
+    CHANGE id ID int ,
+    CHANGE description DESCRIPTION text,
+    CHANGE time TIME int,
+    CHANGE author_id AUTHOR_ID int,
+    CHANGE calories CALORIES float,
+    CHANGE proteins PROTEINS float,
+    CHANGE carbs CARBS float,
+    CHANGE  fats  FATS float;
+ALTER TABLE products
+     CHANGE id ID int,
+    CHANGE name NAME varchar(255),
+     CHANGE calories CALORIES float,
+     CHANGE proteins PROTEINS float,
+     CHANGE carbs CARBS float,
+     CHANGE fats FATS float,
+     CHANGE category_id CATEGORY_ID int;
+ALTER TABLE recipe_product
+   CHANGE recipe_id RECIPE_ID int,
+    CHANGE product_id PRODUCT_ID int,
+    CHANGE value VALUE float;
+ALTER TABLE  measures
+      CHANGE id ID int,
+    CHANGE title TITLE varchar(255);
+
+
+ALTER TABLE  user_product
+    CHANGE user_id USER_ID int,
+    CHANGE  product_id PRODUCT_ID int,
+    CHANGE  value VALUE float;
+
+ALTER  TABLE  images
+    CHANGE id ID int ,
+    CHANGE path PATH varchar(255),
+    CHANGE recipe_id RECIPE_ID int,
+    CHANGE is_cover IS_COVER tinyint(1);
+
+ALTER  TABLE  planner
+    CHANGE recipe_id RECIPE_ID int,
+    CHANGE user_id USER_ID int,
+    CHANGE course_id COURSE_ID int,
+    CHANGE  date DATE date;
+
+ALTER  TABLE course
+    CHANGE  id ID int ,
+    CHANGE title TITLE varchar(255);
+
+ALTER  TABLE featured
+    CHANGE user_id USER_ID int,
+    CHANGE recipe_id RECIPE_ID int;

@@ -326,3 +326,100 @@ __yummyMigrate(33, function ($updater, $DB) {
 SET MEASURE_ID = 2
 ");}
 });
+__yummyMigrate(34, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE categories
+    CHANGE id  ID int  ,
+    CHANGE title  TITLE varchar(255);
+");}
+});
+__yummyMigrate(35, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE recipes
+    CHANGE id ID int ,
+    CHANGE description DESCRIPTION text,
+    CHANGE time TIME int,
+    CHANGE author_id AUTHOR_ID int,
+    CHANGE calories CALORIES float,
+    CHANGE proteins PROTEINS float,
+    CHANGE carbs CARBS float,
+    CHANGE  fats  FATS float;
+");}
+});
+__yummyMigrate(36, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE products
+     CHANGE id ID int,
+    CHANGE name NAME varchar(255),
+     CHANGE calories CALORIES float,
+     CHANGE proteins PROTEINS float,
+     CHANGE carbs CARBS float,
+     CHANGE fats FATS float,
+     CHANGE category_id CATEGORY_ID int;
+");}
+});
+__yummyMigrate(37, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE recipe_product
+   CHANGE recipe_id RECIPE_ID int,
+    CHANGE product_id PRODUCT_ID int,
+    CHANGE value VALUE float;
+");}
+});
+__yummyMigrate(38, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE  measures 
+      CHANGE id ID int,
+    CHANGE title TITLE varchar(255);
+");}
+});
+__yummyMigrate(39, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE  user_product
+    CHANGE user_id USER_ID int,
+    CHANGE  product_id PRODUCT_ID int,
+    CHANGE  value VALUE float;
+");}
+});
+__yummyMigrate(40, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER  TABLE  images
+    CHANGE id ID int ,
+    CHANGE path PATH varchar(255),
+    CHANGE recipe_id RECIPE_ID int,
+    CHANGE is_cover IS_COVER tinyint(1);
+");}
+});
+__yummyMigrate(41, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER  TABLE  planner
+    CHANGE recipe_id RECIPE_ID int,
+    CHANGE user_id USER_ID int,
+    CHANGE course_id COURSE_ID int,
+    CHANGE  date DATE date;
+");}
+});
+__yummyMigrate(42, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER  TABLE course
+    CHANGE  id ID int ,
+    CHANGE title TITLE varchar(255);
+");}
+});
+__yummyMigrate(43, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER  TABLE featured
+    CHANGE user_id USER_ID int,
+    CHANGE recipe_id RECIPE_ID int;
+");}
+});
