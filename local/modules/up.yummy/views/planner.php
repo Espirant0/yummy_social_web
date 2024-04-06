@@ -5,7 +5,7 @@
  */
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("");
+$APPLICATION->SetTitle("Планировщик питания");
 
 $APPLICATION->IncludeComponent('up:planner', '', []);
 
