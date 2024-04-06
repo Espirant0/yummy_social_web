@@ -70,4 +70,6 @@
 			</a>
 		</div>
 	</div>
+    <a href="/?page=<?=$arResult['PAGES'][0]?>">НАЗАД</a>
+    <a href="/?page=<?=$arResult['PAGES'][1]?>">ВПЕРЕД</a>
 </div>

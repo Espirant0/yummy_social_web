@@ -4,7 +4,14 @@ class TaskDocComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->arResult['RECIPES']=Up\Yummy\Repository\RecipeRepository::getRecipeFeed();
+		$page=\Up\Yummy\Service\PaginationService::validateOffset(request()['page']);
+		$this->arResult['RECIPES']=Up\Yummy\Repository\RecipeRepository::getRecipeFeed($page);
+		$pages=\Up\Yummy\Service\PaginationService::getPages($page,$this->arResult['RECIPES']);
+		$this->arResult['PAGES']=$pages;
+		if (count($this->arResult['RECIPES']) > \Up\Yummy\Service\PaginationService::$displayArraySize)
+		{
+			array_pop($this->arResult['RECIPES']);
+		}
 		$this->prepareTemplateParams();
 		$this->includeComponentTemplate();
 	}

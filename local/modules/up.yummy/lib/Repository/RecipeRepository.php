@@ -33,9 +33,9 @@ class RecipeRepository
 	{
 		return null;
 	}
-	public static function getRecipeFeed()
+	public static function getRecipeFeed(int $page)
 	{
-		$recipes=RecipesTable::query()->setSelect(['*']);
+		$recipes=RecipesTable::query()->setSelect(['*'])->setOffset(3*($page-1))->setLimit(4);
 		$recipes=$recipes->fetchAll();
 		return $recipes;
 	}
