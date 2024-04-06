@@ -118,3 +118,101 @@ ALTER TABLE recipes
 UPDATE recipes
 SET title = 'Говядина с морковкой'
 WHERE ID = 1;
+
+CREATE TABLE IF NOT EXISTS `product_measures` (
+ PRODUCT_ID int  ,
+ MEASURE_ID int
+);
+ALTER TABLE products
+    ADD COLUMN WEIGHT_PER_UNIT float;
+
+
+UPDATE products
+SET WEIGHT_PER_UNIT = 200
+WHERE ID = 1;
+
+UPDATE products
+SET WEIGHT_PER_UNIT = 120
+WHERE ID = 2;
+UPDATE products
+SET WEIGHT_PER_UNIT =125
+WHERE ID = 3;
+UPDATE products
+SET WEIGHT_PER_UNIT =40
+WHERE ID = 4;
+UPDATE products
+SET WEIGHT_PER_UNIT = 100
+WHERE ID = 5;
+UPDATE products
+SET WEIGHT_PER_UNIT = 150
+WHERE ID = 6;
+
+ALTER TABLE products
+    DROP COLUMN measure_id;
+INSERT INTO product_measures(PRODUCT_ID, MEASURE_ID) VALUES
+(1,1),
+(1,2),
+(1,7),
+(2,1),
+(2,2),
+(2,7),
+(3,1),
+(3,2),
+(3,7),
+(4,1),
+(4,2),
+(4,7),
+(4,8),
+(5,1),
+(5,2),
+(5,7),
+(6,1),
+(6,2),
+(6,7),
+(7,1),
+(7,2),
+(8,1),
+(8,2),
+(9,1),
+(9,2),
+(10,1),
+(10,2);
+
+ALTER TABLE measures
+    ADD COLUMN COEFFICIENT float;
+ALTER TABLE recipe_product
+    ADD COLUMN MEASURE_ID int;
+
+UPDATE measures
+SET COEFFICIENT = 1
+WHERE ID = 1;
+
+UPDATE measures
+SET COEFFICIENT =1000
+WHERE ID = 2;
+
+UPDATE measures
+SET COEFFICIENT =5
+WHERE ID = 3;
+UPDATE measures
+SET COEFFICIENT =15
+WHERE ID = 4;
+
+UPDATE measures
+SET COEFFICIENT = 1000
+WHERE ID = 5;
+
+UPDATE measures
+SET COEFFICIENT = 1
+WHERE ID = 6;
+
+UPDATE measures
+SET COEFFICIENT = NULL
+WHERE ID = 7;
+
+UPDATE measures
+SET COEFFICIENT = 0
+WHERE ID =8;
+
+UPDATE recipe_product
+SET MEASURE_ID = 2

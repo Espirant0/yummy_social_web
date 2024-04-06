@@ -18,9 +18,9 @@ class RecipeRepository
 	{
 		$products=RecipeProductTable::getList([
 		'select'=>
-			['product_id','value'],
+			['*','title'=>'product.name'],
 		'filter'=>
-			['=PRODUCT_ID',$id]
+			['=recipe_id'=>$id]
 		]);
 		return $products->fetchAll();
 

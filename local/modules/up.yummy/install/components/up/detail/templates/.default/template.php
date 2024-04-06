@@ -1,12 +1,9 @@
 <?php
 /**
  * @var array $arResult
-
+* @var array $arParams;
  */
 $recipe=$arResult['RECIPE'];
-/**
- * @var array $arParams;
- */
 ?>
 <div class="content">
 	<div class="column is-flex is-half is-offset-one-quarter">
@@ -56,10 +53,12 @@ $recipe=$arResult['RECIPE'];
 				</tr>
 				</thead>
 				<tbody>
+                <?php foreach($arResult['PRODUCTS'] as $product):?>
 				<tr>
-					<td>Морковь</td>
-					<td>300 гр</td>
+					<td><?= $product['title']?></td>
+					<td><?= $product['value']?> гр</td>
 				</tr>
+				<?php endforeach;?>
 				</tbody>
 			</table>
 		</div>

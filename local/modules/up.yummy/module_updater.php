@@ -119,3 +119,210 @@ SET title = 'Говядина с морковкой'
 WHERE ID = 1;
 ");}
 });
+__yummyMigrate(9, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("
+CREATE TABLE IF NOT EXISTS `product_measures` (
+ PRODUCT_ID int  ,
+ MEASURE_ID int
+);
+");}
+});
+
+__yummyMigrate(10, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE products
+    ADD COLUMN WEIGHT_PER_UNIT float;");}
+});
+__yummyMigrate(11, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 200
+WHERE ID = 1;
+");}
+});
+__yummyMigrate(12, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 120
+WHERE ID = 2;
+");}
+});
+__yummyMigrate(13, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 125
+WHERE ID = 3;
+");}
+});
+__yummyMigrate(14, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 40
+WHERE ID = 4;
+");}
+});
+__yummyMigrate(15, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 100
+WHERE ID = 5;
+");}
+});
+__yummyMigrate(16, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE products
+SET WEIGHT_PER_UNIT = 150
+WHERE ID = 6;
+");}
+});
+__yummyMigrate(17, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE products
+    DROP COLUMN measure_id;
+");}
+});
+__yummyMigrate(18, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("INSERT INTO product_measures(PRODUCT_ID, MEASURE_ID) VALUES 
+(1,1),
+(1,2),
+(1,7),
+(2,1),
+(2,2),
+(2,7),
+(3,1),
+(3,2),
+(3,7),
+(4,1),
+(4,2),
+(4,7),
+(4,8),
+(5,1),
+(5,2),
+(5,7),
+(6,1),
+(6,2),
+(6,7),
+(7,1),
+(7,2),
+(8,1),
+(8,2),
+(9,1),
+(9,2),
+(10,1),
+(10,2);
+");}
+});
+__yummyMigrate(19, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE measures
+    ADD COLUMN COEFFICIENT float;
+");}
+});
+__yummyMigrate(20, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("ALTER TABLE recipe_product
+    ADD COLUMN MEASURE_ID int;
+");}
+});
+__yummyMigrate(21, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 1
+WHERE ID = 1;
+");}
+});
+__yummyMigrate(22, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT =1000
+WHERE ID = 2;
+");}
+});
+__yummyMigrate(23, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT =5
+WHERE ID = 3;
+");}
+});
+__yummyMigrate(24, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT =15
+WHERE ID = 4;
+
+");}
+});
+__yummyMigrate(25, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 1000
+WHERE ID = 5;
+");}
+});
+__yummyMigrate(26, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 1
+WHERE ID = 6;
+");}
+});
+__yummyMigrate(27, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = NULL
+WHERE ID = 7;
+");}
+});
+__yummyMigrate(28, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 0
+WHERE ID =8;
+");}
+});
+__yummyMigrate(31, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 0
+WHERE ID =8;
+");}
+});
+__yummyMigrate(32, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE measures
+SET COEFFICIENT = 0
+WHERE ID =8;
+");}
+});
+__yummyMigrate(33, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("UPDATE recipe_product
+SET MEASURE_ID = 2
+");}
+});

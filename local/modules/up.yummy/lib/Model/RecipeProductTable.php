@@ -61,10 +61,10 @@ class RecipeProductTable extends DataManager
 					'title' => Loc::getMessage('PRODUCT_ENTITY_PRODUCT_ID_FIELD')
 				]
 			),
-			'product' => new ReferenceField(
-				'product_id',
-				ProductsTable::class, Join::on('this.product_id', 'ref.ID')
-			),
+			(new ReferenceField(
+				'product',
+				ProductsTable::class, Join::on('this.product_id', 'ref.id')))
+				->configureJoinType('LEFT'),
 			new FloatField(
 				'value',
 				[
