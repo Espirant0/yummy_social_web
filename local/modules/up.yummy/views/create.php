@@ -5,7 +5,7 @@
  */
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("Создайте лучший рецепт в мире!!!!!!!!!!!!!!!1");
+$APPLICATION->SetTitle("Добавить рецепт");
 
 $APPLICATION->IncludeComponent('up:create', '', []);
 
