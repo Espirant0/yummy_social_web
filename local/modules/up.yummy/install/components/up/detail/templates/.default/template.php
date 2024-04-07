@@ -38,7 +38,11 @@ $recipe=$arResult['RECIPE'];
 			<div class="buttons">
 				<button class="button is-success">Опубликовать рецепт</button>
 				<button class="button is-warning">Изменить рецепт</button>
-				<button class="button is-danger">Удалить рецепт</button>
+                <form action="/delete/" method="post">
+                    <input type="hidden" name="deleteId" value="<?=$recipe['id']?>">
+                    <button class="button is-danger">Удалить рецепт</button>
+                </form>
+<!--				<button class="button is-danger">Удалить рецепт</button>-->
 			</div>
 		</div>
 	</div>
