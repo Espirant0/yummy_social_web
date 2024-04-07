@@ -7,6 +7,8 @@ class DetailComponent extends CBitrixComponent
 		$id=request()['id'];
 		if(\Up\Yummy\Service\ValidationService::ValidateRecipeId($id))
 		{
+			global $USER;
+			$this->arResult['AUTHOR_ID']=$USER->GetID();
 			$this->arResult['RECIPE'] = Up\Yummy\Repository\RecipeRepository::showRecipeDetail($id);
 			$this->arResult['PRODUCTS'] = Up\Yummy\Repository\RecipeRepository::getRecipeProducts($id);
 			$this->prepareTemplateParams();

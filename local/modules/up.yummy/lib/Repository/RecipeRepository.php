@@ -27,7 +27,16 @@ class RecipeRepository
 	}
 	public static function deleteRecipe(int $id):void
 	{
-		RecipesTable::getByPrimary($id)->fetchObject()->delete();;
+//		$RecipesProducts=RecipeProductTable::getList(['select'=>['*'],'filter'=>['=RECIPE_ID',$id]]);
+//		$as=$RecipesProducts->fetchAll();
+//		var_dump($as);
+//		foreach($as as $a)
+//		{
+//			$a->delete();
+//		}
+
+
+		RecipesTable::getByPrimary($id)->fetchObject()->delete();
 	}
 	public static function validateRecipeAuthor(int $authorId,int $recipeId):bool
 	{

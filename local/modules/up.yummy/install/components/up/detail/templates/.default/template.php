@@ -35,6 +35,7 @@ $recipe=$arResult['RECIPE'];
 				</div>
 			</div>
 			<p><strong>Время приготовления:</strong><?=$recipe['TIME']?> мин</p>
+            <?php if($recipe['AUTHOR_ID']=$arResult['AUTHOR_ID']):?>
 			<div class="buttons">
 				<button class="button is-success">Опубликовать рецепт</button>
 				<button class="button is-warning">Изменить рецепт</button>
@@ -44,6 +45,7 @@ $recipe=$arResult['RECIPE'];
                 </form>
 <!--				<button class="button is-danger">Удалить рецепт</button>-->
 			</div>
+            <?php endif;?>
 		</div>
 	</div>
 	<div class="container bottom_content">
