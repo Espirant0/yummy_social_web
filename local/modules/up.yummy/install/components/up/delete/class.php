@@ -2,7 +2,7 @@
 
 use Up\Yummy\Repository\RecipeRepository;
 
-class TaskDocComponent extends CBitrixComponent
+class DeleteComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{

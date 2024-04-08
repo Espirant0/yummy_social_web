@@ -2,7 +2,7 @@
 namespace Up\Yummy\Service;
 class ValidationService
 {
-	public static function ValidateRecipeId($id)
+	public static function validateRecipeId($id)
 	{
 		if(is_string($id) && (int)$id==$id)
 		{
