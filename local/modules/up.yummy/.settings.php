@@ -4,14 +4,14 @@ return [
 		'value' => [
 			'entities' => [
 				[
-					'entityId' => 'my-module-entity',
+					'entityId' => 'products',
 					'provider' => [
-						'moduleId' => 'my-module',
-						'className' => '\\Vendor\\MyModule\\Integration\\UI\\EntitySelector\\MyProvider'
+						'moduleId' => 'up.yummy',
+						'className' => '\\Up\\Yummy\\Integration\\UI\\EntitySelector\\ProductProvider'
 					],
 				],
 			],
-			'extensions' => ['my-module.entity-selector'],
+			'extensions' => ['up.yummy.entity-selector'],
 		],
 		'readonly' => true,
 	]
