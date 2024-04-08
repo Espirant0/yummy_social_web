@@ -114,6 +114,17 @@ class RecipesTable extends DataManager
 					'title' => Loc::getMessage('RECIPES_ENTITY_FATS_FIELD')
 				]
 			),
+			'RECIPE_PRODUCT' => new ReferenceField(
+				'RECIPE_ID',
+				RecipeProductTable::class, Join::on('this.ID', 'ref.RECIPE_ID')
+			),
+			new IntegerField(
+				'IS_PUBLIC',
+				[
+					'default' => 0,
+					'title' => Loc::getMessage('RECIPES_ENTITY_IS_PUBLIC_FIELD')
+				]
+			),
 		];
 	}
 

@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS `up_final_recipes` (
   `CALORIES` float,
   `PROTEINS` float,
   `CARBS` float,
-  `FATS` float
+  `FATS` float,
+  `IS_PUBLIC` tinyint DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS`up_final_products` (

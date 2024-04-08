@@ -26,10 +26,11 @@ function __yummyMigrate(int $nextVersion, callable $callback): void
 }
 
 
-/*__yummyMigrate(2, function ($updater, $DB) {
+__yummyMigrate(45, function ($updater, $DB) {
 	if ($updater->CanUpdateDatabase())
 	{
-		$DB->query("");
+		$DB->query("alter table up_final_recipes
+    add IS_PUBLIC TINYINT default 0 not null;");
 	}
 
-});*/
+});
