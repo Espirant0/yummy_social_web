@@ -5,6 +5,7 @@ use Bitrix\Main\Entity\ReferenceField;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField;
+use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\UserTable;
 
@@ -24,6 +25,7 @@ Loc::loadMessages(__FILE__);
 
 class FeaturedTable extends DataManager
 {
+	use DeleteByFilterTrait;
 	/**
 	 * Returns DB table name for entity.
 	 *
@@ -45,6 +47,7 @@ class FeaturedTable extends DataManager
 			new IntegerField(
 				'USER_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('FEATURED_ENTITY_USER_ID_FIELD')
 				]
 			),
@@ -55,6 +58,7 @@ class FeaturedTable extends DataManager
 			new IntegerField(
 				'RECIPE_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('FEATURED_ENTITY_RECIPE_ID_FIELD')
 				]
 			),

@@ -11,12 +11,12 @@ $recipe=$arResult['RECIPE'];
 		<button class="button is-light ml-3">Искать</button>
 	</div>
 	<div class="columns">
-		<div class="column">
+		<div class="column recipe_image">
 			<img src="<?=$arParams['IMAGE']?>"/>
 		</div>
-		<div class="column">
-			<p class="title"><?=$recipe['TITLE']?></p>
-			<div class="columns">
+		<div class="column right_col">
+			<p class="title recipe_title"><?=$recipe['TITLE']?></p>
+			<div class="columns recipe_calories">
 				<div class="column">
 					<h5>Калории</h5>
 					<p>432423</p>
@@ -34,18 +34,38 @@ $recipe=$arResult['RECIPE'];
 					<p>534534</p>
 				</div>
 			</div>
-			<p><strong>Время приготовления:</strong><?=$recipe['TIME']?> мин</p>
-            <?php if($recipe['AUTHOR_ID']==$arResult['AUTHOR_ID']):?>
-			<div class="buttons">
-				<button class="button is-success">Опубликовать рецепт</button>
+			<p><strong>Время приготовления: </strong><?=$recipe['TIME']?> мин</p>
+			<div class="buttons recipe_buttons">
+				<?php if($recipe['AUTHOR_ID']==$arResult['AUTHOR_ID']):?>
+				<?php if(!$arResult['IS_PUBLIC']): ?>
+				<form action="/publish/" method="post">
+					<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
+					<button class="button is-success">Опубликовать рецепт</button>
+				</form>
+				<?php else:?>
+					<form action="/publish/" method="post">
+						<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
+						<button class="button is-danger">Убрать с публикации</button>
+					</form>
+					<?php endif;?>
 				<button class="button is-warning">Изменить рецепт</button>
                 <form action="/delete/" method="post">
                     <input type="hidden" name="deleteId" value="<?=$recipe['id']?>">
-                    <button class="button is-danger">Удалить рецепт</button>
+                    <button class="button is-danger" onclick="return window.confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить рецепт</button>
                 </form>
-<!--				<button class="button is-danger">Удалить рецепт</button>-->
+				<?php endif;?>
+				<?php if(!$arResult['FEATURED']): ?>
+					<form action="/featured/" method="post">
+						<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
+						<button class="button is-success">В избранное</button>
+					</form>
+				<?php else:?>
+				<form action="/featured/" method="post">
+					<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
+					<button class="button is-danger">Убрать из избранного</button>
+				</form>
+				<?php endif;?>
 			</div>
-            <?php endif;?>
 		</div>
 	</div>
 	<div class="container bottom_content">
@@ -74,5 +94,5 @@ $recipe=$arResult['RECIPE'];
 			<?=$recipe['DESCRIPTION']?>
 		</div>
 		</div>
-	</div>
+</div>
 </div>

@@ -1,23 +1,28 @@
 <?php
 
+use Up\Yummy\Repository\RecipeRepository;
+use Up\Yummy\Service\ValidationService;
+
 class DetailComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$id=request()['id'];
-		if(\Up\Yummy\Service\ValidationService::ValidateRecipeId($id))
+		global $USER;
+		$userId = $USER->GetID();
+		$recipeId = request()['id'];
+		$this->arResult['FEATURED'] = RecipeRepository::isRecipeInFeatured($userId, $recipeId);
+		$this->arResult['IS_PUBLIC'] = RecipeRepository::isRecipeInPublic($recipeId);
+		if(ValidationService::validateRecipeId($recipeId))
 		{
-			global $USER;
-			$this->arResult['AUTHOR_ID']=$USER->GetID();
-			$this->arResult['RECIPE'] = Up\Yummy\Repository\RecipeRepository::showRecipeDetail($id);
-			$this->arResult['PRODUCTS'] = Up\Yummy\Repository\RecipeRepository::getRecipeProducts($id);
+			$this->arResult['AUTHOR_ID'] = $userId;
+			$this->arResult['RECIPE'] = RecipeRepository::showRecipeDetail($recipeId);
+			$this->arResult['PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
 			$this->prepareTemplateParams();
 			$this->includeComponentTemplate();
 		}
 		else
 		{
 			LocalRedirect('/404/');
-
 		}
 
 	}
