@@ -27,13 +27,7 @@ class RecipeRepository
 	}
 	public static function deleteRecipe(int $id):void
 	{
-//		$RecipesProducts=RecipeProductTable::getList(['select'=>['*'],'filter'=>['=RECIPE_ID',$id]]);
-//		$as=$RecipesProducts->fetchAll();
-//		var_dump($as);
-//		foreach($as as $a)
-//		{
-//			$a->delete();
-//		}
+		RecipeProductTable::deleteByFilter(['=RECIPE_ID'=>$id]);
 
 
 		RecipesTable::getByPrimary($id)->fetchObject()->delete();

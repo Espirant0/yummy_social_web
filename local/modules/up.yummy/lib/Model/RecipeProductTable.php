@@ -7,6 +7,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\FloatField,
 	Bitrix\Main\ORM\Fields\IntegerField;
+use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
 use Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
@@ -26,6 +27,7 @@ Loc::loadMessages(__FILE__);
 
 class RecipeProductTable extends DataManager
 {
+	use DeleteByFilterTrait;
 	/**
 	 * Returns DB table name for entity.
 	 *
