@@ -9,7 +9,7 @@ class FeaturedComponent extends CBitrixComponent
 		$recipeId = request()['recipeId'];
 		global $USER;
 		$userId = (int)$USER->GetID();
-		if(!RecipeRepository::isRecipeInFeatured($userId, $userId))
+		if(!RecipeRepository::isRecipeInFeatured($userId, $recipeId))
 		{
 			RecipeRepository::addRecipeToFeatured($userId, $recipeId);
 		}

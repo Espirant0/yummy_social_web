@@ -72,7 +72,7 @@ class RecipeRepository
 	public static function validateRecipeAuthor(int $authorId, int $recipeId):bool
 	{
 		$recipe=RecipesTable::getByPrimary($recipeId)->fetchObject();
-		if($recipe['AUTHOR_ID']===$authorId)
+		if($recipe['AUTHOR_ID'] === $authorId)
 		{
 			return true;
 		}
@@ -80,13 +80,10 @@ class RecipeRepository
 	}
 	public static function isRecipeInFeatured(int $userId, int $recipeId):bool
 	{
-		if(FeaturedTable::getRow([
-			'select' => ['*'],
-			'filter' => [
-				'=RECIPE_ID' => ["$recipeId"],
-				'=USER_ID' => ["$userId"],
-			],
-		]))
+		$featuredRow = FeaturedTable::getByPrimary([
+			'RECIPE_ID' => $recipeId,
+			'USER_ID' => $userId,])->fetchObject();
+		if($featuredRow !== null)
 		{
 			return true;
 		}
