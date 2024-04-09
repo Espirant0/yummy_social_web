@@ -109,5 +109,31 @@ class RecipeRepository
 		}
 		return false;
 	}
+	public static function getRecipeStats(int $recipeid)
+	{
+		$stats=['CALORIES'=>0,'PROTEINS'=>0,'CARBS'=>0,'FATS'=>0];
+		$products=RecipeProductTable::getList([
+			'select'=>
+				['*','TITLE'=>'PRODUCT.NAME',
+					'MEASURE_NAME' => 'MEASURE.TITLE',
+					'COEFFICIENT'=>'MEASURE.COEFFICIENT',
+					'CALORIES'=>'PRODUCT.CALORIES',
+					'PROTEINS'=>'PRODUCT.PROTEINS',
+					'CARBS'=>'PRODUCT.CARBS',
+					'FATS'=>'PRODUCT.FATS'],
+			'filter'=>
+				['=RECIPE_ID'=>$recipeid]
+		])->fetchAll();
+		foreach ($products as $product)
+		{
+			$stats['CALORIES']+=$product['CALORIES']*$product['COEFFICIENT']*$product['VALUE']/100;
+			$stats['PROTEINS']+=$product['PROTEINS']*$product['COEFFICIENT']*$product['VALUE']/100;
+			$stats['FATS']+=$product['FATS']*$product['COEFFICIENT']*$product['VALUE']/100;
+			$stats['CARBS']+=$product['CARBS']*$product['COEFFICIENT']*$product['VALUE']/100;
+		}
+		var_dump($stats);
+
+
+	}
 
 }
