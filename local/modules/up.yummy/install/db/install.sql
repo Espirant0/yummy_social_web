@@ -154,3 +154,5 @@ INSERT INTO up_final_product_measures(PRODUCT_ID, MEASURE_ID) VALUES
 (9,2),
 (10,1),
 (10,2);
+CREATE TABLE IF NOT EXISTS `up_final_daily_recipe`(`ID` int PRIMARY KEY);
+alter table up_final_daily_recipe add RECIPE_ID INT default 1;

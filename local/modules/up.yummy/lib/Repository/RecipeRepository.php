@@ -1,5 +1,7 @@
 <?php
 namespace Up\Yummy\Repository;
+use Bitrix\Main\Config\Option;
+use Bitrix\Main\ORM\Query\Query;
 use Up\Yummy\Model\FeaturedTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
@@ -36,6 +38,15 @@ class RecipeRepository
 	}
 	public static function deleteRecipe(int $id):void
 	{
+		while($id===Option::get("up.yummy","dailyRecipe",1))
+		{
+			$max = RecipesTable::query()
+				->addSelect(Query::expr()->max("ID"), 'MAX')
+				->exec()->fetch();
+			$recipeId = random_int(1, $max['MAX']);
+			$ID = RecipesTable::getByPrimary($recipeId)->fetch()['ID'];
+			Option::set("up.yummy","dailyRecipeId",$ID);
+		}
 		RecipeProductTable::deleteByFilter(['=RECIPE_ID'=>$id]);
 		RecipesTable::getByPrimary($id)->fetchObject()->delete();
 	}
@@ -134,6 +145,12 @@ class RecipeRepository
 		var_dump($stats);
 
 
+	}
+	public static function getDailyRecipeTitle():string
+	{
+		$dailyRecipeId=Option::get("up.yummy","dailyRecipe",1);
+		$recipe=RecipesTable::getByPrimary($dailyRecipeId)->fetch()['TITLE'];
+		return $recipe;
 	}
 
 }

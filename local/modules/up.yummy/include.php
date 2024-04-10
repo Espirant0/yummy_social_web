@@ -26,6 +26,8 @@ function getDailyRecipe()
 //		$number = random_int(1, \Up\Yummy\Model\RecipesTable::getCount());
 //	}
 //	echo($number);
-	mail('mishakorol101@gmail.com', 'Агент', 'Агент');
+	mail('zadira420@gmail.com', 'Агент', 'Агент');
+	global $ADK;
+	$ADK=random_int(1,1000);
 	return "getDailyRecipe();";
 }

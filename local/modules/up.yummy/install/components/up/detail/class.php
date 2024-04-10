@@ -19,6 +19,7 @@ class DetailComponent extends CBitrixComponent
 			$this->arResult['PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
 			$this->prepareTemplateParams();
 			$this->includeComponentTemplate();
+
 		}
 		else
 		{

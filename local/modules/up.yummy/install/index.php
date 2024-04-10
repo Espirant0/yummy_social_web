@@ -32,7 +32,7 @@ class up_yummy extends CModule
 	public function installDB(): void
 	{
 		global $DB;
-
+		CAgent::AddAgent('Up\Yummy\Agents\RecipeAgent::getDailyRecipe();', "up.yummy", "N", 86400);
 		$DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/db/install.sql');
 
 		ModuleManager::registerModule($this->MODULE_ID);

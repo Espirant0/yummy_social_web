@@ -1,5 +1,7 @@
 <?php
 
+use Bitrix\Main\Config\Option;
+
 class TaskDocComponent extends CBitrixComponent
 {
 	public function executeComponent()
@@ -8,6 +10,7 @@ class TaskDocComponent extends CBitrixComponent
 		$this->arResult['RECIPES']=Up\Yummy\Repository\RecipeRepository::getRecipeFeed($page);
 		$pages=\Up\Yummy\Service\PaginationService::getPages($page,$this->arResult['RECIPES']);
 		$this->arResult['PAGES']=$pages;
+		$this->arResult['dailyRecipe']=\Up\Yummy\Repository\RecipeRepository::getDailyRecipeTitle();
 		if (count($this->arResult['RECIPES']) > \Up\Yummy\Service\PaginationService::$displayArraySize)
 		{
 			array_pop($this->arResult['RECIPES']);

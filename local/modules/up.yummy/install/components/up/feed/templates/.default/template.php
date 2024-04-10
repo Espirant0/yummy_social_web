@@ -62,7 +62,7 @@
 							<div class="media-left">
 							</div>
 							<div class="media-content">
-								<p class="title is-4">Рецепт</p>
+								<p class="title is-4"><?=$arResult['dailyRecipe']?></p>
 							</div>
 						</div>
 					</div>
