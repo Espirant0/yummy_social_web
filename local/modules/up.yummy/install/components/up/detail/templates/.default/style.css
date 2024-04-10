@@ -1,23 +1,52 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
-.content{
-	background-color: transparent;
-}
 .bottom_content{
 	text-align: center;
 }
-.recipe_calories, .recipe_buttons{
-	max-width: 600px;
-}
 .recipe_title{
-	max-width: 600px;
+	text-align: center;
 }
 .recipe_calories{
 	padding: 5px;
 	display: flex;
+	justify-content: center;
 	align-content: center;
 }
-.recipe_image{
+.recipe_img{
+	border: 1px solid black;
+}
+.recipe_image_container{
 	display: flex;
 	justify-content: center;
+}
+.calories{
+	margin: 0 150px;
+}
+.search_btn{
+	margin-right: 50px;
+}
+.bottom_buttons{
+	display: flex;
+	justify-content: space-between;
+}
+.upper_buttons{
+	margin: 0 200px;
+	justify-content: space-between;
+}
+.products {
+	display: flex;
+	justify-content: center;
+}
+.right_col{
+	text-align: center;
+}
+.likes{
+	align-content: center;
+}
+.author_image{
+	border: 1px solid black;
+	padding: 15px;
+}
+.instruction{
+	margin: 20px 0;
 }

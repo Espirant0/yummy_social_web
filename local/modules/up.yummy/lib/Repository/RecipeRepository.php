@@ -111,15 +111,6 @@ class RecipeRepository
 		return $recipes;
 	}
 
-	public static function isRecipeInPublic(int $recipeId):bool
-	{
-		$recipe = RecipesTable::getRowById($recipeId);
-		if((int)$recipe['IS_PUBLIC'] === 1)
-		{
-			return true;
-		}
-		return false;
-	}
 	public static function getRecipeStats(int $recipeid)
 	{
 		$stats=['CALORIES'=>0,'PROTEINS'=>0,'CARBS'=>0,'FATS'=>0];

@@ -72,7 +72,7 @@
 				context: 'MY_MODULE_CONTEXT',
 				entities: [
 					{
-						id: '1', // пользователи
+						id: 'products',
 						dynamicLoad: true,
 					},
 				],

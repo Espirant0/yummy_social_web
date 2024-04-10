@@ -4,12 +4,35 @@
 	max-width: 300px;
 }
 .search_line{
+	display:flex;
+	justify-content: space-between;
 	margin-bottom: 30px;
 }
 .recipe_card{
+	width: 70%;
 	margin-bottom: 30px;
 }
-.daily_recipe{
-	position: sticky !important;
-	top: 0 !important;
+.search_input{
+	width: 70%;
+}
+
+.title_line{
+	display:flex;
+	justify-content: space-between;
+}
+.search_btn{
+	margin-right: 50px;
+}
+
+.right_col{
+	display:flex;
+	justify-content: center;
+}
+.recipe_img{
+	width: 100%;
+}
+.create_btn{
+	text-align: center;
+	margin-bottom: 30px;
+	margin-top: 5px;
 }

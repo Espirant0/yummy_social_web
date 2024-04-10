@@ -153,12 +153,6 @@ class up_yummy extends CModule
 		}
 		$links = array(
 			array(
-			'TEXT' => 'Добавить рецепт',
-			'LINK' => '/create/',
-			'ID' => 'newCreateId',
-			'NEW_PAGE' => 'Y',
-			),
-			array(
 				'TEXT' => 'Планировщик',
 				'LINK' => '/planner/',
 				'ID' => 'plannerId',

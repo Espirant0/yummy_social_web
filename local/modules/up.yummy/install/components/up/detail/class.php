@@ -11,7 +11,6 @@ class DetailComponent extends CBitrixComponent
 		$userId = $USER->GetID();
 		$recipeId = request()['id'];
 		$this->arResult['FEATURED'] = RecipeRepository::isRecipeInFeatured($userId, $recipeId);
-		$this->arResult['IS_PUBLIC'] = RecipeRepository::isRecipeInPublic($recipeId);
 		if(ValidationService::validateRecipeId($recipeId))
 		{
 			$this->arResult['AUTHOR_ID'] = $userId;
