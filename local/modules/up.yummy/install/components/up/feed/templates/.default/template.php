@@ -1,20 +1,29 @@
-<?php
+<?php global $APPLICATION;
 /**
  * @var array $arParams;
  * @var array $arResult
  */
+
+use Bitrix\Main\ORM\Query\Query;
+
 ?>
 
 <div class="content">
 	<div class="columns">
 		<div class="column is-three-fifths">
 			<div class="search_line">
-				<input class="input search_input" type="text" placeholder="Поиск рецепта" />
-				<button class="button is-light ml-3 search_btn">Искать</button>
+				<form action="/" method="get">
+					<?=$APPLICATION->IncludeComponent('bitrix:main.ui.filter', '', [
+						'FILTER_ID' => $arParams['FILTER_ID'],
+						'FILTER' => $arParams['FILTER'],
+						'ENABLE_LIVE_SEARCH' => true,
+						'ENABLE_LABEL' => true
+					]);?>
+				</form>
 			</div>
             <?php foreach($arResult['RECIPES'] as $recipe):?>
-			<a href="/detail/<?=$recipe['ID']?>/">
 				<div class="card recipe_card">
+					<a href="/detail/<?=$recipe['ID']?>/">
 					<img
 						<!--src="--><?php /*=$arParams['IMAGE']*/?>"
 						src="https://bulma.io/assets/images/placeholders/1280x960.png"
@@ -39,14 +48,14 @@
 								<div class="column has-text-weight-bold">Время приготовления</div>
 							</div>
 							<div class="columns">
-								<div class="column">5423423</div>
+								<div class="column"><?=$recipe['CALORIES']?> </div>
 								<div class="column"><?=$recipe['PROTEINS']?> / <?=$recipe['FATS']?> / <?=$recipe['CARBS']?></div>
 								<div class="column"><?=$recipe['TIME']?> мин</div>
 							</div>
 						</div>
 					</div>
+					</a>
 				</div>
-			</a>
             <?php endforeach;?>
 		</div>
 		<div class="column right_col is-one-quarter is-offset-1">
