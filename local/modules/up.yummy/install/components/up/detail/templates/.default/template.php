@@ -52,7 +52,11 @@ $recipe=$arResult['RECIPE'];
 					<?php foreach($arResult['PRODUCTS'] as $product):?>
 						<tr>
 							<td><?= $product['TITLE']?></td>
-							<td><?= $product['VALUE']?> <?= $product['MEASURE_NAME']?></td>
+                            <?php if($product['MEASURE_NAME']==="По вкусу"):?>
+							<td> <?= $product['MEASURE_NAME']?></td>
+                            <?php else:?>
+                            <td><?= $product['VALUE']?> <?= $product['MEASURE_NAME']?></td>
+                        <?php endif;?>
 						</tr>
 					<?php endforeach;?>
 					</tbody>
