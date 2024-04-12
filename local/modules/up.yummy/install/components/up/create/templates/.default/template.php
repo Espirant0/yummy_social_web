@@ -76,37 +76,30 @@
 						dynamicLoad: true,
 					},
 				],
-
-				/*targetNode: div,
 				width: 400,
 				height: 300,
 				dropdownMode: true,
-				enableSearch: true,
 				compactView: true,
 				showAvatars: false,
 				tabs: [
-					{ id: 'cities', title: 'Города', itemOrder: { sort: 'asc',  title: 'asc' } },
-					{ id: 'countries', title: 'Страны', itemOrder: { 'title': 'asc' } },
+					{ id: 'products', title: 'Продукты', itemOrder: { sort: 'asc',  title: 'asc' } },
 				],
-				items: [],
-				searchOptions: {
-					allowCreateItem: true,
-					footerOptions: {
-						label: 'Создать город:'
-					}
-				},
+				items: [
+					{id: 1, entityId: 'products', tabs: 'products',},
+				],
+
 				events: {
 					'Search:onItemCreateAsync': (event) => {
 						return new Promise((resolve) => {
 							const { searchQuery } = event.getData();
 							const dialog = event.getTarget();
-							setTimeout(() => { // эмуляция асинхронного действия
-								let tab = dialog.getTab('cities');
+							/*setTimeout(() => { // эмуляция асинхронного действия
+								let tab = dialog.getTab('products');
 								const item = dialog.addItem({
 									id: Text.getRandom(),
-									entityId: 'city',
+									entityId: 'products',
 									title: searchQuery.getQuery(),
-									tabs: 'cities',
+									tabs: 'products',
 									// можно использовать для сортировки элементов на вкладке
 									// для вкладки cities указана сортировка по этому полю.
 									sort: 1
@@ -117,10 +110,10 @@
 								}
 								dialog.selectTab(tab.getId());
 								resolve();
-							}, 1000);
+							}, 1000);*/
 						});
 					}
-				}*/
+				}
 			});
 		</script>
 	</div>

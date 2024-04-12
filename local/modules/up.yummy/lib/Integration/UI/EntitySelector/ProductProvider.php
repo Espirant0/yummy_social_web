@@ -18,8 +18,7 @@ class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
 		{
 			return false;
 		}
-		return true;
-		//return parent::isAvailable();
+		return parent::isAvailable();
 	}
 
 	public function getItems(array $ids) : array

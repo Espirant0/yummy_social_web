@@ -104,27 +104,93 @@ class RecipeRepository
 	{
 		global $USER;
 		$userId = $USER->GetID();
-		/*if(isset($filter['FEATURED']) && $filter['FEATURED'] === 'Y')
+		$recipes = RecipesTable::query()->setSelect(['*'])->setOffset(3 * ($page - 1))->setLimit(4);
+
+		if(isset($filter['FEATURED']))
 		{
 			$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
-			$recipes = RecipesTable::query()->setSelect(['*'])->whereIn('ID', $recipeIds)->setFilter($filter);
-			return $recipes->fetchAll();
-		}*/
-
-		if(isset($filter['MY_RECIPES']))
-		{
-			if($filter['MY_RECIPES'] === 'Y') {
-				$recipes = RecipesTable::query()->setSelect(['*'])->where('AUTHOR_ID', $userId)->setFilter($filter);
+			if($filter['FEATURED'] === 'Y')
+			{
+				$recipes->whereIn('ID', $recipeIds);
 			}
 			else
 			{
-				$recipes = RecipesTable::query()->setSelect(['*'])->whereNot('AUTHOR_ID', $userId)->setFilter($filter);
+				$recipes->whereNotIn('ID', $recipeIds);
 			}
-			return $recipes->fetchAll();
 		}
-		unset($filter['FEATURED']);
-		unset($filter['MY_RECIPES']);
-		$recipes = RecipesTable::query()->setSelect(['*'])->setOffset(3 * ($page - 1))->setLimit(4)->setFilter($filter);
+
+		if(isset($filter['TITLE']) or isset($filter['FIND']))
+		{
+			if($filter['TITLE'] !== '')
+			{
+				$recipes->addFilter('%=TITLE', '%'.$filter['TITLE'].'%');
+			}
+			if($filter['FIND'] !== '')
+			{
+				$recipes->addFilter('%=TITLE', '%'.$filter['FIND'].'%');
+			}
+		}
+
+		if(isset($filter['TIME_from']) or isset($filter['TIME_to']))
+		{
+			if($filter['TIME_from'] === '')
+			{
+				$recipes->addFilter('<TIME', $filter['TIME_to']);
+			}
+			elseif ($filter['TIME_to'] === '')
+			{
+				$recipes->addFilter('>TIME', $filter['TIME_from']);
+			}
+			else
+			{
+				$recipes->addFilter('><TIME', [$filter['TIME_from'], $filter['TIME_to']]);
+			}
+		}
+
+		if(isset($filter['CALORIES_from']) or isset($filter['CALORIES_to']))
+		{
+			if($filter['CALORIES_from'] === '')
+			{
+				$recipes->addFilter('<CALORIES', $filter['CALORIES_to']);
+			}
+			elseif ($filter['CALORIES_to'] === '')
+			{
+				$recipes->addFilter('>CALORIES', $filter['CALORIES_from']);
+			}
+			else
+			{
+				$recipes->addFilter('><CALORIES', [$filter['CALORIES_from'], $filter['CALORIES_to']]);
+			}
+		}
+
+		if (isset($filter['MY_RECIPES']))
+		{
+			if ($filter['MY_RECIPES'] === 'Y')
+			{
+				$recipes->addFilter('AUTHOR_ID', $userId);
+			}
+			else
+			{
+				$recipes->addFilter('!=AUTHOR_ID', $userId);
+			}
+		}
+
+		if (isset($filter['AUTHOR_ID']))
+		{
+			$recipes->addFilter('=AUTHOR_ID', $filter['AUTHOR_ID']);
+		}
+
+		if (isset($filter['PRODUCTS']))
+		{
+			$products = [];
+			foreach ($filter['PRODUCTS'] as $product)
+			{
+				$products[] = (int)$product + 1;
+			}
+			//var_dump($products);
+			$recipeIds = RecipeProductTable::query()->setSelect(['RECIPE_ID'])->whereIn('PRODUCT_ID', $products);
+			$recipes->whereIn('ID', $recipeIds);
+		}
 		return $recipes->fetchAll();
 	}
 
