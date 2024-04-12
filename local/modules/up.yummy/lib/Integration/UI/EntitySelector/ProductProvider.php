@@ -3,11 +3,10 @@
 namespace Up\Yummy\Integration\UI\EntitySelector;
 
 use Bitrix\Main\Loader;
-use Bitrix\UI\EntitySelector\BaseProvider;
 use Bitrix\UI\EntitySelector\Item;
 use Up\Yummy\Model\ProductsTable;
 
-class ProductProvider extends BaseProvider
+class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
 {
 	public function __construct(array $options = [])
 	{

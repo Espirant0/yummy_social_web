@@ -102,6 +102,28 @@ class RecipeRepository
 
 	public static function getRecipeFeed(int $page, array $filter)
 	{
+		global $USER;
+		$userId = $USER->GetID();
+		/*if(isset($filter['FEATURED']) && $filter['FEATURED'] === 'Y')
+		{
+			$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
+			$recipes = RecipesTable::query()->setSelect(['*'])->whereIn('ID', $recipeIds)->setFilter($filter);
+			return $recipes->fetchAll();
+		}*/
+
+		if(isset($filter['MY_RECIPES']))
+		{
+			if($filter['MY_RECIPES'] === 'Y') {
+				$recipes = RecipesTable::query()->setSelect(['*'])->where('AUTHOR_ID', $userId)->setFilter($filter);
+			}
+			else
+			{
+				$recipes = RecipesTable::query()->setSelect(['*'])->whereNot('AUTHOR_ID', $userId)->setFilter($filter);
+			}
+			return $recipes->fetchAll();
+		}
+		unset($filter['FEATURED']);
+		unset($filter['MY_RECIPES']);
 		$recipes = RecipesTable::query()->setSelect(['*'])->setOffset(3 * ($page - 1))->setLimit(4)->setFilter($filter);
 		return $recipes->fetchAll();
 	}

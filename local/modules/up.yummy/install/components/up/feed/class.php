@@ -33,57 +33,53 @@ class FeedComponent extends CBitrixComponent
 		$products = RecipeRepository::getProducts();
 		$this->arParams['FILTER_ID'] = 'recipe_list';
 		$this->arParams['FILTER'] = [
-			['id' => 'TITLE', 'name' => 'Название', 'type'=>'text', 'default' => true],
-			['id' => 'TIME', 'name' => 'Время приготовления', 'type'=>'number', 'default' => false],
-			['id' => 'CALORIES', 'name' => 'Калории', 'type'=>'number', 'default' => false],
-			['id' => 'PRODUCTS', 'name' => 'Продукты', 'type'=>'list',
+			['id' => 'TITLE', 'name' => 'Название', 'type' => 'text', 'default' => true],
+			['id' => 'TIME', 'name' => 'Время приготовления', 'type' => 'number', 'default' => false],
+			['id' => 'CALORIES', 'name' => 'Калории', 'type' => 'number', 'default' => false],
+			['id' => 'PRODUCTS', 'name' => 'Продукты', 'type' => 'list',
 				'params' => ['multiple' => 'Y'],
 				'items' => $products,
 				'default' => false],
-			['id' => 'MY_RECIPES', 'name' => 'Мои рецепты', 'type'=>'checkbox', 'default' => false],
-			['id' => 'FEATURED', 'name' => 'Избранное', 'type'=>'checkbox', 'default' => false],
+			['id' => 'MY_RECIPES', 'name' => 'Мои рецепты', 'type' => 'checkbox', 'default' => false],
+			['id' => 'FEATURED', 'name' => 'Избранное', 'type' => 'checkbox', 'default' => false],
 			$user,
 		];
 		$filterOption = new Bitrix\Main\UI\Filter\Options('recipe_list');
 		$filterData = $filterOption->getFilter([$this->arParams['FILTER']]);
 		$filterRecipes = [];
-		$filterFeatured = 'N';
 
 		foreach ($filterData as $filterItem => $filterValue) {
-			if(isset($filterData['TITLE']))
-			{
+			if (isset($filterData['TITLE'])) {
 				$filterRecipes['TITLE'] = "%" . $filterData['TITLE'] . "%";
-			}
-			else{
+			} else {
 				$filterRecipes['TITLE'] = "%" . $filterData['FIND'] . "%";
 			}
-			if(isset($filterData['TIME_from']))
-			{
+			if (isset($filterData['TIME_from'])) {
 				$filterRecipes['TIME'] = (float)$filterData['TIME_from'];
 			}
-			if(isset($filterData['CALORIES_from']))
-			{
+			if (isset($filterData['CALORIES_from'])) {
 				$filterRecipes['CALORIES'] = (float)$filterData['CALORIES_from'];
 			}
-			if(isset($filterData['AUTHOR_ID']))
-			{
+			if (isset($filterData['AUTHOR_ID'])) {
 				$filterRecipes['AUTHOR_ID'] = (int)$filterData['AUTHOR_ID'];
 			}
-			if(isset($filterData['FEATURED']))
-			{
-				$filterFeatured = $filterData['FEATURED'];
+			if (isset($filterData['FEATURED'])) {
+				$filterRecipes['FEATURED']= $filterData['FEATURED'];
+			}
+			if (isset($filterData['MY_RECIPES'])) {
+				$filterRecipes['MY_RECIPES']= $filterData['MY_RECIPES'];
 			}
 		}
-
-		$page= PaginationService::validateOffset(request()['page']);
+		//var_dump($filterRecipes);die;
+		$page = PaginationService::validateOffset(request()['page']);
 		$this->arResult['RECIPES'] = RecipeRepository::getRecipeFeed($page, $filterRecipes);
-		$pages= PaginationService::getPages($page,$this->arResult['RECIPES']);
-		$this->arResult['PAGES']=$pages;
-		$this->arResult['dailyRecipe']= RecipeRepository::getDailyRecipeTitle();
-		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize)
-		{
+		$pages = PaginationService::getPages($page, $this->arResult['RECIPES']);
+		$this->arResult['PAGES'] = $pages;
+		$this->arResult['dailyRecipe'] = RecipeRepository::getDailyRecipeTitle();
+		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize) {
 			array_pop($this->arResult['RECIPES']);
 		}
+		//var_dump($filterRecipes);
 		$this->prepareTemplateParams();
 		$this->includeComponentTemplate();
 	}

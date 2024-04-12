@@ -4,7 +4,7 @@
  */
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Tasker documentation");
+$APPLICATION->SetTitle("Лента рецептов");
 
 $APPLICATION->IncludeComponent('up:feed', '', []);
 
