@@ -5,7 +5,7 @@
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
 		<p class="title has-text-centered">Добавить рецепт</p>
-		<form action="/add/" method="post">
+		<form action="/add/" method="post" enctype="multipart/form-data">
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
@@ -39,9 +39,10 @@
 					<div class="field">
 						<p class="control">
 
-							<form action="/add/" method="post" enctype="multipart/form-data">
-								<input type="file" name="IMAGES">
-							</form>
+                            <?php
+                            echo bitrix_sessid_post();
+                            ?>
+                                <input type="file" name="IMAGES">
 						</p>
 					</div>
 				</div>
@@ -57,10 +58,8 @@
 					</div>
 				</div>
 			</div>
+            <button id="button">hythty</button>
 		</form>
-		<!--<div id="test1" name="test1"></div>-->
-		<div id="test2" name="test2"></div>
-		<button id="button">hythty</button>
 		<script>
 			const div = document.getElementById('button');
 			button.addEventListener('click', function() {

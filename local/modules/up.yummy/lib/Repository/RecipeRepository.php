@@ -11,14 +11,17 @@ use Up\Yummy\Model\RecipesTable;
 
 class RecipeRepository
 {
-	public static function addRecipe()
+	public static function addRecipe($title,$description,$time,$user)
 	{
-		return null;
+		$recipeId=RecipesTable::add(['TITLE'=>$title,'DESCRIPTION'=>$description,'TIME'=>$time,'AUTHOR_ID'=>$user]);
+		return $recipeId->getId();
 	}
 
 	public static function showRecipeDetail(int $id)
 	{
-		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetchObject();
+		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetch();
+		$recipe['IMAGE']=ImageRepository::getRecipeCover($recipe['ID']);
+
 		return $recipe;
 	}
 
@@ -191,7 +194,13 @@ class RecipeRepository
 			$recipeIds = RecipeProductTable::query()->setSelect(['RECIPE_ID'])->whereIn('PRODUCT_ID', $products);
 			$recipes->whereIn('ID', $recipeIds);
 		}
-		return $recipes->fetchAll();
+		$recipes=$recipes->fetchAll();
+		foreach ($recipes as &$recipe)
+		{
+			$recipe['IMAGE']=\Up\Yummy\Repository\ImageRepository::getRecipeCover($recipe['ID']);
+		}
+		return $recipes;
+		//return $recipes->fetchAll();
 	}
 
 	public static function getRecipeStats(int $recipeid)
@@ -223,7 +232,7 @@ class RecipeRepository
 
 	public static function getDailyRecipeTitle(): string
 	{
-		$dailyRecipeId = Option::get("up.yummy", "dailyRecipe", 1);
+		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId", 1);
 		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch()['TITLE'];
 		return $recipe;
 	}

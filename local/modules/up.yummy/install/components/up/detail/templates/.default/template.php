@@ -16,7 +16,7 @@ $recipe=$arResult['RECIPE'];
 	<p class="title recipe_title"><?=$recipe['TITLE']?></p>
 	<div class="columns">
 		<div class="column is-two-fifths recipe_image_container">
-			<img class="recipe_img" src="<?=$arParams['IMAGE']?>"/>
+			<img class="recipe_img" src="<?=$recipe['IMAGE']?>"/>
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">

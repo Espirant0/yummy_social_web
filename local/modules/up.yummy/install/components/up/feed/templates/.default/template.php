@@ -24,11 +24,13 @@ use Bitrix\Main\ORM\Query\Query;
             <?php foreach($arResult['RECIPES'] as $recipe):?>
 				<div class="card recipe_card">
 					<a href="/detail/<?=$recipe['ID']?>/">
+                    <figure class="image">
 					<img
-						<!--src="--><?php /*=$arParams['IMAGE']*/?>"
-						src="https://bulma.io/assets/images/placeholders/1280x960.png"
-						alt="Placeholder image"
-						class="recipe_img"/>
+                        src="<?=$recipe['IMAGE']?>"
+						alt="https://bulma.io/assets/images/placeholders/1280x960.png"
+						class="recipe_img"
+                    />
+                    </figure>
 					<div class="card-content">
 						<div class="media">
 							<div class="media-left">
