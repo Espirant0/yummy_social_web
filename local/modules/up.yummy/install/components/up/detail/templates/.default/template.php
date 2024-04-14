@@ -16,7 +16,11 @@ $recipe=$arResult['RECIPE'];
 	<p class="title recipe_title"><?=$recipe['TITLE']?></p>
 	<div class="columns">
 		<div class="column is-two-fifths recipe_image_container">
-			<img class="recipe_img" src="<?=$recipe['IMAGE']?>"/>
+			<img class="recipe_img" <?php if (isset($recipe['IMAGE'])):?>
+                    src="<?=$recipe['IMAGE']?>"
+				<?php else:?>
+                 src="<?=$arParams['IMAGE']?>"
+			<?php endif?>"/>
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">
@@ -69,7 +73,7 @@ $recipe=$arResult['RECIPE'];
 			<div class="bottom_buttons">
 				<?php if($recipe['AUTHOR_ID']==$arResult['AUTHOR_ID']):?>
 					<form action="/delete/" method="post">
-						<input type="hidden" name="deleteId" value="<?=$recipe['id']?>">
+						<input type="hidden" name="deleteId" value="<?=$recipe['ID']?>">
 						<button class="button is-danger" onclick="return window.confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить рецепт</button>
 					</form>
 				<?php endif;?>

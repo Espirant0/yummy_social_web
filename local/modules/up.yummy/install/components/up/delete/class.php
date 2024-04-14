@@ -6,10 +6,9 @@ class DeleteComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$recipeId=request()['deleteId'];
+		$recipeId=(int)request()['deleteId'];
 		global $USER;
 		$userId=(int)$USER->GetID();
-		var_dump($userId);
 		if(RecipeRepository::validateRecipeAuthor($userId,$recipeId))
 		{
 			RecipeRepository::deleteRecipe($recipeId);

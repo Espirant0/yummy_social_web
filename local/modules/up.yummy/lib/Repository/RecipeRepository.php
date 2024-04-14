@@ -79,7 +79,7 @@ class RecipeRepository
 	public static function validateRecipeAuthor(int $authorId, int $recipeId): bool
 	{
 		$recipe = RecipesTable::getByPrimary($recipeId)->fetchObject();
-		if ($recipe['AUTHOR_ID'] === $authorId)
+		if ($recipe['AUTHOR_ID'] == $authorId)
 		{
 			return true;
 		}
@@ -198,6 +198,10 @@ class RecipeRepository
 		foreach ($recipes as &$recipe)
 		{
 			$recipe['IMAGE']=\Up\Yummy\Repository\ImageRepository::getRecipeCover($recipe['ID']);
+			if(!isset($recipe['IMAGE']))
+			{
+				$recipe['IMAGE']=null;
+			}
 		}
 		return $recipes;
 		//return $recipes->fetchAll();

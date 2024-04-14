@@ -7,18 +7,27 @@ class TaskDocComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		global $USER;
-		$user_id=$USER->GetID();
+		$userId=$USER->GetID();
 		$title=ValidationRepository::validateString(request()['NAME'],50);
 		$description=ValidationRepository::validateString(request()['DESCRIPTION'],10000);
-		$time= request()['TIME'];
-		if($title===null||$description===null||ValidationRepository::validatePositiveInteger($time)===false)
+		$time= ValidationRepository::validatePositiveInteger(request()['TIME']);
+		switch (true)
 		{
-			LocalRedirect('/404/');
+			case($title===null):
+				$this->arResult['MESSAGE']="НЕПРАВИЛЬНОЕ НАЗВАНИЕ";
+				break;
+			case($description===null):
+				$this->arResult['MESSAGE']="НЕПРАВИЛЬНОЕ ОПИСАНИЕ";
+				break;
+			case($time===null):
+				$this->arResult['MESSAGE']="НЕПРАВИЛЬНОЕ ВРЕМЯ";
+				break;
+			default:
+				$RecipeID=Up\Yummy\Repository\RecipeRepository::addRecipe($title,$description,$time,$userId);
+				$ImageID=\Up\Yummy\Repository\ImageRepository::validateImage();
+				\Up\Yummy\Model\ImagesTable::add(['PATH'=>$ImageID,'RECIPE_ID'=>$RecipeID,'IS_COVER'=>1]);
+				LocalRedirect('/');
 		}
-		$RecipeID=Up\Yummy\Repository\RecipeRepository::addRecipe($title,$description,$time,$user_id);
-		$ImageID=\Up\Yummy\Repository\ImageRepository::validateImage();
-		\Up\Yummy\Model\ImagesTable::add(['PATH'=>$ImageID,'RECIPE_ID'=>$RecipeID,'IS_COVER'=>1]);
-		LocalRedirect('/');
 		$this->includeComponentTemplate();
 	}
 

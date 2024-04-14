@@ -11,12 +11,12 @@ class ValidationRepository
 		$string=substr($string,0,$stringLength);
 		return $string;
 	}
-	public static function validatePositiveInteger($integer):bool
+	public static function validatePositiveInteger($integer):mixed
 	{
 		if((int)$integer==$integer && $integer>=0)
 		{
-			return true;
+			return (int)$integer;
 		}
-		return false;
+		return null;
 	}
 }

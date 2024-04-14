@@ -26,7 +26,11 @@ use Bitrix\Main\ORM\Query\Query;
 					<a href="/detail/<?=$recipe['ID']?>/">
                     <figure class="image">
 					<img
+                        <?php if (isset($recipe['IMAGE'])):?>
                         src="<?=$recipe['IMAGE']?>"
+                        <?php else:?>
+                        src="<?=$arParams['IMAGE']?>"
+                        <?php endif?>
 						alt="https://bulma.io/assets/images/placeholders/1280x960.png"
 						class="recipe_img"
                     />
