@@ -8,6 +8,7 @@ use Up\Yummy\Model\FeaturedTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
 use Up\Yummy\Model\RecipesTable;
+use Up\Yummy\Service\ValidationService;
 
 class RecipeRepository
 {
@@ -21,7 +22,7 @@ class RecipeRepository
 	{
 		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetch();
 		$recipe['IMAGE']=ImageRepository::getRecipeCover($recipe['ID']);
-
+		$recipe=ValidationService::protectRecipeOutput($recipe);
 		return $recipe;
 	}
 
@@ -202,6 +203,7 @@ class RecipeRepository
 			{
 				$recipe['IMAGE']=null;
 			}
+			$recipe=ValidationService::protectRecipeOutput($recipe);
 		}
 		return $recipes;
 		//return $recipes->fetchAll();
@@ -238,6 +240,7 @@ class RecipeRepository
 	{
 		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId", 1);
 		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch()['TITLE'];
+		$recipe=htmlspecialcharsEx($recipe);
 		return $recipe;
 	}
 

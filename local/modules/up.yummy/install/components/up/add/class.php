@@ -1,6 +1,7 @@
 <?php
 
 use Up\Yummy\Repository\ValidationRepository;
+use Up\Yummy\Service\ValidationService;
 
 class TaskDocComponent extends CBitrixComponent
 {
@@ -8,9 +9,9 @@ class TaskDocComponent extends CBitrixComponent
 	{
 		global $USER;
 		$userId=$USER->GetID();
-		$title=ValidationRepository::validateString(request()['NAME'],50);
-		$description=ValidationRepository::validateString(request()['DESCRIPTION'],10000);
-		$time= ValidationRepository::validatePositiveInteger(request()['TIME']);
+		$title=ValidationService::validateString(request()['NAME'],50);
+		$description=ValidationService::validateString(request()['DESCRIPTION'],10000);
+		$time= ValidationService::validatePositiveInteger(request()['TIME']);
 		switch (true)
 		{
 			case($title===null):
