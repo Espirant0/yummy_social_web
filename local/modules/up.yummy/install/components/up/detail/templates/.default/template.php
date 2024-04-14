@@ -1,4 +1,4 @@
-<?php
+<?php global $APPLICATION;
 /**
  * @var array $arResult
 * @var array $arParams;
@@ -6,10 +6,16 @@
 $recipe=$arResult['RECIPE'];
 ?>
 <div class="content">
-	<div class="column is-flex is-half is-offset-one-quarter">
-		<input class="input is-half" type="text" placeholder="Поиск рецепта" />
-		<button class="button is-light ml-3 search_btn">Искать</button>
-		<form action="/create/" method="get" target="_blank">
+	<div class="search_line">
+		<form action="/" method="get">
+			<?=$APPLICATION->IncludeComponent('bitrix:main.ui.filter', '', [
+				'FILTER_ID' => $arParams['FILTER_ID'],
+				'FILTER' => $arParams['FILTER'],
+				'ENABLE_LIVE_SEARCH' => true,
+				'ENABLE_LABEL' => true
+			]);?>
+		</form>
+		<form action="/create/" class="add_form" method="get" target="_blank">
 			<button class="button is-success">Добавить рецепт</button>
 		</form>
 	</div>

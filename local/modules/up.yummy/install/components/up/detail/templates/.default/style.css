@@ -6,6 +6,15 @@
 .recipe_title{
 	text-align: center;
 }
+.search_line{
+	display: flex;
+	justify-content: center;
+}
+.add_form{
+	margin-left: 50px;
+	display: flex;
+	align-items: center;
+}
 .recipe_calories{
 	padding: 5px;
 	display: flex;
@@ -49,4 +58,7 @@
 }
 .instruction{
 	margin: 20px 0;
+}
+.main-ui-filter-search{
+	border: 1px solid black !important;
 }
