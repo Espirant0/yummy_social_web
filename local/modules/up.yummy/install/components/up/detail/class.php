@@ -46,9 +46,9 @@ class DetailComponent extends CBitrixComponent
 		global $USER;
 		$userId = $USER->GetID();
 		$recipeId = request()['id'];
-		$this->arResult['FEATURED'] = RecipeRepository::isRecipeInFeatured($userId, $recipeId);
 		if(ValidationService::validateRecipeId($recipeId))
 		{
+			$this->arResult['FEATURED'] = RecipeRepository::isRecipeInFeatured($userId, $recipeId);
 			$this->arResult['AUTHOR_ID'] = $userId;
 			$this->arResult['RECIPE'] = RecipeRepository::showRecipeDetail($recipeId);
 			$this->arResult['PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);

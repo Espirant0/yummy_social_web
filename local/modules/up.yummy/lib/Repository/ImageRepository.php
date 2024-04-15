@@ -24,10 +24,6 @@ class ImageRepository
 
 	  $fileId = CFile::SaveFile($file,'RecipeImages',true);
 
-	  if (!$fileId)
-	  {
-		  die('Cannot save file');
-	  }
 	  return $fileId;
 	}
 	public static function getRecipeCover($recipeID)
