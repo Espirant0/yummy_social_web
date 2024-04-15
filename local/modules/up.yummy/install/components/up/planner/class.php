@@ -1,6 +1,6 @@
 <?php
 
-class TaskDocComponent extends CBitrixComponent
+class PlannerComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{

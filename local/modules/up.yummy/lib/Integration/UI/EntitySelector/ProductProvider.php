@@ -3,10 +3,11 @@
 namespace Up\Yummy\Integration\UI\EntitySelector;
 
 use Bitrix\Main\Loader;
+use Bitrix\UI\EntitySelector\Dialog;
 use Bitrix\UI\EntitySelector\Item;
 use Up\Yummy\Model\ProductsTable;
 
-class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
+class ProductProvider extends \Bitrix\UI\EntitySelector\BaseProvider
 {
 	public function __construct(array $options = [])
 	{
@@ -14,11 +15,7 @@ class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
 	}
 	public function isAvailable(): bool
 	{
-		if (!Loader::includeModule('up.yummy'))
-		{
-			return false;
-		}
-		return parent::isAvailable();
+		return true;
 	}
 
 	public function getItems(array $ids) : array
@@ -29,14 +26,11 @@ class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
 		])->fetchAll();
 		$productList = [];
 		foreach ($products as $product){
-			$customData = [
-				'category' => $product['CATEGORY_NAME'],
-			];
 			$productList[] = new Item([
 				'id' => $product['ID'],
 				'entityId' => 'products',
 				'title' => $product['NAME'],
-				'customData' => $customData,
+				'tabs' => $product['CATEGORY_NAME'],
 			]);
 		}
 		return $productList;
@@ -44,22 +38,11 @@ class ProductProvider extends Bitrix\UI\EntitySelector\BaseProvider
 
 	public function getSelectedItems(array $ids) : array
 	{
-		$products = ProductsTable::getList([
-			'select'=>
-				['ID', 'NAME', 'CATEGORY_NAME' => 'CATEGORY.TITLE'],
-		]);
-		$productList = [];
-		foreach ($products as $product){
-			$customData = [
-				'category' => $product['CATEGORY_NAME'],
-			];
-			$productList[] = new Item([
-				'id' => $product['ID'],
-				'entityId' => 'products',
-				'title' => $product['NAME'],
-				'customData' => $customData,
-			]);
-		}
-		return $productList;
+		return $this->getItems([]);
+	}
+
+	public function fillDialog(Dialog $dialog): void
+	{
+		$dialog->addRecentItems($this->getItems([]));
 	}
 }

@@ -6,19 +6,6 @@
 $recipe=$arResult['RECIPE'];
 ?>
 <div class="content">
-	<div class="search_line">
-		<form action="/" method="get">
-			<?=$APPLICATION->IncludeComponent('bitrix:main.ui.filter', '', [
-				'FILTER_ID' => $arParams['FILTER_ID'],
-				'FILTER' => $arParams['FILTER'],
-				'ENABLE_LIVE_SEARCH' => true,
-				'ENABLE_LABEL' => true
-			]);?>
-		</form>
-		<form action="/create/" class="add_form" method="get" target="_blank">
-			<button class="button is-success">Добавить рецепт</button>
-		</form>
-	</div>
 	<p class="title recipe_title"><?=$recipe['TITLE']?></p>
 	<div class="columns">
 		<div class="column is-two-fifths recipe_image_container">
@@ -86,19 +73,19 @@ $recipe=$arResult['RECIPE'];
 				<div class="columns calories">
 					<div class="column">
 						<h5>Калории</h5>
-						<p>432423</p>
+						<p><?=$recipe['CALORIES']?></p>
 					</div>
 					<div class="column">
 						<h5>Белки</h5>
-						<p>143232</p>
+						<p><?=$recipe['PROTEINS']?></p>
 					</div>
 					<div class="column">
 						<h5>Жиры</h5>
-						<p>32423</p>
+						<p><?=$recipe['FATS']?></p>
 					</div>
 					<div class="column">
 						<h5>Углеводы</h5>
-						<p>534534</p>
+						<p><?=$recipe['CARBS']?></p>
 					</div>
 					<div class="column">
 						<h5>Время</h5>

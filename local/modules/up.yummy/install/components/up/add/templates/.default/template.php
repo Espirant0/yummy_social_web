@@ -7,7 +7,6 @@
 ?>
 <div class="content">
 	<?=$arResult['MESSAGE']?>
-
 </div>
 
 

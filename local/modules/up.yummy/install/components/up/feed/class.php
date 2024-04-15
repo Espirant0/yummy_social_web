@@ -1,5 +1,6 @@
 <?php
 
+use Bitrix\Main\Config\Option;
 use Bitrix\Main\UI\Filter\Options;
 use Up\Yummy\Repository\RecipeRepository;
 use Up\Yummy\Service\PaginationService;
@@ -29,6 +30,7 @@ class FeedComponent extends CBitrixComponent
 			],
 		];
 		$products = RecipeRepository::getProducts();
+
 		$this->arParams['FILTER_ID'] = 'recipe_list';
 		$this->arParams['FILTER'] = [
 			['id' => 'TITLE', 'name' => 'Название', 'type' => 'text', 'default' => true],
@@ -44,18 +46,20 @@ class FeedComponent extends CBitrixComponent
 			['id' => 'FEATURED', 'name' => 'Избранное', 'type' => 'checkbox', 'default' => false],
 			$user,
 		];
+
 		$filterOption = new Options('recipe_list');
 		$filter = $filterOption->getFilter([$this->arParams['FILTER']]);
 
 		$page = PaginationService::validateOffset(request()['page']);
 		$this->arResult['RECIPES'] = RecipeRepository::getRecipeFeed($page, $filter);
-		$pages = PaginationService::getPages($page, $this->arResult['RECIPES']);
-		$this->arResult['PAGES'] = $pages;
-		$this->arResult['dailyRecipe'] = RecipeRepository::getDailyRecipeTitle();
+		$this->arResult['PAGES']  = PaginationService::getPages($page, $this->arResult['RECIPES']);
+		$this->arResult['DAILY_RECIPE_ID'] = Option::get("up.yummy", "dailyRecipeId", 1);
+		$this->arResult['DAILY_RECIPE'] = RecipeRepository::getDailyRecipe();
+
 		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize) {
 			array_pop($this->arResult['RECIPES']);
 		}
-		//var_dump($filter);
+
 		$this->prepareTemplateParams();
 		$this->includeComponentTemplate();
 	}

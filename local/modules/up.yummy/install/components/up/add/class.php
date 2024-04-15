@@ -5,10 +5,11 @@ use Up\Yummy\Repository\ImageRepository;
 use Up\Yummy\Repository\RecipeRepository;
 use Up\Yummy\Service\ValidationService;
 
-class TaskDocComponent extends CBitrixComponent
+class AddComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		var_dump($_POST);
 		global $USER;
 		$userId = $USER->GetID();
 		$title = ValidationService::validateString(request()['NAME'], 50);

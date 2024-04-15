@@ -12,17 +12,17 @@ use Up\Yummy\Service\ValidationService;
 
 class RecipeRepository
 {
-	public static function addRecipe($title,$description,$time,$user)
+	public static function addRecipe($title, $description, $time, $user)
 	{
-		$recipeId=RecipesTable::add(['TITLE'=>$title,'DESCRIPTION'=>$description,'TIME'=>$time,'AUTHOR_ID'=>$user]);
+		$recipeId = RecipesTable::add(['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time, 'AUTHOR_ID' => $user]);
 		return $recipeId->getId();
 	}
 
 	public static function showRecipeDetail(int $id)
 	{
 		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetch();
-		$recipe['IMAGE']=ImageRepository::getRecipeCover($recipe['ID']);
-		$recipe=ValidationService::protectRecipeOutput($recipe);
+		$recipe['IMAGE'] = ImageRepository::getRecipeCover($recipe['ID']);
+		$recipe = ValidationService::protectRecipeOutput($recipe);
 		return $recipe;
 	}
 
@@ -110,10 +110,10 @@ class RecipeRepository
 		$userId = $USER->GetID();
 		$recipes = RecipesTable::query()->setSelect(['*'])->setOffset(3 * ($page - 1))->setLimit(4);
 
-		if(isset($filter['FEATURED']))
+		if (isset($filter['FEATURED']))
 		{
 			$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
-			if($filter['FEATURED'] === 'Y')
+			if ($filter['FEATURED'] === 'Y')
 			{
 				$recipes->whereIn('ID', $recipeIds);
 			}
@@ -123,21 +123,21 @@ class RecipeRepository
 			}
 		}
 
-		if(isset($filter['TITLE']) or isset($filter['FIND']))
+		if (isset($filter['TITLE']) or isset($filter['FIND']))
 		{
-			if($filter['TITLE'] !== '')
+			if ($filter['TITLE'] !== '')
 			{
-				$recipes->addFilter('%=TITLE', '%'.$filter['TITLE'].'%');
+				$recipes->addFilter('%=TITLE', '%' . $filter['TITLE'] . '%');
 			}
-			if($filter['FIND'] !== '')
+			if ($filter['FIND'] !== '')
 			{
-				$recipes->addFilter('%=TITLE', '%'.$filter['FIND'].'%');
+				$recipes->addFilter('%=TITLE', '%' . $filter['FIND'] . '%');
 			}
 		}
 
-		if(isset($filter['TIME_from']) or isset($filter['TIME_to']))
+		if (isset($filter['TIME_from']) or isset($filter['TIME_to']))
 		{
-			if($filter['TIME_from'] === '')
+			if ($filter['TIME_from'] === '')
 			{
 				$recipes->addFilter('<TIME', $filter['TIME_to']);
 			}
@@ -151,9 +151,9 @@ class RecipeRepository
 			}
 		}
 
-		if(isset($filter['CALORIES_from']) or isset($filter['CALORIES_to']))
+		if (isset($filter['CALORIES_from']) or isset($filter['CALORIES_to']))
 		{
-			if($filter['CALORIES_from'] === '')
+			if ($filter['CALORIES_from'] === '')
 			{
 				$recipes->addFilter('<CALORIES', $filter['CALORIES_to']);
 			}
@@ -195,15 +195,15 @@ class RecipeRepository
 			$recipeIds = RecipeProductTable::query()->setSelect(['RECIPE_ID'])->whereIn('PRODUCT_ID', $products);
 			$recipes->whereIn('ID', $recipeIds);
 		}
-		$recipes=$recipes->fetchAll();
+		$recipes = $recipes->fetchAll();
 		foreach ($recipes as &$recipe)
 		{
-			$recipe['IMAGE']=\Up\Yummy\Repository\ImageRepository::getRecipeCover($recipe['ID']);
-			if(!isset($recipe['IMAGE']))
+			$recipe['IMAGE'] = \Up\Yummy\Repository\ImageRepository::getRecipeCover($recipe['ID']);
+			if (!isset($recipe['IMAGE']))
 			{
-				$recipe['IMAGE']=null;
+				$recipe['IMAGE'] = null;
 			}
-			$recipe=ValidationService::protectRecipeOutput($recipe);
+			$recipe = ValidationService::protectRecipeOutput($recipe);
 		}
 		return $recipes;
 		//return $recipes->fetchAll();
@@ -236,11 +236,11 @@ class RecipeRepository
 
 	}
 
-	public static function getDailyRecipeTitle(): string
+	public static function getDailyRecipe(): string
 	{
 		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId", 1);
 		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch()['TITLE'];
-		$recipe=htmlspecialcharsEx($recipe);
+		$recipe = htmlspecialcharsEx($recipe);
 		return $recipe;
 	}
 

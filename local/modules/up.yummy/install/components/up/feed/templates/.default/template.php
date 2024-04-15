@@ -24,7 +24,6 @@ use Bitrix\Main\ORM\Query\Query;
             <?php foreach($arResult['RECIPES'] as $recipe):?>
 				<div class="card recipe_card">
 					<a href="/detail/<?=$recipe['ID']?>/">
-                    <figure class="image">
 					<img
                         <?php if (isset($recipe['IMAGE'])):?>
                         src="<?=$recipe['IMAGE']?>"
@@ -34,7 +33,6 @@ use Bitrix\Main\ORM\Query\Query;
 						alt="https://bulma.io/assets/images/placeholders/1280x960.png"
 						class="recipe_img"
                     />
-                    </figure>
 					<div class="card-content">
 						<div class="media">
 							<div class="media-left">
@@ -44,7 +42,7 @@ use Bitrix\Main\ORM\Query\Query;
 									<p class="title is-4 "><?=$recipe['TITLE']?></p>
 									<p class="likes">6456 ❤</p>
 								</div>
-								<p class="subtitle is-6"><?=$recipe['DESCRIPTION']?></p>
+								<p class="subtitle is-6"><?=$recipe['DESCRIPTION']?>...</p>
 							</div>
 						</div>
 						<div class="content">
@@ -70,14 +68,14 @@ use Bitrix\Main\ORM\Query\Query;
 					<button class="button is-success">Добавить рецепт</button>
 				</form>
 				<p class="title is-4 has-text-centered">Рецепт дня</p>
-				<a href="/detail/1/">
+				<a href="/detail/<?=$arResult['DAILY_RECIPE_ID']?>/">
 					<div class="card">
 						<img
 							src="https://bulma.io/assets/images/placeholders/1280x960.png"
 							alt="Placeholder image"
 						/>
 						<div class="card-content">
-							<p class="title is-4"><?=$arResult['dailyRecipe']?></p>
+							<p class="title is-4"><?=$arResult['DAILY_RECIPE']?></p>
 						</div>
 					</div>
 				</a>

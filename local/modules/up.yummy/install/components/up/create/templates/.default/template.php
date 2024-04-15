@@ -19,7 +19,7 @@
 				<div class="field-body">
 					<div class="field">
 						<div class="control">
-							<textarea class="textarea" name= "DESCRIPTION" placeholder="Описание рецепта"></textarea>
+							<textarea class="textarea" name="DESCRIPTION" placeholder="Описание рецепта"></textarea>
 						</div>
 					</div>
 				</div>
@@ -28,7 +28,7 @@
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="number" placeholder="Время приготовления" required>
+							<input class="input" name="TIME" type="text" pattern="[0-9]{,3}" placeholder="Время приготовления" required>
 						</p>
 					</div>
 				</div>
@@ -38,15 +38,14 @@
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-
-                            <?php
-                            echo bitrix_sessid_post();
-                            ?>
-                                <input type="file" name="IMAGES">
+							<?php echo bitrix_sessid_post(); ?>
+							<input type="file" name="IMAGES">
 						</p>
 					</div>
 				</div>
 			</div>
+			<input type="hidden" name="test1" value=""/>
+			<div id="test1" name="test1"></div>
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
@@ -58,110 +57,21 @@
 					</div>
 				</div>
 			</div>
-            <button id="button">hythty</button>
 		</form>
-		<script>
-			const div = document.getElementById('button');
-			button.addEventListener('click', function() {
-				dialog.show();
-			});
-			const dialog = new BX.UI.EntitySelector.Dialog({
-				targetNode: button,
-				enableSearch: true,
-				context: 'MY_MODULE_CONTEXT',
-				entities: [
-					{
-						id: 'products',
-						dynamicLoad: true,
-					},
-				],
-				width: 400,
-				height: 300,
-				dropdownMode: true,
-				compactView: true,
-				showAvatars: false,
-				tabs: [
-					{ id: 'products', title: 'Продукты', itemOrder: { sort: 'asc',  title: 'asc' } },
-				],
-				items: [
-					{id: 1, entityId: 'products', tabs: 'products',},
-				],
-
-				events: {
-					'Search:onItemCreateAsync': (event) => {
-						return new Promise((resolve) => {
-							const { searchQuery } = event.getData();
-							const dialog = event.getTarget();
-							/*setTimeout(() => { // эмуляция асинхронного действия
-								let tab = dialog.getTab('products');
-								const item = dialog.addItem({
-									id: Text.getRandom(),
-									entityId: 'products',
-									title: searchQuery.getQuery(),
-									tabs: 'products',
-									// можно использовать для сортировки элементов на вкладке
-									// для вкладки cities указана сортировка по этому полю.
-									sort: 1
-								});
-								if (item)
-								{
-									item.select();
-								}
-								dialog.selectTab(tab.getId());
-								resolve();
-							}, 1000);*/
-						});
-					}
-				}
-			});
-		</script>
 	</div>
-
-	<script>
-		(function() { const tagSelector = new BX.UI.EntitySelector.TagSelector({
-			textBoxAutoHide: true,
-			textBoxWidth: 350,
-			maxHeight: 99,
-			placeholder: 'введите название элемента',
-			addButtonCaption: 'Добавить элемент',
-			addButtonCaptionMore: 'Добавить еще',
-			showCreateButton: true,
-			items: [
-				{ id: 1, entityId: 'products', textColor: 'orange', title: 'Василий Иванов' },
-			],
-			events: {
-				onBeforeTagAdd: function(event) {
-					const selector = event.getTarget();
-					const { tag } = event.getData();
-					if (tag.getTitle() === 'xxx')
-					{
-						event.preventDefault();
-					}
-				},
-				onBeforeTagRemove: function(event) {
-					const selector = event.getTarget();
-					const { tag } = event.getData();
-					if (tag.getTitle() === 'aaa')
-					{
-						event.preventDefault();
-					}
-				},
-				onEnter: (event) => {
-					const selector = event.getTarget();
-					const value = selector.getTextBoxValue();
-					value.split(' ').forEach(function(title) {
-						selector.addTag({
-							id: id++,
-							title: title,
-							entityId: 'xxx',
-						});
-					});
-				}
-			},
-		});
-			tagSelector.renderTo(document.getElementById('test1'))})();
-	</script>
-
 </div>
-
-
+<script>
+	(function() { const tagSelector = new BX.UI.EntitySelector.TagSelector({
+		id: 'test1',
+		multiple: false,
+		dialogOptions: {
+			entities: [
+				{
+					id: 'products',
+					dynamicLoad: true,
+				},
+			],
+		}
+	});
+		tagSelector.renderTo(document.getElementById('test1'))})();
+</script>
