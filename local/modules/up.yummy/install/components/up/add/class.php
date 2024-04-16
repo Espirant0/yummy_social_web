@@ -9,12 +9,12 @@ class AddComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		var_dump($_POST);
 		global $USER;
 		$userId = $USER->GetID();
 		$title = ValidationService::validateString(request()['NAME'], 50);
 		$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
 		$time = ValidationService::validatePositiveInteger(request()['TIME']);
+		$products = array_map(null, request()['PRODUCTS'], request()['PRODUCTS_QUANTITY'], request()['MEASURES']);
 		switch (true)
 		{
 			case($title === null):
@@ -27,11 +27,11 @@ class AddComponent extends CBitrixComponent
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
 				break;
 			default:
-				$recipeID = RecipeRepository::addRecipe($title, $description, $time, $userId);
-				$imageID = ImageRepository::validateImage();
+				$recipeId = RecipeRepository::addRecipe($title, $description, $time, $userId, $products);
+				$imageId = ImageRepository::validateImage();
 				if (isset($imageID))
 				{
-					ImagesTable::add(['PATH' => $imageID, 'RECIPE_ID' => $recipeID, 'IS_COVER' => 1]);
+					ImagesTable::add(['PATH' => $imageId, 'RECIPE_ID' => $recipeId, 'IS_COVER' => 1]);
 				}
 				LocalRedirect('/');
 		}

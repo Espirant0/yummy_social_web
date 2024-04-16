@@ -63,63 +63,7 @@ $recipe=$arResult['RECIPE'];
 					</div>
 				</div>
 			</div>
-            <button id="button">hythty</button>
 		</form>
-		<script>
-			const div = document.getElementById('button');
-			button.addEventListener('click', function() {
-				dialog.show();
-			});
-			const dialog = new BX.UI.EntitySelector.Dialog({
-				targetNode: button,
-				enableSearch: true,
-				context: 'MY_MODULE_CONTEXT',
-				entities: [
-					{
-						id: 'products',
-						dynamicLoad: true,
-					},
-				],
-				width: 400,
-				height: 300,
-				dropdownMode: true,
-				compactView: true,
-				showAvatars: false,
-				tabs: [
-					{ id: 'products', title: 'Продукты', itemOrder: { sort: 'asc',  title: 'asc' } },
-				],
-				items: [
-					{id: 1, entityId: 'products', tabs: 'products',},
-				],
-
-				events: {
-					'Search:onItemCreateAsync': (event) => {
-						return new Promise((resolve) => {
-							const { searchQuery } = event.getData();
-							const dialog = event.getTarget();
-							/*setTimeout(() => { // эмуляция асинхронного действия
-								let tab = dialog.getTab('products');
-								const item = dialog.addItem({
-									id: Text.getRandom(),
-									entityId: 'products',
-									title: searchQuery.getQuery(),
-									tabs: 'products',
-									// можно использовать для сортировки элементов на вкладке
-									// для вкладки cities указана сортировка по этому полю.
-									sort: 1
-								});
-								if (item)
-								{
-									item.select();
-								}
-								dialog.selectTab(tab.getId());
-								resolve();
-							}, 1000);*/
-						});
-					}
-				}
-			});
-		</script>
 	</div>
 
 	<script>
@@ -165,8 +109,7 @@ $recipe=$arResult['RECIPE'];
 			},
 		});
 			tagSelector.renderTo(document.getElementById('test1'))})();
-	</script>
-
+	</script
 </div>
 
 

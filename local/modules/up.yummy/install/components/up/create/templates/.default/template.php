@@ -1,6 +1,14 @@
 <?php
-\Bitrix\Main\UI\Extension::load('up.yummy-selector');
+/**
+ * @var array $arParams;
+ * @var array $arResult
+ */
+
 \Bitrix\Main\UI\Extension::load('ui.entity-selector');
+
+$products = json_encode($arResult['PRODUCTS']);
+$measures = json_encode($arResult['MEASURES']);
+
 ?>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -44,13 +52,21 @@
 					</div>
 				</div>
 			</div>
-			<input type="hidden" name="test1" value=""/>
-			<div id="test1" name="test1"></div>
+			<div class="product_container">
+				<div id="container" class="products_selects">
+
+				</div>
+				<div class="product_btn">
+					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить продукт</button>
+				</div>
+			</div>
+			<!--<input type="hidden" name="test1" value=""/>
+			<div id="test1" name="test1"></div>-->
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary">
+							<button type="submit" class="button is-primary">
 								Добавить рецепт
 							</button>
 						</div>
@@ -59,8 +75,10 @@
 			</div>
 		</form>
 	</div>
+
+
 </div>
-<script>
+<!--<script>
 	(function() { const tagSelector = new BX.UI.EntitySelector.TagSelector({
 		id: 'test1',
 		multiple: false,
@@ -74,4 +92,52 @@
 		}
 	});
 		tagSelector.renderTo(document.getElementById('test1'))})();
+</script>-->
+<script>
+	const products = JSON.parse('<?=$products;?>');
+	const measures = JSON.parse('<?=$measures;?>');
+	const body = document.getElementById("container");
+
+	function createSelect() {
+		const select = document.createElement("select");
+		const measure_select = document.createElement("select");
+		const input = document.createElement("input");
+		const div = document.createElement("div");
+		const div2 = document.createElement("div");
+		const container = document.createElement("div");
+		select.id = `PRODUCT_${products.length}`;
+		select.name = `PRODUCTS[]`;
+
+		measure_select.id = `MEASURE_${products.length}`;
+		measure_select.name = `MEASURES[]`;
+
+		input.id = `PRODUCT_QUANTITY_${products.length}`;
+		input.name = `PRODUCTS_QUANTITY[]`;
+
+		select.className = `product_select`;
+		input.className = `input product_input`;
+		container.className = `select_container`
+		div.className = `select select_div`;
+		div2.className = `select select_div`;
+
+		div.appendChild(select);
+		div2.appendChild(measure_select);
+		container.appendChild(div);
+		container.appendChild(input);
+		container.appendChild(div2);
+		body.appendChild(container);
+
+		for (let i = 0; i < products.length; i++) {
+			const option = document.createElement("option");
+			option.value = products[i].ID;
+			option.text = products[i].NAME;
+			select.add(option);
+		}
+		for (let i = 0; i < measures.length; i++) {
+			const option = document.createElement("option");
+			option.value = measures[i].ID;
+			option.text = measures[i].TITLE;
+			measure_select.add(option);
+		}
+	}
 </script>

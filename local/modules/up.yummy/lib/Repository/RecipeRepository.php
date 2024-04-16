@@ -6,6 +6,7 @@ use Bitrix\Main\Config\Option;
 use Bitrix\Main\ORM\Query\Query;
 use Up\Yummy\Model\FeaturedTable;
 use Up\Yummy\Model\LikesTable;
+use Up\Yummy\Model\MeasuresTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
 use Up\Yummy\Model\RecipesTable;
@@ -13,10 +14,19 @@ use Up\Yummy\Service\ValidationService;
 
 class RecipeRepository
 {
-	public static function addRecipe($title, $description, $time, $user)
+	public static function addRecipe($title, $description, $time, $user, $products)
 	{
-		$recipeId = RecipesTable::add(['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time, 'AUTHOR_ID' => $user]);
-		return $recipeId->getId();
+		$recipe = RecipesTable::add(['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time, 'AUTHOR_ID' => $user]);
+		foreach ($products as $product)
+		{
+			RecipeProductTable::add([
+				'RECIPE_ID' => $recipe->getId(),
+				'PRODUCT_ID' => $product[0],
+				'VALUE' => $product[1],
+				'MEASURE_ID' => $product[2]
+			]);
+		}
+		return $recipe->getId();
 	}
 
 	public static function showRecipeDetail(int $id)
@@ -37,13 +47,32 @@ class RecipeRepository
 		return $products->fetchAll();
 	}
 
-	public static function getProducts()
+	public static function getMeasures()
 	{
-		$products = ProductsTable::getList([
+		$measures = MeasuresTable::getList([
 			'select' =>
-				['NAME'],
+				['ID', 'TITLE'],
+		]);
+		return $measures->fetchAll();
+	}
+
+	/*public static function getProductsMeasures(int $id)
+	{
+		$products = RecipeProductTable::getList([
+			'select' =>
+				['*', 'TITLE' => 'PRODUCT.NAME', 'MEASURE_NAME' => 'MEASURE.TITLE'],
+			'filter' =>
+				['=RECIPE_ID' => $id]
 		]);
 		return $products->fetchAll();
+	}*/
+
+	public static function getProducts():array
+	{
+		return ProductsTable::getList([
+			'select'=>
+				['ID', 'NAME', 'CATEGORY_NAME' => 'CATEGORY.TITLE'],
+		])->fetchAll();
 	}
 
 	public static function deleteRecipe(int $id): void
