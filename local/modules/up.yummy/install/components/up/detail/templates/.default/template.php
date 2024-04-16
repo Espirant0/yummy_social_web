@@ -93,7 +93,9 @@ $recipe=$arResult['RECIPE'];
 					</div>
 				</div>
 				<?php if($recipe['AUTHOR_ID']==$arResult['AUTHOR_ID']):?>
+                    <form action="/update/<?=$recipe['ID']?>/" method="get">
 					<button class="button is-warning">Изменить рецепт</button>
+                    </form>
 				<?php endif;?>
 			</div>
 		</div>
