@@ -1,6 +1,8 @@
 <?php
 
+use Up\Yummy\Model\ImagesTable;
 use Up\Yummy\Model\RecipesTable;
+use Up\Yummy\Repository\ImageRepository;
 use Up\Yummy\Service\ValidationService;
 
 class TaskDocComponent extends CBitrixComponent
@@ -22,8 +24,16 @@ class TaskDocComponent extends CBitrixComponent
 					$title = ValidationService::validateString(request()['NAME'], 50);
 					$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
 					$time = ValidationService::validatePositiveInteger(request()['TIME']);
-					RecipesTable::update($id,['TITLE'=>$title,'DESCRIPTION'=>$description,'TIME'=>$time]);
-					LocalRedirect("/detail/{$id}/");
+					if(isset($title)&&isset($description)&&isset($time))
+					{
+						RecipesTable::update($id, ['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time]);
+						ImageRepository::updateRecipeImage($id);
+						LocalRedirect("/detail/{$id}/");
+					}
+					else
+					{
+						LocalRedirect("/404/");
+					}
 				}
 				else
 				{

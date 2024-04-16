@@ -5,7 +5,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
-	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+	Bitrix\Main\ORM\Fields\Validators\LengthValidator,
+	Bitrix\Main\ORM\Data\Internal\UpdateByFilterTrait;
 
 Loc::loadMessages(__FILE__);
 

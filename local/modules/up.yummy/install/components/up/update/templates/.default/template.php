@@ -24,7 +24,7 @@ $recipe=$arResult['RECIPE'];
 				<div class="field-body">
 					<div class="field">
 						<div class="control">
-							<textarea class="textarea" name= "DESCRIPTION" ><?=$recipe['DESCRIPTION']?></textarea>
+							<textarea class="textarea" required name= "DESCRIPTION" ><?=$recipe['DESCRIPTION']?></textarea>
 						</div>
 					</div>
 				</div>

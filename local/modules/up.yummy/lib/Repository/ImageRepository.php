@@ -36,4 +36,20 @@ class ImageRepository
 		}
 		return null;
 	}
+	public static function updateRecipeImage($recipeID):void
+	{
+		if($_FILES['IMAGES']['name']!=="")
+		{
+			$imageID=self::validateImage();
+			$id=ImagesTable::query()->setSelect(['ID'])->setFilter(['IS_COVER'=>1,'RECIPE_ID'=>$recipeID])->fetch()['ID'];
+			if(isset($id))
+			{
+				ImagesTable::update($id,['PATH'=>$imageID]);
+			}
+			else
+			{
+				ImagesTable::add(['PATH' => $imageID, 'RECIPE_ID' => $recipeID, 'IS_COVER' => 1]);
+			}
+		}
+	}
 }

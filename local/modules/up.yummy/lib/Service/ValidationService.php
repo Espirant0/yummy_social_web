@@ -27,7 +27,7 @@ class ValidationService
 	}
 	public static function validateString($string,int $stringLength):mixed
 	{
-		if(!is_string($string))
+		if(!is_string($string)|| $string === '')
 		{
 			return null;
 		}
