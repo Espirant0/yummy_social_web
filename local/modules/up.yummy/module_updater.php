@@ -26,10 +26,25 @@ function __yummyMigrate(int $nextVersion, callable $callback): void
 }
 
 
-/*__yummyMigrate(45, function ($updater, $DB) {
+__yummyMigrate(55, function ($updater, $DB) {
 	if ($updater->CanUpdateDatabase())
 	{
-		$DB->query("alter table up_final_recipes
-    add IS_PUBLIC TINYINT default 0 not null;");
+		$DB->query("CREATE TABLE IF NOT EXISTS `up_final_likes` (
+  `USER_ID` int,
+  `RECIPE_ID` int
+);");
 	}
-});*/
+});
+
+__yummyMigrate(56, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("CREATE TABLE IF NOT EXISTS `up_final_instruction` (
+   `RECIPE_ID` int,
+   `STEP` int,
+   `DESCRIPTION` text,
+   `IMAGE_ID` int
+);");
+	}
+});
+

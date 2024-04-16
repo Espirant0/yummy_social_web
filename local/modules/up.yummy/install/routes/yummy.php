@@ -11,6 +11,7 @@ return function (RoutingConfigurator $routes) {
 	$routes->post('/detail/{id}/', new PublicPageController('/local/modules/up.yummy/views/detail.php'));
 	$routes->post('/delete/', new PublicPageController('/local/modules/up.yummy/views/delete.php'));
 	$routes->post('/featured/', new PublicPageController('/local/modules/up.yummy/views/featured.php'));
+	$routes->post('/like/', new PublicPageController('/local/modules/up.yummy/views/like.php'));
 	$routes->get('/404/', new PublicPageController('/local/modules/up.yummy/views/404.php'));
 	$routes->post('/add/', new PublicPageController('/local/modules/up.yummy/views/add.php'));
 	$routes->get('/update/{id}/', new PublicPageController('/local/modules/up.yummy/views/update.php'));

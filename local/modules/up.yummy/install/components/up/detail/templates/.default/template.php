@@ -17,24 +17,34 @@ $recipe=$arResult['RECIPE'];
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">
-				<a href="" class="author_link">
-					<div class="author_image"> ЛК</div>
+				<a href="/?apply_filter=Y&AUTHOR_ID=<?=$recipe['AUTHOR_ID']?>" class="author_link">
+					<div class="author_image"> ЛК </div>
 				</a>
 				<div class="likes_container">
-					<p class="likes">6456 ❤</p>
+					<p class="likes"><?=$arResult['LIKES_COUNT']?> ❤</p>
 				</div>
 				<?php if(!$arResult['FEATURED']): ?>
 					<form class="featured" action="/featured/" method="post">
-						<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
-						<button class="button is-success">В избранное</button>
+						<input type="hidden" name="recipeId" value="<?=$recipe['ID']?>">
+						<button class="button is-success ">В избранное</button>
 					</form>
 				<?php else:?>
 					<form action="/featured/" method="post">
-						<input type="hidden" name="recipeId" value="<?=$recipe['id']?>">
+						<input type="hidden" name="recipeId" value="<?=$recipe['ID']?>">
 						<button class="button is-danger">Убрать из избранного</button>
 					</form>
 				<?php endif;?>
-				<button class="button is-success">Лайк</button>
+				<?php if(!$arResult['LIKED']): ?>
+				<form class="like" action="/like/" method="post">
+					<input type="hidden" name="recipeId" value="<?=$recipe['ID']?>">
+					<button class="button is-success">Лайк</button>
+				</form>
+				<?php else:?>
+					<form action="/like/" method="post">
+						<input type="hidden" name="recipeId" value="<?=$recipe['ID']?>">
+						<button class="button is-danger">Лайк</button>
+					</form>
+				<?php endif;?>
 			</div>
 			<p class="title">Ингредиенты</p><br>
 			<div class="column is-half is-offset-one-quarter products">

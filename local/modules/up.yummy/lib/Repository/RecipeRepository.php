@@ -5,6 +5,7 @@ namespace Up\Yummy\Repository;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\ORM\Query\Query;
 use Up\Yummy\Model\FeaturedTable;
+use Up\Yummy\Model\LikesTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
 use Up\Yummy\Model\RecipesTable;
@@ -68,10 +69,25 @@ class RecipeRepository
 			'USER_ID' => $authorId,
 		]);
 	}
+	public static function likeRecipe(int $authorId, int $recipeId): void
+	{
+		LikesTable::add([
+			'RECIPE_ID' => $recipeId,
+			'USER_ID' => $authorId,
+		]);
+	}
 
 	public static function deleteRecipeFromFeatured(int $userId, int $recipeId): void
 	{
 		FeaturedTable::deleteByFilter([
+			'=RECIPE_ID' => $recipeId,
+			'=USER_ID' => $userId,
+		]);
+	}
+
+	public static function unlikeRecipe(int $userId, int $recipeId): void
+	{
+		LikesTable::deleteByFilter([
 			'=RECIPE_ID' => $recipeId,
 			'=USER_ID' => $userId,
 		]);
@@ -99,6 +115,23 @@ class RecipeRepository
 		return false;
 	}
 
+	public static function isRecipeLiked(int $userId, int $recipeId): bool
+	{
+		$likedRow = LikesTable::getByPrimary([
+			'RECIPE_ID' => $recipeId,
+			'USER_ID' => $userId,])->fetchObject();
+		if ($likedRow !== null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static function likesCount(int $recipeId):int
+	{
+		return LikesTable::getCount(['=RECIPE_ID' => $recipeId]);
+	}
+
 	public static function updateRecipe()
 	{
 		return null;
@@ -114,6 +147,19 @@ class RecipeRepository
 		{
 			$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
 			if ($filter['FEATURED'] === 'Y')
+			{
+				$recipes->whereIn('ID', $recipeIds);
+			}
+			else
+			{
+				$recipes->whereNotIn('ID', $recipeIds);
+			}
+		}
+
+		if (isset($filter['LIKED']))
+		{
+			$recipeIds = LikesTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
+			if ($filter['LIKED'] === 'Y')
 			{
 				$recipes->whereIn('ID', $recipeIds);
 			}
@@ -167,6 +213,53 @@ class RecipeRepository
 			}
 		}
 
+		if (isset($filter['FATS']) or isset($filter['FATS_to']))
+		{
+			if ($filter['FATS_from'] === '')
+			{
+				$recipes->addFilter('<FATS', $filter['FATS_to']);
+			}
+			elseif ($filter['FATS_to'] === '')
+			{
+				$recipes->addFilter('>FATS', $filter['FATS_from']);
+			}
+			else
+			{
+				$recipes->addFilter('><FATS', [$filter['FATS_from'], $filter['FATS_to']]);
+			}
+		}
+		if (isset($filter['CARBS']) or isset($filter['CARBS_to']))
+		{
+			if ($filter['CARBS_from'] === '')
+			{
+				$recipes->addFilter('<CARBS', $filter['CARBS_to']);
+			}
+			elseif ($filter['CARBS_to'] === '')
+			{
+				$recipes->addFilter('>CARBS', $filter['CARBS_from']);
+			}
+			else
+			{
+				$recipes->addFilter('><CARBS', [$filter['CARBS_from'], $filter['CARBS_to']]);
+			}
+		}
+
+		if (isset($filter['PROTEINS']) or isset($filter['PROTEINS_to']))
+		{
+			if ($filter['PROTEINS_from'] === '')
+			{
+				$recipes->addFilter('<PROTEINS', $filter['PROTEINS_to']);
+			}
+			elseif ($filter['PROTEINS_to'] === '')
+			{
+				$recipes->addFilter('>PROTEINS', $filter['PROTEINS_from']);
+			}
+			else
+			{
+				$recipes->addFilter('><PROTEINS', [$filter['PROTEINS_from'], $filter['PROTEINS_to']]);
+			}
+		}
+
 		if (isset($filter['MY_RECIPES']))
 		{
 			if ($filter['MY_RECIPES'] === 'Y')
@@ -198,15 +291,15 @@ class RecipeRepository
 		$recipes = $recipes->fetchAll();
 		foreach ($recipes as &$recipe)
 		{
-			$recipe['IMAGE'] = \Up\Yummy\Repository\ImageRepository::getRecipeCover($recipe['ID']);
+			$recipe['IMAGE'] = ImageRepository::getRecipeCover($recipe['ID']);
 			if (!isset($recipe['IMAGE']))
 			{
 				$recipe['IMAGE'] = null;
 			}
 			$recipe = ValidationService::protectRecipeOutput($recipe);
+			$recipe['LIKES_COUNT'] = self::likesCount($recipe['ID']);
 		}
 		return $recipes;
-		//return $recipes->fetchAll();
 	}
 
 	public static function getRecipeStats(int $recipeid)
@@ -232,8 +325,6 @@ class RecipeRepository
 			$stats['CARBS'] += $product['CARBS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
 		}
 		var_dump($stats);
-
-
 	}
 
 	public static function getDailyRecipe(): string
@@ -243,5 +334,4 @@ class RecipeRepository
 		$recipe = htmlspecialcharsEx($recipe);
 		return $recipe;
 	}
-
 }

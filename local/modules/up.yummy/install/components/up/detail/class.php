@@ -12,13 +12,14 @@ class DetailComponent extends CBitrixComponent
 		$recipeId = request()['id'];
 		if(ValidationService::validateRecipeId($recipeId))
 		{
+			$this->arResult['LIKES_COUNT'] = RecipeRepository::likesCount($recipeId);
+			$this->arResult['LIKED'] = RecipeRepository::isRecipeLiked($userId, $recipeId);
 			$this->arResult['FEATURED'] = RecipeRepository::isRecipeInFeatured($userId, $recipeId);
 			$this->arResult['AUTHOR_ID'] = $userId;
 			$this->arResult['RECIPE'] = RecipeRepository::showRecipeDetail($recipeId);
 			$this->arResult['PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
 			$this->prepareTemplateParams();
 			$this->includeComponentTemplate();
-
 		}
 		else
 		{
