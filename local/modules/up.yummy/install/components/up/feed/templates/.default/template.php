@@ -4,8 +4,7 @@
  * @var array $arResult
  */
 
-use Bitrix\Main\ORM\Query\Query;
-
+$dailyRecipe = $arResult['DAILY_RECIPE'];
 ?>
 
 <div class="content">
@@ -68,14 +67,18 @@ use Bitrix\Main\ORM\Query\Query;
 					<button class="button is-success">Добавить рецепт</button>
 				</form>
 				<p class="title is-4 has-text-centered">Рецепт дня</p>
-				<a href="/detail/<?=$arResult['DAILY_RECIPE_ID']?>/">
+				<a href="/detail/<?=$dailyRecipe['ID']?>/">
 					<div class="card">
 						<img
-							src="https://bulma.io/assets/images/placeholders/1280x960.png"
-							alt="Placeholder image"
+							<?php if (isset($dailyRecipe['IMAGE'])):?>
+								src="<?=$dailyRecipe['IMAGE']?>"
+							<?php else:?>
+								src="<?=$arParams['IMAGE']?>"
+							<?php endif?>
+							alt="https://bulma.io/assets/images/placeholders/1280x960.png"
 						/>
 						<div class="card-content">
-							<p class="title is-4"><?=$arResult['DAILY_RECIPE']?></p>
+							<p class="title is-4"><?=$dailyRecipe['TITLE']?></p>
 						</div>
 					</div>
 				</a>

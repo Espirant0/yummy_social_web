@@ -59,7 +59,6 @@ class FeedComponent extends CBitrixComponent
 		$page = PaginationService::validateOffset(request()['page']);
 		$this->arResult['RECIPES'] = RecipeRepository::getRecipeFeed($page, $filter);
 		$this->arResult['PAGES']  = PaginationService::getPages($page, $this->arResult['RECIPES']);
-		$this->arResult['DAILY_RECIPE_ID'] = Option::get("up.yummy", "dailyRecipeId", 1);
 		$this->arResult['DAILY_RECIPE'] = RecipeRepository::getDailyRecipe();
 
 		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize) {

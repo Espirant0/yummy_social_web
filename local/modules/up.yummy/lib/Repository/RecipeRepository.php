@@ -23,8 +23,7 @@ class RecipeRepository
 	{
 		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetch();
 		$recipe['IMAGE'] = ImageRepository::getRecipeCover($recipe['ID']);
-		$recipe = ValidationService::protectRecipeOutput($recipe);
-		return $recipe;
+		return ValidationService::protectRecipeOutput($recipe);
 	}
 
 	public static function getRecipeProducts(int $id)
@@ -327,11 +326,11 @@ class RecipeRepository
 		var_dump($stats);
 	}
 
-	public static function getDailyRecipe(): string
+	public static function getDailyRecipe(): array
 	{
 		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId", 1);
-		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch()['TITLE'];
-		$recipe = htmlspecialcharsEx($recipe);
+		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch();
+		$recipe['IMAGE'] = ImageRepository::getRecipeCover($dailyRecipeId);
 		return $recipe;
 	}
 }
