@@ -40,7 +40,7 @@ use Bitrix\Main\ORM\Query\Query;
 							<div class="media-content">
 								<div class="title_line">
 									<p class="title is-4 "><?=$recipe['TITLE']?></p>
-									<p class="likes">6456 ❤</p>
+									<p class="likes"><?=$recipe['LIKES_COUNT']?> ❤</p>
 								</div>
 								<p class="subtitle is-6"><?=$recipe['DESCRIPTION']?>...</p>
 							</div>

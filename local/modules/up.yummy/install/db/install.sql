@@ -67,6 +67,18 @@ CREATE TABLE IF NOT EXISTS `up_final_product_measures` (
   PRODUCT_ID int  ,
   MEASURE_ID int
 );
+
+CREATE TABLE IF NOT EXISTS `up_final_likes` (
+  `USER_ID` int,
+  `RECIPE_ID` int
+);
+CREATE TABLE IF NOT EXISTS `up_final_instruction` (
+   `RECIPE_ID` int,
+   `STEP` int,
+   `DESCRIPTION` text,
+   `IMAGE_ID` int
+);
+
 INSERT INTO up_final_categories(TITLE)
 VALUES
     ('Мясо'),

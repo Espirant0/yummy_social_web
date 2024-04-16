@@ -22,7 +22,8 @@ class FeedComponent extends CBitrixComponent
 						[
 							'id' => 'user',
 							'options' => [
-								'inviteEmployeeLink' => false
+								'inviteEmployeeLink' => false,
+								'all-users'=> true,
 							],
 						],
 					]
@@ -36,14 +37,19 @@ class FeedComponent extends CBitrixComponent
 			['id' => 'TITLE', 'name' => 'Название', 'type' => 'text', 'default' => true],
 			['id' => 'TIME', 'name' => 'Время приготовления', 'type' => 'number', 'default' => false],
 			['id' => 'CALORIES', 'name' => 'Калории', 'type' => 'number', 'default' => false],
+			['id' => 'FATS', 'name' => 'Жиры', 'type' => 'number', 'default' => false],
+			['id' => 'CARBS', 'name' => 'Углеводы', 'type' => 'number', 'default' => false],
+			['id' => 'PROTEINS', 'name' => 'Белки', 'type' => 'number', 'default' => false],
 			['id' => 'PRODUCTS', 'name' => 'Продукты', 'type' => 'list',
 				'params' => ['multiple' => 'Y', 'tabs' =>
 					[ 'id' => 'my-tab', 'title' => 'Моя вкладка' ],
 				],
 				'items' => $products,
-				'default' => false],
+				'default' => false
+			],
 			['id' => 'MY_RECIPES', 'name' => 'Мои рецепты', 'type' => 'checkbox', 'default' => false],
 			['id' => 'FEATURED', 'name' => 'Избранное', 'type' => 'checkbox', 'default' => false],
+			['id' => 'LIKED', 'name' => 'Понравилось мне', 'type' => 'checkbox', 'default' => false],
 			$user,
 		];
 

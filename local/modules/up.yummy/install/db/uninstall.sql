@@ -8,3 +8,5 @@ DROP TABLE IF EXISTS `up_final_planner`;
 DROP TABLE IF EXISTS `up_final_course`;
 DROP TABLE IF EXISTS `up_final_featured`;
 DROP TABLE IF EXISTS `up_final_product_measures`;
+DROP TABLE IF EXISTS `up_final_likes`;
+DROP TABLE IF EXISTS `up_final_instruction`;
