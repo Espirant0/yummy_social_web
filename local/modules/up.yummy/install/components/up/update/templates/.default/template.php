@@ -5,6 +5,7 @@
  * @var $arResult
  *
  */
+$arraySize=$arResult['SIZE'];
 $recipe=$arResult['RECIPE'];
 ?>
 <div class="content">
@@ -38,6 +39,19 @@ $recipe=$arResult['RECIPE'];
 					</div>
 				</div>
 			</div>
+            <div id="step_container">
+                <?php foreach($arResult['STEPS'] as $step):?>
+                <textarea name = "STEPS[]" id="textarea-<?=$step['STEP']?>">
+                    <?=$step['DESCRIPTION']?>
+                </textarea>
+                <?php endforeach;?>
+            </div>
+            <div class="step_btn">
+                <button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг</button>
+            </div>
+            <div class="step_btn">
+                <button class="button is-primary is-expanded" type="button" onClick="deleteStep()">Удалить шаг</button>
+            </div>
 			<label for="IMAGES">Фото рецепта</label>
 			<div class="field is-horizontal">
 				<div class="field-body">
@@ -112,4 +126,26 @@ $recipe=$arResult['RECIPE'];
 	</script
 </div>
 
+<script>
+    var textareaCount=<?=$arraySize?>;
+    const stepContainer=document.getElementById("step_container")
+    function createStep()
+    {
+        if(textareaCount<10)
+        {
+            const textarea = document.createElement('textarea');
+            //textarea.setAttribute('name', 'textarea-' + textareaCount);
+            textarea.name = `STEPS[]`
+            textareaCount++;
+            textarea.id = `textarea-${textareaCount}`
+            stepContainer.appendChild(textarea);
+        }
 
+    }
+    function deleteStep()
+    {
+        const element = document.getElementById(`textarea-${textareaCount}`);
+        element.remove();
+        textareaCount--;
+    }
+</script>

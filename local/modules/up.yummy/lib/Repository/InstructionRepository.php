@@ -16,8 +16,9 @@ class InstructionRepository
 		$recipes=InstructionTable::query()->setSelect(['STEP','DESCRIPTION'])->setFilter(['RECIPE_ID'=>$recipeId])->fetchAll();
 		return $recipes;
 	}
-	public static function updateSteps(int $recipeId):void
+	public static function updateSteps(int $recipeId,array $steps):void
 	{
-
+		InstructionTable::deleteByFilter(['=RECIPE_ID'=>$recipeId]);
+		self::insertSteps($recipeId,$steps);
 	}
 }

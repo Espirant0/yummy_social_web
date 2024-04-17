@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
 use Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
@@ -26,6 +27,7 @@ Loc::loadMessages(__FILE__);
 
 class InstructionTable extends DataManager
 {
+	use DeleteByFilterTrait;
 	/**
 	 * Returns DB table name for entity.
 	 *
