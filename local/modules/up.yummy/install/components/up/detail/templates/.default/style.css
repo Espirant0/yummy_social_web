@@ -65,9 +65,10 @@
 .feed-post-more-text{
 	display:none;
 }
-.feed-com-informers-bottom, .feed-com-text-inner-inner{
+.feed-com-informers-bottom, .feed-com-text-inner-inner, .feed-com-user-box{
 	display: flex !important;
 	justify-content: left !important;
+	text-align: left;
 }
 /*
 .workarea-content{
