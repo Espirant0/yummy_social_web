@@ -60,6 +60,11 @@ $measures = json_encode($arResult['MEASURES']);
 					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить продукт</button>
 				</div>
 			</div>
+            <div id="step_container">
+                <div class="step_btn">
+                    <button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг</button>
+                </div>
+            </div>
 			<!--<input type="hidden" name="test1" value=""/>
 			<div id="test1" name="test1"></div>-->
 			<div class="field is-horizontal">
@@ -97,6 +102,8 @@ $measures = json_encode($arResult['MEASURES']);
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$measures;?>');
 	const body = document.getElementById("container");
+    const stepContainer=document.getElementById("step_container")
+    let textareaCount = 1;
 
 	function createSelect() {
 		const select = document.createElement("select");
@@ -140,4 +147,14 @@ $measures = json_encode($arResult['MEASURES']);
 			measure_select.add(option);
 		}
 	}
+    function createStep()
+    {
+        const textarea = document.createElement('textarea');
+        //textarea.setAttribute('name', 'textarea-' + textareaCount);
+        textarea.name = `STEPS[]`
+        textarea.id=`textarea-${textareaCount}`
+        textareaCount++;
+        stepContainer.appendChild(textarea);
+
+    }
 </script>

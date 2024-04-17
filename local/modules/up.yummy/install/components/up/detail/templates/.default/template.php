@@ -117,9 +117,12 @@ $recipe = $arResult['RECIPE'];
 			<?= $recipe['DESCRIPTION'] ?>
 		</div>
 		<div class="container instruction">
+			<?php foreach($arResult['STEPS']as $step):?>
 			<div class="notification is-primary">
-				Пошаговая инструкция
+                <div>Шаг номер <?=$step['STEP']?></div>
+				<?=$step['DESCRIPTION']?>
 			</div>
+            <?php endforeach;?>
 		</div>
 		<div class="container notification">
 			<div class="notification column is-half is-offset-one-quarter">

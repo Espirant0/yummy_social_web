@@ -1,5 +1,6 @@
 <?php
 
+use Up\Yummy\Repository\InstructionRepository;
 use Up\Yummy\Repository\RecipeRepository;
 use Up\Yummy\Service\ValidationService;
 
@@ -18,6 +19,7 @@ class DetailComponent extends CBitrixComponent
 			$this->arResult['AUTHOR_ID'] = $userId;
 			$this->arResult['RECIPE'] = RecipeRepository::showRecipeDetail($recipeId);
 			$this->arResult['PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
+			$this->arResult['STEPS']=InstructionRepository::getSteps($recipeId);
 			$this->prepareTemplateParams();
 			$this->includeComponentTemplate();
 		}
