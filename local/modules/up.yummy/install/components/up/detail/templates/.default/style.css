@@ -62,6 +62,13 @@
 .main-ui-filter-search{
 	border: 1px solid black !important;
 }
+.feed-post-more-text{
+	display:none;
+}
+.feed-com-informers-bottom, .feed-com-text-inner-inner{
+	display: flex !important;
+	justify-content: left !important;
+}
 /*
 .workarea-content{
 	background-color: transparent !important;
