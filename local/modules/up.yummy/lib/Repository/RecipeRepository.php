@@ -354,6 +354,42 @@ class RecipeRepository
 		}
 		var_dump($stats);
 	}
+	public static function insertRecipeStats(int $recipeId,array $productStats):void
+	{
+		$stats = ['CALORIES' => 0, 'PROTEINS' => 0, 'CARBS' => 0, 'FATS' => 0];
+		foreach ($productStats as $productStat)
+		{
+
+			$product=ProductsTable::getByPrimary($productStat[0])->fetch();
+			$measure=MeasuresTable::getByPrimary($productStat[2])->fetch();
+			if($measure['ID']==7)
+			{
+				$calories=$product['CALORIES']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
+				$proteins=$product['PROTEINS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
+				$carbs=$product['CARBS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
+				$fats=$product['FATS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
+			}
+			else
+			{
+				$calories=$product['CALORIES']*$productStat[1]*$measure['COEFFICIENT']/100;
+				$proteins=$product['PROTEINS']*$productStat[1]*$measure['COEFFICIENT']/100;
+				$carbs=$product['CARBS']*$productStat[1]*$measure['COEFFICIENT']/100;
+				$fats=$product['FATS']*$productStat[1]*$measure['COEFFICIENT']/100;
+			}
+			$stats['CALORIES']+=$calories;
+			$stats['PROTEINS']+=$proteins;
+			$stats['CARBS']+=$carbs;
+			$stats['FATS']+=$fats;
+
+		}
+		RecipesTable::update($recipeId,
+		[
+			'CALORIES'=>$stats['CALORIES'],
+			'PROTEINS'=>$stats['PROTEINS'],
+			'CARBS'=>$stats['CARBS'],
+			'FATS'=>$stats['FATS'],
+		]);
+	}
 
 	public static function getDailyRecipe(): array
 	{
