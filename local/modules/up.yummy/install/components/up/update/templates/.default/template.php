@@ -41,8 +41,7 @@ $recipe=$arResult['RECIPE'];
 			</div>
             <div id="step_container">
                 <?php foreach($arResult['STEPS'] as $step):?>
-                <textarea name = "STEPS[]" id="textarea-<?=$step['STEP']?>">
-                    <?=$step['DESCRIPTION']?>
+                <textarea class="textarea" name = "STEPS[]" id="textarea-<?=$step['STEP']?>" placeholder="Описание шага"><?=$step['DESCRIPTION']?>
                 </textarea>
                 <?php endforeach;?>
             </div>
@@ -79,51 +78,6 @@ $recipe=$arResult['RECIPE'];
 			</div>
 		</form>
 	</div>
-
-	<script>
-		(function() { const tagSelector = new BX.UI.EntitySelector.TagSelector({
-			textBoxAutoHide: true,
-			textBoxWidth: 350,
-			maxHeight: 99,
-			placeholder: 'введите название элемента',
-			addButtonCaption: 'Добавить элемент',
-			addButtonCaptionMore: 'Добавить еще',
-			showCreateButton: true,
-			items: [
-				{ id: 1, entityId: 'products', textColor: 'orange', title: 'Василий Иванов' },
-			],
-			events: {
-				onBeforeTagAdd: function(event) {
-					const selector = event.getTarget();
-					const { tag } = event.getData();
-					if (tag.getTitle() === 'xxx')
-					{
-						event.preventDefault();
-					}
-				},
-				onBeforeTagRemove: function(event) {
-					const selector = event.getTarget();
-					const { tag } = event.getData();
-					if (tag.getTitle() === 'aaa')
-					{
-						event.preventDefault();
-					}
-				},
-				onEnter: (event) => {
-					const selector = event.getTarget();
-					const value = selector.getTextBoxValue();
-					value.split(' ').forEach(function(title) {
-						selector.addTag({
-							id: id++,
-							title: title,
-							entityId: 'xxx',
-						});
-					});
-				}
-			},
-		});
-			tagSelector.renderTo(document.getElementById('test1'))})();
-	</script
 </div>
 
 <script>
@@ -134,8 +88,8 @@ $recipe=$arResult['RECIPE'];
         if(textareaCount<10)
         {
             const textarea = document.createElement('textarea');
-            //textarea.setAttribute('name', 'textarea-' + textareaCount);
-            textarea.name = `STEPS[]`
+            textarea.name = `STEPS[]`;
+			textarea.className = `textarea`;
             textareaCount++;
             textarea.id = `textarea-${textareaCount}`
             stepContainer.appendChild(textarea);

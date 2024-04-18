@@ -7,6 +7,6 @@
 .add_form{
 	margin-top: 50px;
 }
-.input, .textarea{
+.input::placeholder, .textarea::placeholder{
 	text-align: center;
 }
