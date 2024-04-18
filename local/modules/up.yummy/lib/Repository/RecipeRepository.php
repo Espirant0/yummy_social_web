@@ -213,15 +213,15 @@ class RecipeRepository
 		{
 			if ($filter['TIME_from'] === '')
 			{
-				$recipes->addFilter('<TIME', $filter['TIME_to']);
+				$recipes->addFilter('<TIME', round($filter['TIME_to']));
 			}
 			elseif ($filter['TIME_to'] === '')
 			{
-				$recipes->addFilter('>TIME', $filter['TIME_from']);
+				$recipes->addFilter('>TIME', round($filter['TIME_from']));
 			}
 			else
 			{
-				$recipes->addFilter('><TIME', [$filter['TIME_from'], $filter['TIME_to']]);
+				$recipes->addFilter('><TIME', [round($filter['TIME_from']), round($filter['TIME_to'])]);
 			}
 		}
 
@@ -229,15 +229,15 @@ class RecipeRepository
 		{
 			if ($filter['CALORIES_from'] === '')
 			{
-				$recipes->addFilter('<CALORIES', $filter['CALORIES_to']);
+				$recipes->addFilter('<CALORIES', round($filter['CALORIES_to']));
 			}
 			elseif ($filter['CALORIES_to'] === '')
 			{
-				$recipes->addFilter('>CALORIES', $filter['CALORIES_from']);
+				$recipes->addFilter('>CALORIES', round($filter['CALORIES_from']));
 			}
 			else
 			{
-				$recipes->addFilter('><CALORIES', [$filter['CALORIES_from'], $filter['CALORIES_to']]);
+				$recipes->addFilter('><CALORIES', [round($filter['CALORIES_from']), round($filter['CALORIES_to'])]);
 			}
 		}
 
@@ -245,30 +245,30 @@ class RecipeRepository
 		{
 			if ($filter['FATS_from'] === '')
 			{
-				$recipes->addFilter('<FATS', $filter['FATS_to']);
+				$recipes->addFilter('<FATS', round($filter['FATS_to']));
 			}
 			elseif ($filter['FATS_to'] === '')
 			{
-				$recipes->addFilter('>FATS', $filter['FATS_from']);
+				$recipes->addFilter('>FATS', round($filter['FATS_from']));
 			}
 			else
 			{
-				$recipes->addFilter('><FATS', [$filter['FATS_from'], $filter['FATS_to']]);
+				$recipes->addFilter('><FATS', [round($filter['FATS_from']), round($filter['FATS_to'])]);
 			}
 		}
 		if (isset($filter['CARBS']) or isset($filter['CARBS_to']))
 		{
 			if ($filter['CARBS_from'] === '')
 			{
-				$recipes->addFilter('<CARBS', $filter['CARBS_to']);
+				$recipes->addFilter('<CARBS', round($filter['CARBS_to']));
 			}
 			elseif ($filter['CARBS_to'] === '')
 			{
-				$recipes->addFilter('>CARBS', $filter['CARBS_from']);
+				$recipes->addFilter('>CARBS', round($filter['CARBS_from']));
 			}
 			else
 			{
-				$recipes->addFilter('><CARBS', [$filter['CARBS_from'], $filter['CARBS_to']]);
+				$recipes->addFilter('><CARBS', [round($filter['CARBS_from']), round($filter['CARBS_to'])]);
 			}
 		}
 
@@ -276,15 +276,15 @@ class RecipeRepository
 		{
 			if ($filter['PROTEINS_from'] === '')
 			{
-				$recipes->addFilter('<PROTEINS', $filter['PROTEINS_to']);
+				$recipes->addFilter('<PROTEINS', round($filter['PROTEINS_to']));
 			}
 			elseif ($filter['PROTEINS_to'] === '')
 			{
-				$recipes->addFilter('>PROTEINS', $filter['PROTEINS_from']);
+				$recipes->addFilter('>PROTEINS', round($filter['PROTEINS_from']));
 			}
 			else
 			{
-				$recipes->addFilter('><PROTEINS', [$filter['PROTEINS_from'], $filter['PROTEINS_to']]);
+				$recipes->addFilter('><PROTEINS', [round($filter['PROTEINS_from']), round($filter['PROTEINS_to'])]);
 			}
 		}
 
