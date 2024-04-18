@@ -4,6 +4,8 @@
  * @var array $arResult
  */
 
+use Up\Yummy\Service\TemplateService;
+
 $dailyRecipe = $arResult['DAILY_RECIPE'];
 ?>
 
@@ -41,7 +43,7 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 									<p class="title is-4 "><?=$recipe['TITLE']?></p>
 									<p class="likes"><?=$recipe['LIKES_COUNT']?> ❤</p>
 								</div>
-								<p class="subtitle is-6"><?=$recipe['DESCRIPTION']?>...</p>
+								<p class="subtitle is-6"><?=TemplateService::truncate($recipe['DESCRIPTION'], 50)?></p>
 							</div>
 						</div>
 						<div class="content">
