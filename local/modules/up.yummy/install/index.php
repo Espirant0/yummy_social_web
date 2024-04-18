@@ -32,7 +32,17 @@ class up_yummy extends CModule
 	public function installDB(): void
 	{
 		global $DB;
-		CAgent::AddAgent('Up\Yummy\Agents\RecipeAgent::getDailyRecipe();', "up.yummy", "N", 86400);
+		$nextStart = new DateTime('tomorrow');
+		$nextStart = $nextStart->format('d.m.Y H:i:s');
+		CAgent::AddAgent(
+			'Up\Yummy\Agents\RecipeAgent::getDailyRecipe();',
+			"up.yummy",
+			"N",
+			86400,
+			"$nextStart",
+			"Y",
+			"$nextStart"
+		);
 		$DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/db/install.sql');
 
 		ModuleManager::registerModule($this->MODULE_ID);
@@ -156,12 +166,6 @@ class up_yummy extends CModule
 				'TEXT' => 'Планировщик',
 				'LINK' => '/planner/',
 				'ID' => 'plannerId',
-				'NEW_PAGE' => 'Y',
-			),
-			array(
-				'TEXT' => 'Детальная',
-				'LINK' => '/detail/1/',
-				'ID' => 'detailId',
 				'NEW_PAGE' => 'Y',
 			),
 		);
