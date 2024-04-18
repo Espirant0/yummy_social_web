@@ -30,6 +30,7 @@ class AddComponent extends CBitrixComponent
 				break;
 			default:
 				$recipeId = RecipeRepository::addRecipe($title, $description, $time, $userId, $products);
+				RecipeRepository::insertRecipeStats($recipeId,$products);
 				InstructionRepository::insertSteps($recipeId,$steps);
 				$imageId = ImageRepository::validateImage();
 				if (isset($imageId))
