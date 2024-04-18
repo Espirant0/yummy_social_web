@@ -59,6 +59,9 @@ $measures = json_encode($arResult['MEASURES']);
 				<div class="product_btn">
 					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить продукт</button>
 				</div>
+				<div class="product_btn">
+					<button class="button is-primary is-expanded" type="button" onClick="deleteSelect()">Удалить продукт</button>
+				</div>
 			</div>
             <div id="step_container">
                 <div class="step_btn">
@@ -107,8 +110,10 @@ $measures = json_encode($arResult['MEASURES']);
 	const body = document.getElementById("container");
     const stepContainer=document.getElementById("step_container")
     let textareaCount = 0;
+	let selectCount = 0;
 
 	function createSelect() {
+		selectCount++;
 		const select = document.createElement("select");
 		const measure_select = document.createElement("select");
 		const input = document.createElement("input");
@@ -127,6 +132,7 @@ $measures = json_encode($arResult['MEASURES']);
 		select.className = `product_select`;
 		input.className = `input product_input`;
 		container.className = `select_container`
+		container.id = `container_${selectCount}`;
 		div.className = `select select_div`;
 		div2.className = `select select_div`;
 
@@ -149,6 +155,12 @@ $measures = json_encode($arResult['MEASURES']);
 			option.text = measures[i].TITLE;
 			measure_select.add(option);
 		}
+	}
+	function deleteSelect()
+	{
+		const element = document.getElementById(`container_${selectCount}`);
+		element.remove();
+		selectCount--;
 	}
     function createStep()
     {
