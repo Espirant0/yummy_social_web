@@ -169,7 +169,13 @@ class RecipeRepository
 	{
 		global $USER;
 		$userId = $USER->GetID();
-		$recipes = RecipesTable::query()->setSelect(['*'])->setOffset(3 * ($page - 1))->setLimit(4);
+		$recipes = RecipesTable::query()
+			->setSelect(['*'])
+			->setOffset(3 * ($page - 1))
+			->setLimit(4)
+			->setOrder( [
+				'ID' => 'DESC'
+			]);
 
 		if (isset($filter['FEATURED']))
 		{
@@ -384,10 +390,10 @@ class RecipeRepository
 		}
 		RecipesTable::update($recipeId,
 		[
-			'CALORIES'=>$stats['CALORIES'],
-			'PROTEINS'=>$stats['PROTEINS'],
-			'CARBS'=>$stats['CARBS'],
-			'FATS'=>$stats['FATS'],
+			'CALORIES'=>round($stats['CALORIES']),
+			'PROTEINS'=>round($stats['PROTEINS']),
+			'CARBS'=>round($stats['CARBS']),
+			'FATS'=>round($stats['FATS']),
 		]);
 	}
 
