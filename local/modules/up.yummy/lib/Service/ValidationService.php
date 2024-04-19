@@ -34,4 +34,12 @@ class ValidationService
 		$string=substr($string,0,$stringLength);
 		return $string;
 	}
+	public static function protectStepsOutput($steps)
+	{
+		foreach ($steps as &$step)
+		{
+			$step['DESCRIPTION']=htmlspecialcharsEx($step['DESCRIPTION']);
+		}
+		return $steps;
+	}
 }

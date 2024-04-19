@@ -1,6 +1,7 @@
 <?php
 namespace Up\Yummy\Repository;
 use Up\Yummy\Model\InstructionTable;
+use Up\Yummy\Service\ValidationService;
 
 class InstructionRepository
 {
@@ -14,6 +15,7 @@ class InstructionRepository
 	public static function getSteps(int $recipeId):array
 	{
 		$recipes=InstructionTable::query()->setSelect(['STEP','DESCRIPTION'])->setFilter(['RECIPE_ID'=>$recipeId])->fetchAll();
+		$recipes=ValidationService::protectStepsOutput($recipes);
 		return $recipes;
 	}
 	public static function updateSteps(int $recipeId,array $steps):void
