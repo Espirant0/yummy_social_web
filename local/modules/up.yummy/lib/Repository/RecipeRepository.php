@@ -404,4 +404,40 @@ class RecipeRepository
 		$recipe['IMAGE'] = ImageRepository::getRecipeCover($dailyRecipeId);
 		return $recipe;
 	}
+	public static function isRecipeDaily(int $recipeId):bool
+	{
+		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId");
+		if($dailyRecipeId !== $recipeId)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public static function updateDailyRecipe():void
+	{
+		$recipeId = null;
+		while ($recipeId === null) {
+			$max = RecipesTable::query()
+				->addSelect(Query::expr()->max("ID"), 'MAX')
+				->exec()->fetch();
+			$recipeId = random_int(1, $max['MAX']);
+			$recipeId = RecipesTable::getByPrimary($recipeId)->fetch()['ID'];
+		}
+		Option::set("up.yummy", "dailyRecipeId", $recipeId);
+	}
+
+	public static function updateProducts(int $recipeId, array $products):void
+	{
+		RecipeProductTable::deleteByFilter(['=RECIPE_ID'=>$recipeId]);
+		foreach ($products as $product)
+		{
+			RecipeProductTable::add([
+				'RECIPE_ID' => $recipeId,
+				'PRODUCT_ID' => $product[0],
+				'VALUE' => $product[1],
+				'MEASURE_ID' => $product[2]
+			]);
+		}
+	}
 }

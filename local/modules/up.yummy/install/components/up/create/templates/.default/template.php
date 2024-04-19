@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array $arParams;
+ * @var array $arParams ;
  * @var array $arResult
  */
 
@@ -36,7 +36,8 @@ $measures = json_encode($arResult['MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="text" pattern="[0-9]{,3}" placeholder="Время приготовления" required>
+							<input class="input" name="TIME" type="text" pattern="[0-9]{,3}"
+								   placeholder="Время приготовления" required>
 						</p>
 					</div>
 				</div>
@@ -57,20 +58,26 @@ $measures = json_encode($arResult['MEASURES']);
 
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить продукт</button>
+					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить
+						продукт
+					</button>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="deleteSelect()">Удалить продукт</button>
+					<button class="button is-primary is-expanded" type="button" onClick="deleteSelect()">Удалить
+						продукт
+					</button>
 				</div>
 			</div>
-            <div id="step_container">
-                <div class="step_btn">
-                    <button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг</button>
-                </div>
-                <div class="step_btn">
-                    <button class="button is-primary is-expanded" type="button" onClick="deleteStep()">Удалить шаг</button>
-                </div>
-            </div>
+			<div id="step_container">
+				<div class="step_btn">
+					<button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг
+					</button>
+				</div>
+				<div class="step_btn">
+					<button class="button is-primary is-expanded" type="button" onClick="deleteStep()">Удалить шаг
+					</button>
+				</div>
+			</div>
 			<!--<input type="hidden" name="test1" value=""/>
 			<div id="test1" name="test1"></div>-->
 			<div class="field is-horizontal">
@@ -108,8 +115,8 @@ $measures = json_encode($arResult['MEASURES']);
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$measures;?>');
 	const body = document.getElementById("container");
-    const stepContainer=document.getElementById("step_container")
-    let textareaCount = 0;
+	const stepContainer = document.getElementById("step_container")
+	let textareaCount = 0;
 	let selectCount = 0;
 
 	function createSelect() {
@@ -120,13 +127,14 @@ $measures = json_encode($arResult['MEASURES']);
 		const div = document.createElement("div");
 		const div2 = document.createElement("div");
 		const container = document.createElement("div");
-		select.id = `PRODUCT_${products.length}`;
+		select.id = `PRODUCT_${selectCount}`;
 		select.name = `PRODUCTS[]`;
 
-		measure_select.id = `MEASURE_${products.length}`;
+		measure_select.id = `MEASURE_${selectCount}`;
 		measure_select.name = `MEASURES[]`;
 
-		input.id = `PRODUCT_QUANTITY_${products.length}`;
+		input.id = `PRODUCT_QUANTITY_${selectCount}`;
+		input.required = true;
 		input.name = `PRODUCTS_QUANTITY[]`;
 
 		select.className = `product_select`;
@@ -156,29 +164,28 @@ $measures = json_encode($arResult['MEASURES']);
 			measure_select.add(option);
 		}
 	}
-	function deleteSelect()
-	{
+
+	function deleteSelect() {
 		const element = document.getElementById(`container_${selectCount}`);
 		element.remove();
 		selectCount--;
 	}
-    function createStep()
-    {
-        if(textareaCount<10)
-        {
-            textareaCount++;
-            const textarea = document.createElement('textarea');
-            //textarea.setAttribute('name', 'textarea-' + textareaCount);
-            textarea.name = `STEPS[]`
-            textarea.id = `textarea-${textareaCount}`
-            stepContainer.appendChild(textarea);
-        }
 
-    }
-    function deleteStep()
-    {
-        const element = document.getElementById(`textarea-${textareaCount}`);
-        element.remove();
-        textareaCount--;
-    }
+	function createStep() {
+		if (textareaCount < 10) {
+			textareaCount++;
+			const textarea = document.createElement('textarea');
+			textarea.required = true;
+			textarea.name = `STEPS[]`;
+			textarea.id = `textarea-${textareaCount}`;
+			stepContainer.appendChild(textarea);
+		}
+
+	}
+
+	function deleteStep() {
+		const element = document.getElementById(`textarea-${textareaCount}`);
+		element.remove();
+		textareaCount--;
+	}
 </script>
