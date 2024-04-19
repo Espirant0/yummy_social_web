@@ -12,6 +12,10 @@ class DeleteComponent extends CBitrixComponent
 		if(RecipeRepository::validateRecipeAuthor($userId,$recipeId))
 		{
 			RecipeRepository::deleteRecipe($recipeId);
+			if(RecipeRepository::isRecipeDaily($recipeId))
+			{
+				RecipeRepository::updateDailyRecipe();
+			}
 			LocalRedirect("/");
 		}
 		$this->includeComponentTemplate();
