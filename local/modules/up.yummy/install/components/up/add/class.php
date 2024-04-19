@@ -17,29 +17,44 @@ class AddComponent extends CBitrixComponent
 		$time = ValidationService::validatePositiveInteger(request()['TIME']);
 		$products = array_map(null, request()['PRODUCTS'], request()['PRODUCTS_QUANTITY'], request()['MEASURES']);
 		$steps=request()['STEPS'];
+		if($this->handleExceptions($title,$description,$time))
+		{
+			$this->createRecipe($title,$description,$time,$userId,$products,$steps);
+			LocalRedirect('/');
+		}
+		$this->includeComponentTemplate();
+	}
+	protected function handleExceptions($title,$description,$time):bool
+	{
 		switch (true)
 		{
 			case($title === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНОЕ НАЗВАНИЕ";
-				break;
+				return false;
 			case($description === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНОЕ ОПИСАНИЕ";
-				break;
+				return false;
 			case($time === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
-				break;
+				return false;
 			default:
-				$recipeId = RecipeRepository::addRecipe($title, $description, $time, $userId, $products);
-				RecipeRepository::insertRecipeStats($recipeId,$products);
-				InstructionRepository::insertSteps($recipeId,$steps);
-				$imageId = ImageRepository::validateImage();
-				if (isset($imageId))
-				{
-					ImagesTable::add(['PATH' => $imageId, 'RECIPE_ID' => $recipeId, 'IS_COVER' => 1]);
-				}
-				LocalRedirect('/');
+				return true;
 		}
-		$this->includeComponentTemplate();
+	}
+	protected function addImage(int $recipeId)
+	{
+		$imageId = ImageRepository::validateImage();
+		if (isset($imageId))
+		{
+			ImagesTable::add(['PATH' => $imageId, 'RECIPE_ID' => $recipeId, 'IS_COVER' => 1]);
+		}
+	}
+	protected function createRecipe(string $title,string $description,int $time,int $userId,array $products,array $steps)
+	{
+		$recipeId = RecipeRepository::addRecipe($title, $description, $time, $userId, $products);
+		RecipeRepository::insertRecipeStats($recipeId, $products);
+		InstructionRepository::insertSteps($recipeId, $steps);
+		$this->addImage($recipeId);
 	}
 
 }
