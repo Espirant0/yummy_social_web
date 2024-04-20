@@ -1,6 +1,7 @@
 <?php
 \Bitrix\Main\UI\Extension::load('up.yummy-selector');
 \Bitrix\Main\UI\Extension::load('ui.entity-selector');
+CJSCore::Init(array("jquery"));
 /**
  * @var $arResult
  *
@@ -120,7 +121,8 @@ $recipe = $arResult['RECIPE'];
 							<?php
 							echo bitrix_sessid_post();
 							?>
-							<input type="file" name="IMAGES">
+                            <input type="file" name="IMAGES" id="img_inp">
+                            <img id="img_pre" src="<?=$arResult['IMAGE']?>" alt="your image" />
 						</p>
 					</div>
 				</div>
@@ -144,6 +146,8 @@ $recipe = $arResult['RECIPE'];
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$measures;?>');
 	const body = document.getElementById("container");
+    const imgInp=document.getElementById("img_inp");
+    const imgPre=document.getElementById("img_pre");
 	var textareaCount = <?=$stepsSize?>;
 	var productsCount = <?=$productsSize?>;
 	const stepContainer = document.getElementById("step_container")
@@ -217,4 +221,11 @@ $recipe = $arResult['RECIPE'];
 		element.remove();
 		textareaCount--;
 	}
+    imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            imgPre.src = URL.createObjectURL(file)
+        }
+    }
+
 </script>

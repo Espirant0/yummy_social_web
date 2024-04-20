@@ -5,6 +5,8 @@ namespace Up\Yummy\Repository;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\ORM\Query\Query;
 use Up\Yummy\Model\FeaturedTable;
+use Up\Yummy\Model\ImagesTable;
+use Up\Yummy\Model\InstructionTable;
 use Up\Yummy\Model\LikesTable;
 use Up\Yummy\Model\MeasuresTable;
 use Up\Yummy\Model\ProductsTable;
@@ -77,7 +79,7 @@ class RecipeRepository
 
 	public static function deleteRecipe(int $id): void
 	{
-		while ($id === Option::get("up.yummy", "dailyRecipe", 1))
+		while ($id == Option::get("up.yummy", "dailyRecipeId"))
 		{
 			$max = RecipesTable::query()
 				->addSelect(Query::expr()->max("ID"), 'MAX')
@@ -88,6 +90,8 @@ class RecipeRepository
 		}
 		RecipeProductTable::deleteByFilter(['=RECIPE_ID' => $id]);
 		RecipesTable::getByPrimary($id)->fetchObject()->delete();
+		InstructionTable::deleteByFilter(['RECIPE_ID'=>$id]);
+		ImagesTable::deleteByFilter(['RECIPE_ID'=>$id]);
 	}
 
 	public static function addRecipeToFeatured(int $authorId, int $recipeId): void
@@ -399,7 +403,7 @@ class RecipeRepository
 
 	public static function getDailyRecipe(): array
 	{
-		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId", 1);
+		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId");
 		$recipe = RecipesTable::getByPrimary($dailyRecipeId)->fetch();
 		$recipe['IMAGE'] = ImageRepository::getRecipeCover($dailyRecipeId);
 		return $recipe;

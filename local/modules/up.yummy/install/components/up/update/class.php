@@ -31,7 +31,8 @@ class UpdateComponent extends CBitrixComponent
 		$userId = $USER->GetID();
 		$recipe = RecipesTable::getByPrimary($recipeId)->fetch();
 		if ($recipe['AUTHOR_ID'] == $userId) {
-			if ($method === true) {
+			if ($method === true)
+			{
 				$title = ValidationService::validateString(request()['NAME'], 50);
 				$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
 				$time = ValidationService::validatePositiveInteger(request()['TIME']);
@@ -66,9 +67,10 @@ class UpdateComponent extends CBitrixComponent
 		$this->arResult['PRODUCTS'] = RecipeRepository::getProducts();
 		$this->arResult['MEASURES'] = RecipeRepository::getMeasures();
 		$this->arResult['RECIPE'] = $recipe;
-		$this->arResult['STEPS'] = InstructionRepository::getSteps($recipeId);
+		$this->arResult['STEPS'] = ValidationService::protectStepsOutput(InstructionRepository::getSteps($recipeId));
 		$this->arResult['PRODUCTS_SIZE'] = count($this->arResult['USED_PRODUCTS']);
 		$this->arResult['STEPS_SIZE'] = count($this->arResult['STEPS']);
+		$this->arResult['IMAGE']=ImageRepository::getRecipeCover($recipeId);
 	}
 
 	protected function insertRecipe
@@ -88,5 +90,6 @@ class UpdateComponent extends CBitrixComponent
 		RecipeRepository::updateProducts($recipeId, $productsList);
 		ImageRepository::updateRecipeImage($recipeId);
 		InstructionRepository::updateSteps($recipeId, $steps);
+		RecipeRepository::insertRecipeStats($recipeId,$productsList);
 	}
 }

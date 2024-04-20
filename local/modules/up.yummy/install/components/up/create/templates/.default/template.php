@@ -3,9 +3,6 @@
  * @var array $arParams ;
  * @var array $arResult
  */
-
-\Bitrix\Main\UI\Extension::load('ui.entity-selector');
-
 $products = json_encode($arResult['PRODUCTS']);
 $measures = json_encode($arResult['MEASURES']);
 
@@ -48,7 +45,8 @@ $measures = json_encode($arResult['MEASURES']);
 					<div class="field">
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
-							<input type="file" name="IMAGES">
+							<input type="file" name="IMAGES" id="img_inp">
+                            <img id="img_pre" src="#" alt="your image" />
 						</p>
 					</div>
 				</div>
@@ -115,7 +113,9 @@ $measures = json_encode($arResult['MEASURES']);
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$measures;?>');
 	const body = document.getElementById("container");
-	const stepContainer = document.getElementById("step_container")
+	const stepContainer = document.getElementById("step_container");
+    const imgInp=document.getElementById("img_inp");
+    const imgPre=document.getElementById("img_pre");
 	let textareaCount = 0;
 	let selectCount = 0;
 
@@ -188,4 +188,14 @@ $measures = json_encode($arResult['MEASURES']);
 		element.remove();
 		textareaCount--;
 	}
+
+
+
+    imgInp.onchange = evt =>
+    {
+        const [file] = imgInp.files
+        if (file) {
+            imgPre.src = URL.createObjectURL(file)
+        }
+    }
 </script>
