@@ -131,7 +131,7 @@ $recipe = $arResult['RECIPE'];
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary">
+							<button class="button is-primary" id="submit_button">
 								Изменить рецепт
 							</button>
 						</div>
@@ -151,6 +151,7 @@ $recipe = $arResult['RECIPE'];
 	var textareaCount = <?=$stepsSize?>;
 	var productsCount = <?=$productsSize?>;
 	const stepContainer = document.getElementById("step_container")
+    let submit_button = document.getElementById("submit_button");
 
 	function createSelect() {
 		productsCount++;
@@ -196,12 +197,14 @@ $recipe = $arResult['RECIPE'];
 			option.text = measures[i].TITLE;
 			measure_select.add(option);
 		}
+        buttonCheck()
 	}
 
 	function deleteSelect() {
 		const element = document.getElementById(`container_${productsCount}`);
 		element.remove();
 		productsCount--;
+        buttonCheck()
 	}
 
 	function createStep() {
@@ -213,6 +216,7 @@ $recipe = $arResult['RECIPE'];
 			textarea.className = `textarea`;
 			textarea.id = `textarea-${textareaCount}`
 			stepContainer.appendChild(textarea);
+            buttonCheck()
 		}
 	}
 
@@ -220,12 +224,17 @@ $recipe = $arResult['RECIPE'];
 		const element = document.getElementById(`textarea-${textareaCount}`);
 		element.remove();
 		textareaCount--;
+        buttonCheck()
 	}
     imgInp.onchange = evt => {
         const [file] = imgInp.files
         if (file) {
             imgPre.src = URL.createObjectURL(file)
         }
+    }
+    function buttonCheck()
+    {
+        submit_button.disabled = !(textareaCount > 0 && productsCount > 0);
     }
 
 </script>

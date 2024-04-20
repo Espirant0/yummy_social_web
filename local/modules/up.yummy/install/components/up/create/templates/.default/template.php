@@ -82,7 +82,7 @@ $measures = json_encode($arResult['MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button type="submit" class="button is-primary">
+							<button type="submit" class="button is-primary" id="submit_button" disabled>
 								Добавить рецепт
 							</button>
 						</div>
@@ -118,6 +118,7 @@ $measures = json_encode($arResult['MEASURES']);
     const imgPre=document.getElementById("img_pre");
 	let textareaCount = 0;
 	let selectCount = 0;
+    let submit_button = document.getElementById("submit_button");
 
 	function createSelect() {
 		selectCount++;
@@ -162,6 +163,8 @@ $measures = json_encode($arResult['MEASURES']);
 			option.value = measures[i].ID;
 			option.text = measures[i].TITLE;
 			measure_select.add(option);
+            buttonCheck()
+
 		}
 	}
 
@@ -169,6 +172,7 @@ $measures = json_encode($arResult['MEASURES']);
 		const element = document.getElementById(`container_${selectCount}`);
 		element.remove();
 		selectCount--;
+        buttonCheck()
 	}
 
 	function createStep() {
@@ -179,6 +183,7 @@ $measures = json_encode($arResult['MEASURES']);
 			textarea.name = `STEPS[]`;
 			textarea.id = `textarea-${textareaCount}`;
 			stepContainer.appendChild(textarea);
+            buttonCheck()
 		}
 
 	}
@@ -187,8 +192,12 @@ $measures = json_encode($arResult['MEASURES']);
 		const element = document.getElementById(`textarea-${textareaCount}`);
 		element.remove();
 		textareaCount--;
+        buttonCheck()
 	}
-
+    function buttonCheck()
+    {
+        submit_button.disabled = !(textareaCount > 0 && selectCount > 0);
+    }
 
 
     imgInp.onchange = evt =>
@@ -198,4 +207,5 @@ $measures = json_encode($arResult['MEASURES']);
             imgPre.src = URL.createObjectURL(file)
         }
     }
+
 </script>

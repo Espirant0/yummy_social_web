@@ -15,17 +15,19 @@ class AddComponent extends CBitrixComponent
 		$title = ValidationService::validateString(request()['NAME'], 50);
 		$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
 		$time = ValidationService::validatePositiveInteger(request()['TIME']);
-		$products = array_map(null, request()['PRODUCTS'], request()['PRODUCTS_QUANTITY'], request()['MEASURES']);
-		$steps=request()['STEPS'];
-		if($this->handleExceptions($title,$description,$time))
+		$steps=ValidationService::validateSteps(request()['STEPS']);
+		$amount=ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
+		if($this->handleExceptions($title,$description,$time,$steps,$amount))
 		{
+			$products =array_map(null, request()['PRODUCTS'], $amount, request()['MEASURES']);
 			$this->createRecipe($title,$description,$time,$userId,$products,$steps);
 			LocalRedirect('/');
 		}
 		$this->includeComponentTemplate();
 	}
-	protected function handleExceptions($title,$description,$time):bool
+	protected function handleExceptions($title,$description,$time,$steps,$amount):bool
 	{
+		ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 		switch (true)
 		{
 			case($title === null):
@@ -36,6 +38,12 @@ class AddComponent extends CBitrixComponent
 				return false;
 			case($time === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
+				return false;
+			case($amount === null):
+				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ПРОДУКТЫ";
+				return false;
+			case($steps === []):
+				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
 				return false;
 			default:
 				return true;

@@ -42,4 +42,25 @@ class ValidationService
 		}
 		return $steps;
 	}
+	public static function validateProductAmount($amount):mixed
+	{
+		if(!is_array($amount)||in_array(null,$amount,true))
+		{
+			return null;
+		}
+		return $amount;
+
+	}
+	public static function validateSteps($steps):mixed
+	{
+		if(!is_array($steps)||$steps=[])
+		{
+			return null;
+		}
+		if (in_array("", $steps, true))
+		{
+			return null;
+		}
+		return $steps;
+	}
 }
