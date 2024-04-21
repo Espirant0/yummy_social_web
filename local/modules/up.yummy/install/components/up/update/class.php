@@ -40,7 +40,7 @@ class UpdateComponent extends CBitrixComponent
 				$products =request()['PRODUCTS'];
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 				$measures = request()['MEASURES'];
-				if (isset($title, $description, $time, $productsQuantity, $products) && $steps !== []) {
+				if (isset($title, $description, $time, $productsQuantity, $products,$steps)) {
 					$this->insertRecipe($recipeId, $title, $description, $time, $products, $steps, $productsQuantity, $measures );
 					LocalRedirect("/detail/{$recipeId}/");
 				}

@@ -53,12 +53,14 @@ class ValidationService
 	}
 	public static function validateSteps($steps):mixed
 	{
-		if(!is_array($steps)||$steps=[])
+		if(!is_array($steps)||$steps==[])
 		{
+			var_dump("HERE");
 			return null;
 		}
 		if (in_array("", $steps, true))
 		{
+			var_dump("THERE");
 			return null;
 		}
 		return $steps;

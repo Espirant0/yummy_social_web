@@ -16,6 +16,7 @@ class AddComponent extends CBitrixComponent
 		$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
 		$time = ValidationService::validatePositiveInteger(request()['TIME']);
 		$steps=ValidationService::validateSteps(request()['STEPS']);
+
 		$amount=ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 		if($this->handleExceptions($title,$description,$time,$steps,$amount))
 		{
