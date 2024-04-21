@@ -147,7 +147,6 @@ $measures = json_encode($arResult['MEASURES']);
 			option.text = measures[i].TITLE;
 			measure_select.add(option);
             buttonCheck()
-
 		}
 	}
 
