@@ -9,6 +9,7 @@ use Up\Yummy\Model\ImagesTable;
 use Up\Yummy\Model\InstructionTable;
 use Up\Yummy\Model\LikesTable;
 use Up\Yummy\Model\MeasuresTable;
+use Up\Yummy\Model\ProductMeasuresTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
 use Up\Yummy\Model\RecipesTable;
@@ -71,10 +72,17 @@ class RecipeRepository
 
 	public static function getProducts():array
 	{
-		return ProductsTable::getList([
+		$products= ProductsTable::getList([
 			'select'=>
 				['ID', 'NAME', 'CATEGORY_NAME' => 'CATEGORY.TITLE'],
 		])->fetchAll();
+		foreach ($products as &$product)
+		{
+			$measures=ProductMeasuresTable::query()->setSelect(['MEASURE_ID'])->setFilter(['PRODUCT_ID'=>$product['ID']])->fetchAll();
+			//$measures=ProductMeasuresTable::getList(['select' => ['MEASURE_ID'],'filter'=>['=PRODUCT_ID'=>$product['ID']]])
+			$product['MEASURES']=$measures;
+		}
+		return $products;
 	}
 
 	public static function deleteRecipe(int $id): void

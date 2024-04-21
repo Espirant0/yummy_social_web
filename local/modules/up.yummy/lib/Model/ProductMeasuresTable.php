@@ -45,6 +45,7 @@ class ProductMeasuresTable extends DataManager
 			new IntegerField(
 				'PRODUCT_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PRODUCT_MEASURES_ENTITY_PRODUCT_ID_FIELD')
 				]
 			),
@@ -55,6 +56,7 @@ class ProductMeasuresTable extends DataManager
 			new IntegerField(
 				'MEASURE_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PRODUCT_MEASURES_ENTITY_MEASURE_ID_FIELD')
 				]
 			),

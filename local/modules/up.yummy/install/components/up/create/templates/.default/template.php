@@ -5,7 +5,6 @@
  */
 $products = json_encode($arResult['PRODUCTS']);
 $measures = json_encode($arResult['MEASURES']);
-
 ?>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -76,8 +75,6 @@ $measures = json_encode($arResult['MEASURES']);
 					</button>
 				</div>
 			</div>
-			<!--<input type="hidden" name="test1" value=""/>
-			<div id="test1" name="test1"></div>-->
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
@@ -94,21 +91,7 @@ $measures = json_encode($arResult['MEASURES']);
 
 
 </div>
-<!--<script>
-	(function() { const tagSelector = new BX.UI.EntitySelector.TagSelector({
-		id: 'test1',
-		multiple: false,
-		dialogOptions: {
-			entities: [
-				{
-					id: 'products',
-					dynamicLoad: true,
-				},
-			],
-		}
-	});
-		tagSelector.renderTo(document.getElementById('test1'))})();
-</script>-->
+
 <script>
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$measures;?>');

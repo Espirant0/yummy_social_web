@@ -43,7 +43,7 @@ class AddComponent extends CBitrixComponent
 			case($amount === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ПРОДУКТЫ";
 				return false;
-			case($steps === []):
+			case($steps === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
 				return false;
 			default:

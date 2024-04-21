@@ -44,7 +44,7 @@ class ValidationService
 	}
 	public static function validateProductAmount($amount):mixed
 	{
-		if(!is_array($amount)||in_array(null,$amount,true))
+		if(!is_array($amount)||in_array("",$amount,true))
 		{
 			return null;
 		}
@@ -53,14 +53,12 @@ class ValidationService
 	}
 	public static function validateSteps($steps):mixed
 	{
-		if(!is_array($steps)||$steps==[])
+		if(!is_array($steps)||empty($steps))
 		{
-			var_dump("HERE");
 			return null;
 		}
 		if (in_array("", $steps, true))
 		{
-			var_dump("THERE");
 			return null;
 		}
 		return $steps;
