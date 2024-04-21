@@ -87,14 +87,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				</div>
 			</div>
 		</form>
-		<label for="first-select">Первый селект:</label>
-		<select id="first-select"></select>
-
-		<label for="second-select">Второй селект:</label>
-		<select id="second-select"></select>
 	</div>
-
-
 </div>
 
 <script>
@@ -107,16 +100,6 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	let textareaCount = 0;
 	let selectCount = 0;
     let submit_button = document.getElementById("submit_button");
-   /* function changeMeasures(id) {
-        let selector = document.getElementById(`MEASURE2_${selectCount}`);
-        for (let i = 0; i < products[selectCount]['MEASURES']; i++) {
-            const option = document.createElement("option");
-            option.value = products[selectCount]['MEASURES'];
-            option.text = products[selectCount]['MEASURES'];
-            selector.add(option);
-
-        }
-    }*/
 	function createSelect() {
 		selectCount++;
 		const select = document.createElement("select");
@@ -141,23 +124,22 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 		container.id = `container_${selectCount}`;
 		div.className = `select select_div`;
 		div2.className = `select select_div`;
+		div2.id = `select_div_${selectCount}`;
 
 		div.appendChild(select);
-		//div2.appendChild(measure_select);
+
 		container.appendChild(div);
-		container.appendChild(div2);
 		body.appendChild(container);
 		let placeholder = document.createElement("option");
 		placeholder.text = "Выберите продукт";
 		select.appendChild(placeholder);
 		products.forEach(function(option) {
 			var firstOption = document.createElement('option');
-			firstOption.value = option.value;
-			firstOption.text = option.label;
+			firstOption.value = option.ID;
+			firstOption.text = option.NAME;
 			select.appendChild(firstOption);
 		});
 
-		// Обработчик события изменения первого селекта
 		select.addEventListener('change', function() {
 			var selectedValue = this.value;
 			var selectedText = this.options[this.selectedIndex].text;
@@ -166,20 +148,22 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			{
 				document.getElementById(`PRODUCT_QUANTITY_${selectCount}`).remove();
 				document.getElementById(`MEASURE_${selectCount}`).remove();
+				document.getElementById(`select_div_${selectCount}`).remove();
 			}
 			else
 			{
 				container.appendChild(input);
 				div2.appendChild(measure_select);
+				container.appendChild(div2);
 			}
-// Заполнение второго селекта значениями для выбранного пункта
 			measures[selectedValue].forEach(function(option) {
 				var secondOption = document.createElement('option');
-				secondOption.value = option.value;
-				secondOption.text = option.label;
+				secondOption.value = option.ID;
+				secondOption.text = option.MEASURE_NAME;
 				measure_select.appendChild(secondOption);
 			});
 		});
+		buttonCheck();
 	}
 
 	function deleteSelect() {
@@ -221,35 +205,4 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
             imgPre.src = URL.createObjectURL(file)
         }
     }
-
-	var firstSelectData = JSON.parse('<?=$products;?>');
-	var secondSelectData = JSON.parse('<?=$productMeasures;?>');
-
-	// Получение элементов селектов
-	var firstSelect = document.getElementById('first-select');
-	var secondSelect = document.getElementById('second-select');
-
-	// Заполнение первого селекта
-	firstSelectData.forEach(function(option) {
-		var firstOption = document.createElement('option');
-		firstOption.value = option.value;
-		firstOption.text = option.label;
-		firstSelect.appendChild(firstOption);
-	});
-
-	// Обработчик события изменения первого селекта
-	firstSelect.addEventListener('change', function() {
-		var selectedValue = this.value;
-
-// Очистка второго селекта
-		secondSelect.innerHTML = '';
-
-// Заполнение второго селекта значениями для выбранного пункта
-		secondSelectData[selectedValue].forEach(function(option) {
-			var secondOption = document.createElement('option');
-			secondOption.value = option.value;
-			secondOption.text = option.label;
-			secondSelect.appendChild(secondOption);
-		});
-	});
 </script>

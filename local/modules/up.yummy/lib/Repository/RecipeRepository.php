@@ -58,46 +58,18 @@ class RecipeRepository
 		return $measures->fetchAll();
 	}
 
-	/*public static function getProductsMeasures(int $id)
-	{
-		$products = RecipeProductTable::getList([
-			'select' =>
-				['*', 'TITLE' => 'PRODUCT.NAME', 'MEASURE_NAME' => 'MEASURE.TITLE'],
-			'filter' =>
-				['=RECIPE_ID' => $id]
-		]);
-		return $products->fetchAll();
-	}*/
-
 	public static function getProducts(): array
 	{
 		$products = ProductsTable::getList([
 			'select' =>
-				['value' => 'ID', 'label' => 'NAME'],
+				['ID', 'NAME'],
 		])->fetchAll();
-		/*foreach ($products as &$product)
-		{
-			$measureArray=ProductMeasuresTable::query()->setSelect(['MEASURE_ID','MEASURE_TITLE'=>'MEASURE.TITLE'])->setFilter(['PRODUCT_ID'=>$product['ID']])->fetchAll();
-			$measureArray=[];
-			foreach ($measures as $measure)
-			{
-				$measureArray[$measure['MEASURE_ID']]=$measure['MEASURE_TITLE'];
-			}
-			//$measures=ProductMeasuresTable::getList(['select' => ['MEASURE_ID'],'filter'=>['=PRODUCT_ID'=>$product['ID']]])
-			$product['MEASURES']=$measureArray;
-		}*/
-		$result = [];
+		$productsInJsonFormat = [];
 
-// Проход по исходному массиву
-		foreach ($products as $item) {
-			$value = $item["value"];
-			$label = $item["label"];
-
-// Создание нового ассоциативного массива и добавление его в результирующий массив
-			$result[] = ["value" => $value, "label" => $label];
+		foreach ($products as $product) {
+			$productsInJsonFormat[] = ["ID" => $product["ID"], "NAME" => $product["NAME"]];
 		}
-
-		return $result;
+		return $productsInJsonFormat;
 	}
 
 	public static function getProductMeasures(): array
@@ -106,24 +78,18 @@ class RecipeRepository
 			'select' =>
 				['PRODUCT_ID', 'MEASURE_ID', 'MEASURE_NAME' => 'MEASURE.TITLE'],
 		])->fetchAll();
-		$result = [];
+		$productMeasuresInJsonFormat = [];
 
-// Проход по исходному массиву
-		foreach ($productMeasures as $item) {
-			$productId = $item["PRODUCT_ID"];
-			$measureId = $item["MEASURE_ID"];
-			$measureName = $item["MEASURE_NAME"];
-
-// Если productId еще не существует в результирующем массиве, создаем пустой массив
-			if (!isset($result[$productId])) {
-				$result[$productId] = [];
+		foreach ($productMeasures as $measure) {
+			if (!isset($productMeasuresInJsonFormat[$measure["PRODUCT_ID"]])) {
+				$productMeasuresInJsonFormat[$measure["PRODUCT_ID"]] = [];
 			}
-
-// Добавляем новый ассоциативный массив в массив для данного productId
-			$result[$productId][] = ["value" => $measureId, "label" => $measureName];
+			$productMeasuresInJsonFormat[$measure["PRODUCT_ID"]][] = [
+				"ID" => $measure["MEASURE_ID"],
+				"MEASURE_NAME" => $measure["MEASURE_NAME"]
+			];
 		}
-
-		return $result;
+		return $productMeasuresInJsonFormat;
 	}
 
 	public static function deleteRecipe(int $id): void

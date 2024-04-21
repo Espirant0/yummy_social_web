@@ -8,7 +8,6 @@ class CreateComponent extends CBitrixComponent
 	{
 		$this->arResult['PRODUCTS'] = RecipeRepository::getProducts();
 		$this->arResult['PRODUCT_MEASURES'] = RecipeRepository::getProductMeasures();
-		$this->arResult['MEASURES'] = RecipeRepository::getMeasures();
 		$this->includeComponentTemplate();
 	}
 }
