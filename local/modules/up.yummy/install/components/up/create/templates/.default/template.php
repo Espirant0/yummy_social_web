@@ -5,6 +5,7 @@
  */
 $products = json_encode($arResult['PRODUCTS']);
 $measures = json_encode($arResult['MEASURES']);
+var_dump($products);
 ?>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -102,20 +103,34 @@ $measures = json_encode($arResult['MEASURES']);
 	let textareaCount = 0;
 	let selectCount = 0;
     let submit_button = document.getElementById("submit_button");
+    function changeMeasures(id) {
+        let selector = document.getElementById(`MEASURE2_${selectCount}`);
+        for (let i = 0; i < products[selectCount]['MEASURES']; i++) {
+            const option = document.createElement("option");
+            option.value = products[selectCount]['MEASURES'];
+            option.text = products[selectCount]['MEASURES'];
+            selector.add(option);
 
+        }
+    }
 	function createSelect() {
 		selectCount++;
 		const select = document.createElement("select");
 		const measure_select = document.createElement("select");
 		const input = document.createElement("input");
+        const measure_select_2= document.createElement("select");
 		const div = document.createElement("div");
 		const div2 = document.createElement("div");
 		const container = document.createElement("div");
 		select.id = `PRODUCT_${selectCount}`;
 		select.name = `PRODUCTS[]`;
+        //select.onUpdate=changeMeasures(selectCount);
 
 		measure_select.id = `MEASURE_${selectCount}`;
 		measure_select.name = `MEASURES[]`;
+
+        measure_select_2.id = `MEASURE2_${selectCount}`;
+        measure_select_2.name = `MEASURES2[]`;
 
 		input.id = `PRODUCT_QUANTITY_${selectCount}`;
 		input.required = true;
@@ -130,6 +145,7 @@ $measures = json_encode($arResult['MEASURES']);
 
 		div.appendChild(select);
 		div2.appendChild(measure_select);
+        div2.appendChild(measure_select_2);
 		container.appendChild(div);
 		container.appendChild(input);
 		container.appendChild(div2);
@@ -191,4 +207,40 @@ $measures = json_encode($arResult['MEASURES']);
         }
     }
 
+</script>
+<script>
+    //let optionTree = {"Small":{"Super":{"Pack":"parta","Case":"parte"},"Maxi":{"Pack":"partb","Case":"partf"}},"Large":{"Super":{"Pack":"partc","Case":"partg"}},"X Large":{"Maxi":{"Pack":"partd"}}};
+    let optionTree=JSON.parse('<?=$products;?>');
+    let container = document.querySelector("#container");
+
+    addSelector(optionTree);
+
+    function addSelector(node) {
+        let select = document.createElement("select");
+        // Start with the default option:
+        let option = document.createElement("option");
+        option.text = "Please select...";
+        select.add(option);
+        for (let key in node) { // Populate the select element
+            let option = document.createElement("option");
+            option.value = key;
+            option.text = node[key];
+            select.add(option);
+        }
+        container.appendChild(select); // Add it to the page
+
+        function change() {
+            // Remove select elements that come after the selection
+            while (select.nextElementSibling) {
+                select.nextElementSibling.remove();
+            }
+            let key = select.value;
+            if (node[key] && typeof node[key] !== "string") {
+                addSelector(node[key]); // Create the next select element(s)
+            }
+        }
+        // Call the above function whenever a selection is made
+        select.addEventListener("change", change);
+        change(); // ... and also call it now
+    }
 </script>

@@ -78,9 +78,14 @@ class RecipeRepository
 		])->fetchAll();
 		foreach ($products as &$product)
 		{
-			$measures=ProductMeasuresTable::query()->setSelect(['MEASURE_ID'])->setFilter(['PRODUCT_ID'=>$product['ID']])->fetchAll();
+			$measures=ProductMeasuresTable::query()->setSelect(['MEASURE_ID','MEASURE_TITLE'=>'MEASURE.TITLE'])->setFilter(['PRODUCT_ID'=>$product['ID']])->fetchAll();
+			$measureArray=[];
+			foreach ($measures as $measure)
+			{
+				$measureArray[$measure['MEASURE_ID']]=$measure['MEASURE_TITLE'];
+			}
 			//$measures=ProductMeasuresTable::getList(['select' => ['MEASURE_ID'],'filter'=>['=PRODUCT_ID'=>$product['ID']]])
-			$product['MEASURES']=$measures;
+			$product['MEASURES']=$measureArray;
 		}
 		return $products;
 	}
