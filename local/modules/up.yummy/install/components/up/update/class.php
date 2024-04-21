@@ -65,7 +65,7 @@ class UpdateComponent extends CBitrixComponent
 	{
 		$this->arResult['USED_PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
 		$this->arResult['PRODUCTS'] = RecipeRepository::getProducts();
-		$this->arResult['MEASURES'] = RecipeRepository::getMeasures();
+		$this->arResult['PRODUCT_MEASURES'] = RecipeRepository::getProductMeasures();
 		$this->arResult['RECIPE'] = $recipe;
 		$this->arResult['STEPS'] = ValidationService::protectStepsOutput(InstructionRepository::getSteps($recipeId));
 		$this->arResult['PRODUCTS_SIZE'] = count($this->arResult['USED_PRODUCTS']);

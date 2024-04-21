@@ -1,17 +1,17 @@
 <?php
 \Bitrix\Main\UI\Extension::load('up.yummy-selector');
 \Bitrix\Main\UI\Extension::load('ui.entity-selector');
-CJSCore::Init(array("jquery"));
+
 /**
  * @var $arResult
- *
  */
 $products = json_encode($arResult['PRODUCTS']);
-$measures = json_encode($arResult['MEASURES']);
+$productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 $productsCount = 1;
 $stepsSize = $arResult['STEPS_SIZE'];
 $productsSize = $arResult['PRODUCTS_SIZE'];
 $recipe = $arResult['RECIPE'];
+var_dump($arResult['PRODUCT_MEASURES']);
 ?>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -53,6 +53,7 @@ $recipe = $arResult['RECIPE'];
 						<div class="select_container" id="container_<?=$productsCount?>">
 							<div class="select select_div">
 								<select name="PRODUCTS[]" id="PRODUCT_<?=$productsCount?>" class="product_select">
+									<option>Выберите продукт</option>
 									<?php foreach ($arResult['PRODUCTS'] as $product):?>
 										<option <?=($product['ID'] === $productSelect['PRODUCT_ID'])? 'selected':''?>
 												value="<?=$product['ID']?>"
@@ -72,12 +73,14 @@ $recipe = $arResult['RECIPE'];
 							>
 							<div class="select select_div">
 								<select name="MEASURES[]" id="MEASURE_<?=$productsCount?>">
-									<?php foreach ($arResult['MEASURES'] as $measure):?>
-										<option <?=($productSelect['MEASURE_ID'] === $measure['ID'])? 'selected':''?>
-												value="<?=$measure['ID']?>"
-										>
-											<?=$measure['TITLE']?>
-										</option>
+									<?php foreach ($arResult['PRODUCT_MEASURES'] as $product):?>
+										<?php foreach ($product as $measure):?>
+											<option <?=($productSelect['MEASURE_ID'] === $measure['ID'])? 'selected':''?>
+													value="<?=$measure['ID']?>"
+											>
+												<?=$measure['MEASURE_NAME']?>
+											</option>
+										<?php endforeach; ?>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -144,66 +147,115 @@ $recipe = $arResult['RECIPE'];
 
 <script>
 	const products = JSON.parse('<?=$products;?>');
-	const measures = JSON.parse('<?=$measures;?>');
+	const measures = JSON.parse('<?=$productMeasures;?>');
 	const body = document.getElementById("container");
     const imgInp=document.getElementById("img_inp");
     const imgPre=document.getElementById("img_pre");
 	var textareaCount = <?=$stepsSize?>;
-	var productsCount = <?=$productsSize?>;
+	var selectCount = <?=$productsSize?>;
 	const stepContainer = document.getElementById("step_container")
     let submit_button = document.getElementById("submit_button");
 
+	for(let i = 1; i <= selectCount; i++)
+	{
+		startSelect = document.getElementById(`PRODUCT_${i}`);
+		input = document.getElementById(`PRODUCT_QUANTITY_${i}`);
+		measure_select = document.getElementById(`MEASURE_${i}`);
+		startSelect.addEventListener('change', function() {
+			var selectedValue = this.value;
+			var selectedText = this.options[this.selectedIndex].text;
+			measure_select.innerHTML = '';
+			if(selectedText === 'Выберите продукт')
+			{
+				document.getElementById(`PRODUCT_QUANTITY_${i}`).remove();
+				document.getElementById(`MEASURE_${i}`).remove();
+				document.getElementById(`select_div_${i}`).remove();
+			}
+			else
+			{
+				container.appendChild(input);
+				div2.appendChild(measure_select);
+				container.appendChild(div2);
+			}
+			measures[selectedValue].forEach(function(option) {
+				var secondOption = document.createElement('option');
+				secondOption.value = option.ID;
+				secondOption.text = option.MEASURE_NAME;
+				measure_select.appendChild(secondOption);
+			});
+		});
+	}
+
 	function createSelect() {
-		productsCount++;
+		selectCount++;
 		const select = document.createElement("select");
 		const measure_select = document.createElement("select");
 		const input = document.createElement("input");
 		const div = document.createElement("div");
 		const div2 = document.createElement("div");
 		const container = document.createElement("div");
-		select.id = `PRODUCT_${productsCount}`;
+		select.id = `PRODUCT_${selectCount}`;
 		select.name = `PRODUCTS[]`;
 
-		measure_select.id = `MEASURE_${productsCount}`;
+		measure_select.id = `MEASURE_${selectCount}`;
 		measure_select.name = `MEASURES[]`;
 
-		input.id = `PRODUCT_QUANTITY_${productsCount}`;
+		input.id = `PRODUCT_QUANTITY_${selectCount}`;
 		input.required = true;
 		input.name = `PRODUCTS_QUANTITY[]`;
 
 		select.className = `product_select`;
 		input.className = `input product_input`;
 		container.className = `select_container`
-		container.id = `container_${productsCount}`;
+		container.id = `container_${selectCount}`;
 		div.className = `select select_div`;
 		div2.className = `select select_div`;
+		div2.id = `select_div_${selectCount}`;
 
 		div.appendChild(select);
-		div2.appendChild(measure_select);
-		container.appendChild(div);
-		container.appendChild(input);
-		container.appendChild(div2);
-		body.appendChild(container);
 
-		for (let i = 0; i < products.length; i++) {
-			const option = document.createElement("option");
-			option.value = products[i].ID;
-			option.text = products[i].NAME;
-			select.add(option);
-		}
-		for (let i = 0; i < measures.length; i++) {
-			const option = document.createElement("option");
-			option.value = measures[i].ID;
-			option.text = measures[i].TITLE;
-			measure_select.add(option);
-		}
-        buttonCheck()
+		container.appendChild(div);
+		body.appendChild(container);
+		let placeholder = document.createElement("option");
+		placeholder.text = "Выберите продукт";
+		select.appendChild(placeholder);
+		products.forEach(function(option) {
+			var firstOption = document.createElement('option');
+			firstOption.value = option.ID;
+			firstOption.text = option.NAME;
+			select.appendChild(firstOption);
+		});
+
+		select.addEventListener('change', function() {
+			var selectedValue = this.value;
+			var selectedText = this.options[this.selectedIndex].text;
+			measure_select.innerHTML = '';
+			if(selectedText === placeholder.text)
+			{
+				document.getElementById(`PRODUCT_QUANTITY_${selectCount}`).remove();
+				document.getElementById(`MEASURE_${selectCount}`).remove();
+				document.getElementById(`select_div_${selectCount}`).remove();
+			}
+			else
+			{
+				container.appendChild(input);
+				div2.appendChild(measure_select);
+				container.appendChild(div2);
+			}
+			measures[selectedValue].forEach(function(option) {
+				var secondOption = document.createElement('option');
+				secondOption.value = option.ID;
+				secondOption.text = option.MEASURE_NAME;
+				measure_select.appendChild(secondOption);
+			});
+		});
+		buttonCheck();
 	}
 
 	function deleteSelect() {
-		const element = document.getElementById(`container_${productsCount}`);
+		const element = document.getElementById(`container_${selectCount}`);
 		element.remove();
-		productsCount--;
+		selectCount--;
         buttonCheck()
 	}
 
