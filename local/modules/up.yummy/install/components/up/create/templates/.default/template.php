@@ -105,7 +105,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	let hasNotEmptyProducts = true;
 
 	function createSelect() {
-		if (selectCount < 30) {
+		if (selectCount < 15) {
 			selectCount++;
 			emptyProducts[selectCount] = true;
 			hasNotEmptyProducts = checkArray(emptyProducts);

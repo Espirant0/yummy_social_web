@@ -209,7 +209,7 @@ $recipe = $arResult['RECIPE'];
 	}
 
 	function createSelect() {
-		if (selectCount < 30) {
+		if (selectCount < 15) {
 			selectCount++;
 			emptyProducts[selectCount] = true;
 			hasNotEmptyProducts = checkArray(emptyProducts);
