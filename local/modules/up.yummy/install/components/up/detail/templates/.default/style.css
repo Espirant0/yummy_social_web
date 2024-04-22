@@ -23,10 +23,16 @@
 }
 .recipe_img{
 	border: 1px solid black;
+	max-height: 500px;
 }
 .recipe_image_container{
 	display: flex;
 	justify-content: center;
+	margin-left: 100px;
+}
+#recipe_list_search_container
+{
+	position: fixed !important;
 }
 .calories{
 	margin: 0 150px;
