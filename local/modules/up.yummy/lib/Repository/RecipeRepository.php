@@ -20,8 +20,7 @@ class RecipeRepository
 	public static function addRecipe($title, $description, $time, $user, $products)
 	{
 		$recipe = RecipesTable::add(['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time, 'AUTHOR_ID' => $user]);
-		foreach ($products as $product)
-		{
+		foreach ($products as $product) {
 			RecipeProductTable::add([
 				'RECIPE_ID' => $recipe->getId(),
 				'PRODUCT_ID' => $product[0],
@@ -59,36 +58,43 @@ class RecipeRepository
 		return $measures->fetchAll();
 	}
 
-	/*public static function getProductsMeasures(int $id)
+	public static function getProducts(): array
 	{
-		$products = RecipeProductTable::getList([
+		$products = ProductsTable::getList([
 			'select' =>
-				['*', 'TITLE' => 'PRODUCT.NAME', 'MEASURE_NAME' => 'MEASURE.TITLE'],
-			'filter' =>
-				['=RECIPE_ID' => $id]
-		]);
-		return $products->fetchAll();
-	}*/
-
-	public static function getProducts():array
-	{
-		$products= ProductsTable::getList([
-			'select'=>
-				['ID', 'NAME', 'CATEGORY_NAME' => 'CATEGORY.TITLE'],
+				['ID', 'NAME'],
 		])->fetchAll();
-		foreach ($products as &$product)
-		{
-			$measures=ProductMeasuresTable::query()->setSelect(['MEASURE_ID'])->setFilter(['PRODUCT_ID'=>$product['ID']])->fetchAll();
-			//$measures=ProductMeasuresTable::getList(['select' => ['MEASURE_ID'],'filter'=>['=PRODUCT_ID'=>$product['ID']]])
-			$product['MEASURES']=$measures;
+		$productsInJsonFormat = [];
+
+		foreach ($products as $product) {
+			$productsInJsonFormat[] = ["ID" => $product["ID"], "NAME" => $product["NAME"]];
 		}
-		return $products;
+		return $productsInJsonFormat;
+	}
+
+	public static function getProductMeasures(): array
+	{
+		$productMeasures = ProductMeasuresTable::getList([
+			'select' =>
+				['PRODUCT_ID', 'MEASURE_ID', 'MEASURE_NAME' => 'MEASURE.TITLE'],
+		])->fetchAll();
+		$productMeasuresInJsonFormat = [];
+
+		foreach ($productMeasures as $measure) {
+			if (!isset($productMeasuresInJsonFormat[$measure["PRODUCT_ID"]])) {
+				$productMeasuresInJsonFormat[$measure["PRODUCT_ID"]] = [];
+			}
+			$productMeasuresInJsonFormat[$measure["PRODUCT_ID"]][] = [
+				"ID" => $measure["MEASURE_ID"],
+				"MEASURE_NAME" => $measure["MEASURE_NAME"]
+			];
+		}
+		return $productMeasuresInJsonFormat;
 	}
 
 	public static function deleteRecipe(int $id): void
 	{
-		while ($id == Option::get("up.yummy", "dailyRecipeId"))
-		{
+		while ($id == Option::get("up.yummy", "dailyRecipeId")) {
 			$max = RecipesTable::query()
 				->addSelect(Query::expr()->max("ID"), 'MAX')
 				->exec()->fetch();
@@ -98,8 +104,8 @@ class RecipeRepository
 		}
 		RecipeProductTable::deleteByFilter(['=RECIPE_ID' => $id]);
 		RecipesTable::getByPrimary($id)->fetchObject()->delete();
-		InstructionTable::deleteByFilter(['RECIPE_ID'=>$id]);
-		ImagesTable::deleteByFilter(['RECIPE_ID'=>$id]);
+		InstructionTable::deleteByFilter(['RECIPE_ID' => $id]);
+		ImagesTable::deleteByFilter(['RECIPE_ID' => $id]);
 	}
 
 	public static function addRecipeToFeatured(int $authorId, int $recipeId): void
@@ -109,6 +115,7 @@ class RecipeRepository
 			'USER_ID' => $authorId,
 		]);
 	}
+
 	public static function likeRecipe(int $authorId, int $recipeId): void
 	{
 		LikesTable::add([
@@ -136,8 +143,7 @@ class RecipeRepository
 	public static function validateRecipeAuthor(int $authorId, int $recipeId): bool
 	{
 		$recipe = RecipesTable::getByPrimary($recipeId)->fetchObject();
-		if ($recipe['AUTHOR_ID'] == $authorId)
-		{
+		if ($recipe['AUTHOR_ID'] == $authorId) {
 			return true;
 		}
 		return false;
@@ -148,8 +154,7 @@ class RecipeRepository
 		$featuredRow = FeaturedTable::getByPrimary([
 			'RECIPE_ID' => $recipeId,
 			'USER_ID' => $userId,])->fetchObject();
-		if ($featuredRow !== null)
-		{
+		if ($featuredRow !== null) {
 			return true;
 		}
 		return false;
@@ -160,14 +165,13 @@ class RecipeRepository
 		$likedRow = LikesTable::getByPrimary([
 			'RECIPE_ID' => $recipeId,
 			'USER_ID' => $userId,])->fetchObject();
-		if ($likedRow !== null)
-		{
+		if ($likedRow !== null) {
 			return true;
 		}
 		return false;
 	}
 
-	public static function likesCount(int $recipeId):int
+	public static function likesCount(int $recipeId): int
 	{
 		return LikesTable::getCount(['=RECIPE_ID' => $recipeId]);
 	}
@@ -185,149 +189,101 @@ class RecipeRepository
 			->setSelect(['*'])
 			->setOffset(3 * ($page - 1))
 			->setLimit(4)
-			->setOrder( [
+			->setOrder([
 				'ID' => 'DESC'
 			]);
 
-		if (isset($filter['FEATURED']))
-		{
+		if (isset($filter['FEATURED'])) {
 			$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
-			if ($filter['FEATURED'] === 'Y')
-			{
+			if ($filter['FEATURED'] === 'Y') {
 				$recipes->whereIn('ID', $recipeIds);
-			}
-			else
-			{
+			} else {
 				$recipes->whereNotIn('ID', $recipeIds);
 			}
 		}
 
-		if (isset($filter['LIKED']))
-		{
+		if (isset($filter['LIKED'])) {
 			$recipeIds = LikesTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
-			if ($filter['LIKED'] === 'Y')
-			{
+			if ($filter['LIKED'] === 'Y') {
 				$recipes->whereIn('ID', $recipeIds);
-			}
-			else
-			{
+			} else {
 				$recipes->whereNotIn('ID', $recipeIds);
 			}
 		}
 
-		if (isset($filter['TITLE']) or isset($filter['FIND']))
-		{
-			if ($filter['TITLE'] !== '')
-			{
+		if (isset($filter['TITLE']) or isset($filter['FIND'])) {
+			if ($filter['TITLE'] !== '') {
 				$recipes->addFilter('%=TITLE', '%' . $filter['TITLE'] . '%');
 			}
-			if ($filter['FIND'] !== '')
-			{
+			if ($filter['FIND'] !== '') {
 				$recipes->addFilter('%=TITLE', '%' . $filter['FIND'] . '%');
 			}
 		}
 
-		if (isset($filter['TIME_from']) or isset($filter['TIME_to']))
-		{
-			if ($filter['TIME_from'] === '')
-			{
+		if (isset($filter['TIME_from']) or isset($filter['TIME_to'])) {
+			if ($filter['TIME_from'] === '') {
 				$recipes->addFilter('<TIME', round($filter['TIME_to']));
-			}
-			elseif ($filter['TIME_to'] === '')
-			{
+			} elseif ($filter['TIME_to'] === '') {
 				$recipes->addFilter('>TIME', round($filter['TIME_from']));
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('><TIME', [round($filter['TIME_from']), round($filter['TIME_to'])]);
 			}
 		}
 
-		if (isset($filter['CALORIES_from']) or isset($filter['CALORIES_to']))
-		{
-			if ($filter['CALORIES_from'] === '')
-			{
+		if (isset($filter['CALORIES_from']) or isset($filter['CALORIES_to'])) {
+			if ($filter['CALORIES_from'] === '') {
 				$recipes->addFilter('<CALORIES', round($filter['CALORIES_to']));
-			}
-			elseif ($filter['CALORIES_to'] === '')
-			{
+			} elseif ($filter['CALORIES_to'] === '') {
 				$recipes->addFilter('>CALORIES', round($filter['CALORIES_from']));
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('><CALORIES', [round($filter['CALORIES_from']), round($filter['CALORIES_to'])]);
 			}
 		}
 
-		if (isset($filter['FATS']) or isset($filter['FATS_to']))
-		{
-			if ($filter['FATS_from'] === '')
-			{
+		if (isset($filter['FATS']) or isset($filter['FATS_to'])) {
+			if ($filter['FATS_from'] === '') {
 				$recipes->addFilter('<FATS', round($filter['FATS_to']));
-			}
-			elseif ($filter['FATS_to'] === '')
-			{
+			} elseif ($filter['FATS_to'] === '') {
 				$recipes->addFilter('>FATS', round($filter['FATS_from']));
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('><FATS', [round($filter['FATS_from']), round($filter['FATS_to'])]);
 			}
 		}
-		if (isset($filter['CARBS']) or isset($filter['CARBS_to']))
-		{
-			if ($filter['CARBS_from'] === '')
-			{
+		if (isset($filter['CARBS']) or isset($filter['CARBS_to'])) {
+			if ($filter['CARBS_from'] === '') {
 				$recipes->addFilter('<CARBS', round($filter['CARBS_to']));
-			}
-			elseif ($filter['CARBS_to'] === '')
-			{
+			} elseif ($filter['CARBS_to'] === '') {
 				$recipes->addFilter('>CARBS', round($filter['CARBS_from']));
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('><CARBS', [round($filter['CARBS_from']), round($filter['CARBS_to'])]);
 			}
 		}
 
-		if (isset($filter['PROTEINS']) or isset($filter['PROTEINS_to']))
-		{
-			if ($filter['PROTEINS_from'] === '')
-			{
+		if (isset($filter['PROTEINS']) or isset($filter['PROTEINS_to'])) {
+			if ($filter['PROTEINS_from'] === '') {
 				$recipes->addFilter('<PROTEINS', round($filter['PROTEINS_to']));
-			}
-			elseif ($filter['PROTEINS_to'] === '')
-			{
+			} elseif ($filter['PROTEINS_to'] === '') {
 				$recipes->addFilter('>PROTEINS', round($filter['PROTEINS_from']));
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('><PROTEINS', [round($filter['PROTEINS_from']), round($filter['PROTEINS_to'])]);
 			}
 		}
 
-		if (isset($filter['MY_RECIPES']))
-		{
-			if ($filter['MY_RECIPES'] === 'Y')
-			{
+		if (isset($filter['MY_RECIPES'])) {
+			if ($filter['MY_RECIPES'] === 'Y') {
 				$recipes->addFilter('AUTHOR_ID', $userId);
-			}
-			else
-			{
+			} else {
 				$recipes->addFilter('!=AUTHOR_ID', $userId);
 			}
 		}
 
-		if (isset($filter['AUTHOR_ID']))
-		{
+		if (isset($filter['AUTHOR_ID'])) {
 			$recipes->addFilter('=AUTHOR_ID', $filter['AUTHOR_ID']);
 		}
 
-		if (isset($filter['PRODUCTS']))
-		{
+		if (isset($filter['PRODUCTS'])) {
 			$products = [];
-			foreach ($filter['PRODUCTS'] as $product)
-			{
+			foreach ($filter['PRODUCTS'] as $product) {
 				$products[] = (int)$product + 1;
 			}
 			//var_dump($products);
@@ -335,11 +291,9 @@ class RecipeRepository
 			$recipes->whereIn('ID', $recipeIds);
 		}
 		$recipes = $recipes->fetchAll();
-		foreach ($recipes as &$recipe)
-		{
+		foreach ($recipes as &$recipe) {
 			$recipe['IMAGE'] = ImageRepository::getRecipeCover($recipe['ID']);
-			if (!isset($recipe['IMAGE']))
-			{
+			if (!isset($recipe['IMAGE'])) {
 				$recipe['IMAGE'] = null;
 			}
 			$recipe = ValidationService::protectRecipeOutput($recipe);
@@ -363,8 +317,7 @@ class RecipeRepository
 			'filter' =>
 				['=RECIPE_ID' => $recipeid]
 		])->fetchAll();
-		foreach ($products as $product)
-		{
+		foreach ($products as $product) {
 			$stats['CALORIES'] += $product['CALORIES'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
 			$stats['PROTEINS'] += $product['PROTEINS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
 			$stats['FATS'] += $product['FATS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
@@ -372,41 +325,38 @@ class RecipeRepository
 		}
 		var_dump($stats);
 	}
-	public static function insertRecipeStats(int $recipeId,array $productStats):void
+
+	public static function insertRecipeStats(int $recipeId, array $productStats): void
 	{
 		$stats = ['CALORIES' => 0, 'PROTEINS' => 0, 'CARBS' => 0, 'FATS' => 0];
-		foreach ($productStats as $productStat)
-		{
+		foreach ($productStats as $productStat) {
 
-			$product=ProductsTable::getByPrimary($productStat[0])->fetch();
-			$measure=MeasuresTable::getByPrimary($productStat[2])->fetch();
-			if($measure['ID']==7)
-			{
-				$calories=$product['CALORIES']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
-				$proteins=$product['PROTEINS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
-				$carbs=$product['CARBS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
-				$fats=$product['FATS']*$productStat[1]*$product['WEIGHT_PER_UNIT']/100;
+			$product = ProductsTable::getByPrimary($productStat[0])->fetch();
+			$measure = MeasuresTable::getByPrimary($productStat[2])->fetch();
+			if ($measure['ID'] == 7) {
+				$calories = $product['CALORIES'] * $productStat[1] * $product['WEIGHT_PER_UNIT'] / 100;
+				$proteins = $product['PROTEINS'] * $productStat[1] * $product['WEIGHT_PER_UNIT'] / 100;
+				$carbs = $product['CARBS'] * $productStat[1] * $product['WEIGHT_PER_UNIT'] / 100;
+				$fats = $product['FATS'] * $productStat[1] * $product['WEIGHT_PER_UNIT'] / 100;
+			} else {
+				$calories = $product['CALORIES'] * $productStat[1] * $measure['COEFFICIENT'] / 100;
+				$proteins = $product['PROTEINS'] * $productStat[1] * $measure['COEFFICIENT'] / 100;
+				$carbs = $product['CARBS'] * $productStat[1] * $measure['COEFFICIENT'] / 100;
+				$fats = $product['FATS'] * $productStat[1] * $measure['COEFFICIENT'] / 100;
 			}
-			else
-			{
-				$calories=$product['CALORIES']*$productStat[1]*$measure['COEFFICIENT']/100;
-				$proteins=$product['PROTEINS']*$productStat[1]*$measure['COEFFICIENT']/100;
-				$carbs=$product['CARBS']*$productStat[1]*$measure['COEFFICIENT']/100;
-				$fats=$product['FATS']*$productStat[1]*$measure['COEFFICIENT']/100;
-			}
-			$stats['CALORIES']+=$calories;
-			$stats['PROTEINS']+=$proteins;
-			$stats['CARBS']+=$carbs;
-			$stats['FATS']+=$fats;
+			$stats['CALORIES'] += $calories;
+			$stats['PROTEINS'] += $proteins;
+			$stats['CARBS'] += $carbs;
+			$stats['FATS'] += $fats;
 
 		}
 		RecipesTable::update($recipeId,
-		[
-			'CALORIES'=>round($stats['CALORIES']),
-			'PROTEINS'=>round($stats['PROTEINS']),
-			'CARBS'=>round($stats['CARBS']),
-			'FATS'=>round($stats['FATS']),
-		]);
+			[
+				'CALORIES' => round($stats['CALORIES']),
+				'PROTEINS' => round($stats['PROTEINS']),
+				'CARBS' => round($stats['CARBS']),
+				'FATS' => round($stats['FATS']),
+			]);
 	}
 
 	public static function getDailyRecipe(): array
@@ -416,17 +366,17 @@ class RecipeRepository
 		$recipe['IMAGE'] = ImageRepository::getRecipeCover($dailyRecipeId);
 		return $recipe;
 	}
-	public static function isRecipeDaily(int $recipeId):bool
+
+	public static function isRecipeDaily(int $recipeId): bool
 	{
 		$dailyRecipeId = Option::get("up.yummy", "dailyRecipeId");
-		if($dailyRecipeId !== $recipeId)
-		{
+		if ($dailyRecipeId !== $recipeId) {
 			return false;
 		}
 		return true;
 	}
 
-	public static function updateDailyRecipe():void
+	public static function updateDailyRecipe(): void
 	{
 		$recipeId = null;
 		while ($recipeId === null) {
@@ -439,11 +389,10 @@ class RecipeRepository
 		Option::set("up.yummy", "dailyRecipeId", $recipeId);
 	}
 
-	public static function updateProducts(int $recipeId, array $products):void
+	public static function updateProducts(int $recipeId, array $products): void
 	{
-		RecipeProductTable::deleteByFilter(['=RECIPE_ID'=>$recipeId]);
-		foreach ($products as $product)
-		{
+		RecipeProductTable::deleteByFilter(['=RECIPE_ID' => $recipeId]);
+		foreach ($products as $product) {
 			RecipeProductTable::add([
 				'RECIPE_ID' => $recipeId,
 				'PRODUCT_ID' => $product[0],

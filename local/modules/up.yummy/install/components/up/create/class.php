@@ -7,7 +7,7 @@ class CreateComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->arResult['PRODUCTS'] = RecipeRepository::getProducts();
-		$this->arResult['MEASURES'] = RecipeRepository::getMeasures();
+		$this->arResult['PRODUCT_MEASURES'] = RecipeRepository::getProductMeasures();
 		$this->includeComponentTemplate();
 	}
 }

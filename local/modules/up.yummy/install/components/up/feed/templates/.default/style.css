@@ -7,13 +7,12 @@
 	display:flex;
 	justify-content: space-between;
 	margin-bottom: 30px;
+	width: 10px  !important;
 }
+
 .recipe_card{
 	width: 70%;
 	margin-bottom: 30px;
-}
-.search_input{
-	width: 70%;
 }
 
 .title_line{
@@ -38,4 +37,5 @@
 }
 .main-ui-filter-search{
 	border: 1px solid black !important;
+	width: 10% !important;
 }
