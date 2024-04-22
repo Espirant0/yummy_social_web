@@ -1,5 +1,17 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
+html{
+	width: 100%  !important;
+	max-width: 100%  !important;
+	overflow-x: hidden !important;
+}
+
+.template-bitrix24
+{
+	width: 100%  !important;
+	max-width: 100%  !important;
+	overflow-x: hidden  !important;
+}
 .bottom_content{
 	text-align: center;
 }
@@ -75,6 +87,12 @@
 	display: flex !important;
 	justify-content: left !important;
 	text-align: left;
+}
+.description_container{
+	word-break: break-all;
+}
+.step_container{
+	word-break: break-all;
 }
 /*
 .workarea-content{

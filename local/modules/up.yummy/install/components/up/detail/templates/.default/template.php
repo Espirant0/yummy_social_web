@@ -112,11 +112,11 @@ $recipe = $arResult['RECIPE'];
 				<?php endif; ?>
 			</div>
 		</div>
-		<div class="notification is-info">
+		<div class="description_container notification is-info">
 			<p class="title">Описание</p><br>
 			<?= $recipe['DESCRIPTION'] ?>
 		</div>
-		<div class="container instruction">
+		<div class="step_container container instruction">
 			<?php foreach($arResult['STEPS']as $step):?>
 			<div class="notification is-primary">
                 <div>Шаг номер <?=$step['STEP']?></div>

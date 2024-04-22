@@ -23,7 +23,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control">
-							<textarea class="textarea" name="DESCRIPTION" placeholder="Описание рецепта"></textarea>
+							<textarea class="textarea" name="DESCRIPTION" placeholder="Описание рецепта" maxlength="250"></textarea>
 						</div>
 					</div>
 				</div>
@@ -205,6 +205,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			textareaCount++;
 			const textarea = document.createElement('textarea');
 			textarea.required = true;
+			textarea.maxLength = 150;
 			textarea.name = `STEPS[]`;
 			textarea.id = `textarea-${textareaCount}`;
 			stepContainer.appendChild(textarea);

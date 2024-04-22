@@ -20,7 +20,7 @@ class AddComponent extends CBitrixComponent
 		$amount=ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 		if($this->handleExceptions($title,$description,$time,$steps,$amount))
 		{
-			$products =array_map(null, request()['PRODUCTS'], $amount, request()['MEASURES']);
+			$products = array_map(null, request()['PRODUCTS'], $amount, request()['MEASURES']);
 			$this->createRecipe($title,$description,$time,$userId,$products,$steps);
 			LocalRedirect('/');
 		}

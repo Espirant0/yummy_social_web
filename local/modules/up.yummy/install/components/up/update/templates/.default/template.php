@@ -30,7 +30,7 @@ $recipe = $arResult['RECIPE'];
 					<div class="field">
 						<div class="control">
 							<textarea class="textarea" required
-									  name="DESCRIPTION"><?= $recipe['DESCRIPTION'] ?></textarea>
+									  name="DESCRIPTION" maxlength="250"><?= $recipe['DESCRIPTION'] ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -104,6 +104,7 @@ $recipe = $arResult['RECIPE'];
 							  id="textarea-<?= $step['STEP'] ?>"
 							  placeholder="Описание шага"
 							  required
+							  maxlength="150"
 					><?= $step['DESCRIPTION'] ?></textarea>
 				<?php endforeach; ?>
 			</div>
