@@ -23,7 +23,7 @@ class FeedComponent extends CBitrixComponent
 							'id' => 'user',
 							'options' => [
 								'inviteEmployeeLink' => false,
-								'all-users'=> true,
+								'all-users' => true,
 							],
 						],
 					]
@@ -42,7 +42,7 @@ class FeedComponent extends CBitrixComponent
 			['id' => 'PROTEINS', 'name' => 'Белки', 'type' => 'number', 'default' => false],
 			['id' => 'PRODUCTS', 'name' => 'Продукты', 'type' => 'list',
 				'params' => ['multiple' => 'Y', 'tabs' =>
-					[ 'id' => 'my-tab', 'title' => 'Моя вкладка' ],
+					['id' => 'my-tab', 'title' => 'Моя вкладка'],
 				],
 				'items' => $products,
 				'default' => false
@@ -55,13 +55,15 @@ class FeedComponent extends CBitrixComponent
 
 		$filterOption = new Options('recipe_list');
 		$filter = $filterOption->getFilter([$this->arParams['FILTER']]);
-
 		$page = PaginationService::validateOffset(request()['page']);
 		$this->arResult['RECIPES'] = RecipeRepository::getRecipeFeed($page, $filter);
-		$this->arResult['PAGES']  = PaginationService::getPages($page, $this->arResult['RECIPES']);
+		$this->arResult['NOT_FOUND_MESSAGE'] = 'По вашему запросу ничего найдено.';
+		$this->arResult['PAGES'] = PaginationService::getPages($page, $this->arResult['RECIPES']);
 		$this->arResult['DAILY_RECIPE'] = RecipeRepository::getDailyRecipe();
-		$this->arResult['PAGE']=$page;
-		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize) {
+		$this->arResult['PAGE'] = $page;
+		$this->arResult['NOT_FOUND_MESSAGE'] = 'По вашему запросу ничего найдено.';
+		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize)
+		{
 			array_pop($this->arResult['RECIPES']);
 		}
 

@@ -22,6 +22,7 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 					]);?>
 				</form>
 			</div>
+			<?=(empty($arResult['RECIPES'])?$arResult['NOT_FOUND_MESSAGE']: '')?>
             <?php foreach($arResult['RECIPES'] as $recipe):?>
 				<div class="card recipe_card">
 					<a href="/detail/<?=$recipe['ID']?>/">
