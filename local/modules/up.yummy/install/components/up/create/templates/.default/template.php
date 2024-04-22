@@ -4,7 +4,7 @@
  * @var array $arResult
  */
 $products = json_encode($arResult['PRODUCTS']);
-$measures = json_encode($arResult['MEASURES']);
+$productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -88,13 +88,11 @@ $measures = json_encode($arResult['MEASURES']);
 			</div>
 		</form>
 	</div>
-
-
 </div>
 
 <script>
 	const products = JSON.parse('<?=$products;?>');
-	const measures = JSON.parse('<?=$measures;?>');
+	const measures = JSON.parse('<?=$productMeasures;?>');
 	const body = document.getElementById("container");
 	const stepContainer = document.getElementById("step_container");
     const imgInp=document.getElementById("img_inp");
@@ -103,58 +101,103 @@ $measures = json_encode($arResult['MEASURES']);
 	let selectCount = 0;
     let submit_button = document.getElementById("submit_button");
 
+	let emptyProducts = [];
+	let hasNotEmptyProducts = true;
+
 	function createSelect() {
-		selectCount++;
-		const select = document.createElement("select");
-		const measure_select = document.createElement("select");
-		const input = document.createElement("input");
-		const div = document.createElement("div");
-		const div2 = document.createElement("div");
-		const container = document.createElement("div");
-		select.id = `PRODUCT_${selectCount}`;
-		select.name = `PRODUCTS[]`;
+		if (selectCount < 30) {
+			selectCount++;
+			emptyProducts[selectCount] = true;
+			hasNotEmptyProducts = checkArray(emptyProducts);
+			buttonCheck()
+			const select = document.createElement("select");
+			const measure_select = document.createElement("select");
+			const input = document.createElement("input");
+			const div = document.createElement("div");
+			const div2 = document.createElement("div");
+			const container = document.createElement("div");
+			select.id = `PRODUCT_${selectCount}`;
+			select.name = `PRODUCTS[]`;
+			measure_select.id = `MEASURE_${selectCount}`;
+			measure_select.name = `MEASURES[]`;
 
-		measure_select.id = `MEASURE_${selectCount}`;
-		measure_select.name = `MEASURES[]`;
+			input.id = `PRODUCT_QUANTITY_${selectCount}`;
+			input.required = true;
+			input.name = `PRODUCTS_QUANTITY[]`;
 
-		input.id = `PRODUCT_QUANTITY_${selectCount}`;
-		input.required = true;
-		input.name = `PRODUCTS_QUANTITY[]`;
+			select.className = `product_select`;
+			input.className = `input product_input`;
+			container.className = `select_container`
+			container.id = `container_${selectCount}`;
+			div.className = `select select_div`;
+			div2.className = `select select_div`;
+			div2.id = `select_div_${selectCount}`;
 
-		select.className = `product_select`;
-		input.className = `input product_input`;
-		container.className = `select_container`
-		container.id = `container_${selectCount}`;
-		div.className = `select select_div`;
-		div2.className = `select select_div`;
+			div.appendChild(select);
 
-		div.appendChild(select);
-		div2.appendChild(measure_select);
-		container.appendChild(div);
-		container.appendChild(input);
-		container.appendChild(div2);
-		body.appendChild(container);
-
-		for (let i = 0; i < products.length; i++) {
-			const option = document.createElement("option");
-			option.value = products[i].ID;
-			option.text = products[i].NAME;
-			select.add(option);
-		}
-		for (let i = 0; i < measures.length; i++) {
-			const option = document.createElement("option");
-			option.value = measures[i].ID;
-			option.text = measures[i].TITLE;
-			measure_select.add(option);
-            buttonCheck()
+			container.appendChild(div);
+			body.appendChild(container);
+			let placeholder = document.createElement("option");
+			placeholder.text = "Выберите продукт";
+			select.appendChild(placeholder);
+			products.forEach(function (option) {
+				var firstOption = document.createElement('option');
+				firstOption.value = option.ID;
+				firstOption.text = option.NAME;
+				select.appendChild(firstOption);
+			});
+			for (let i = 1; i <= selectCount; i++) {
+				hasNotEmptyProducts = checkArray(emptyProducts);
+				buttonCheck()
+				select.addEventListener('change', function () {
+					var selectedValue = this.value;
+					var selectedText = this.options[this.selectedIndex].text;
+					measure_select.innerHTML = '';
+					if (selectedText === placeholder.text) {
+						emptyProducts[i] = true;
+						div2.remove();
+						input.remove();
+						hasNotEmptyProducts = checkArray(emptyProducts);
+						buttonCheck()
+					} else {
+						emptyProducts[i] = false;
+						input.value = ``;
+						container.appendChild(input);
+						div2.appendChild(measure_select);
+						container.appendChild(div2);
+						hasNotEmptyProducts = checkArray(emptyProducts);
+						buttonCheck()
+					}
+					measures[selectedValue].forEach(function (option) {
+						var secondOption = document.createElement('option');
+						secondOption.value = option.ID;
+						secondOption.text = option.MEASURE_NAME;
+						measure_select.appendChild(secondOption);
+					});
+					hasNotEmptyProducts = checkArray(emptyProducts);
+					buttonCheck()
+				});
+			}
 		}
 	}
 
 	function deleteSelect() {
+		hasNotEmptyProducts = checkArray(emptyProducts);
+		buttonCheck()
 		const element = document.getElementById(`container_${selectCount}`);
 		element.remove();
 		selectCount--;
-        buttonCheck()
+		hasNotEmptyProducts = checkArray(emptyProducts);
+		buttonCheck()
+	}
+
+	function checkArray(emptyProducts) {
+		for (let i = 0; i < emptyProducts.length; i++) {
+			if (emptyProducts[i] === true) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	function createStep() {
@@ -176,10 +219,9 @@ $measures = json_encode($arResult['MEASURES']);
 		textareaCount--;
         buttonCheck()
 	}
-    function buttonCheck()
-    {
-        submit_button.disabled = !(textareaCount > 0 && selectCount > 0);
-    }
+	function buttonCheck() {
+		submit_button.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
+	}
 
 
     imgInp.onchange = evt =>
@@ -189,5 +231,4 @@ $measures = json_encode($arResult['MEASURES']);
             imgPre.src = URL.createObjectURL(file)
         }
     }
-
 </script>
