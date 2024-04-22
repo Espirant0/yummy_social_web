@@ -87,6 +87,10 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 			</div>
 		</div>
 	</div>
-    <a href="/?page=<?=$arResult['PAGES'][0]?>">НАЗАД</a>
-    <a href="/?page=<?=$arResult['PAGES'][1]?>">ВПЕРЕД</a>
+    <?php if(!($arResult['PAGES'][0]==1 && $arResult['PAGE']<2)):?>
+    <a id="backward" href="/?page=<?=$arResult['PAGES'][0]?>">НАЗАД</a>
+    <?php endif;?>
+    <?php if($arResult['PAGE']<$arResult['PAGES'][1]):?>
+    <a id="forward" href="/?page=<?=$arResult['PAGES'][1]?>">ВПЕРЕД</a>
+    <?php endif;?>
 </div>

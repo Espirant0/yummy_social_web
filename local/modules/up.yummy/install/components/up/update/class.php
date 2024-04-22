@@ -34,7 +34,7 @@ class UpdateComponent extends CBitrixComponent
 			if ($method === true)
 			{
 				$title = ValidationService::validateString(request()['NAME'], 50);
-				$description = ValidationService::validateString(request()['DESCRIPTION'], 10000);
+				$description = ValidationService::validateString(request()['DESCRIPTION'], 250);
 				$time = ValidationService::validatePositiveInteger(request()['TIME']);
 				$steps =ValidationService::validateSteps(request()['STEPS']);
 				$products =request()['PRODUCTS'];
