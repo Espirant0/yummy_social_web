@@ -212,11 +212,11 @@ class RecipeRepository
 		}
 
 		if (isset($filter['TITLE']) or isset($filter['FIND'])) {
-			if ($filter['TITLE'] !== '') {
-				$recipes->addFilter('%=TITLE', '%' . $filter['TITLE'] . '%');
+			if (trim($filter['TITLE']) !== '') {
+				$recipes->addFilter('%=TITLE', '%' . trim($filter['TITLE']) . '%');
 			}
-			if ($filter['FIND'] !== '') {
-				$recipes->addFilter('%=TITLE', '%' . $filter['FIND'] . '%');
+			if (trim($filter['FIND']) !== '') {
+				$recipes->addFilter('%=TITLE', '%' . trim($filter['FIND']) . '%');
 			}
 		}
 
