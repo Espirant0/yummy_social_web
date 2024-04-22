@@ -44,7 +44,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 					<div class="field">
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
-							<input type="file" name="IMAGES" id="img_inp">
+                            <input type="file" name="IMAGES" id="img_inp" accept="image/*">
                             <img id="img_pre" src="#" alt="your image" />
 						</p>
 					</div>
@@ -226,9 +226,30 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 
     imgInp.onchange = evt =>
     {
+        Filevalidation()
         const [file] = imgInp.files
         if (file) {
             imgPre.src = URL.createObjectURL(file)
+        }
+    }
+    Filevalidation = () =>
+    {
+        const fi = document.getElementById('img_inp');
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for ( let i = 0; i <= fi.files.length - 1; i++) {
+
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 2048)
+                {
+                    alert(
+                        "ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
+                    fi.value='';
+                }
+
+            }
         }
     }
 </script>

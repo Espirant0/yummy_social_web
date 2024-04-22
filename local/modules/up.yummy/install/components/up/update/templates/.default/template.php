@@ -121,7 +121,7 @@ $recipe = $arResult['RECIPE'];
 							<?php
 							echo bitrix_sessid_post();
 							?>
-							<input type="file" name="IMAGES" id="img_inp">
+                            <input type="file" name="IMAGES" id="img_inp" accept="image/*">
 							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt="your image"/>
 						</p>
 					</div>
@@ -315,6 +315,7 @@ $recipe = $arResult['RECIPE'];
 	}
 
 	imgInp.onchange = evt => {
+        Filevalidation()
 		const [file] = imgInp.files
 		if (file) {
 			imgPre.src = URL.createObjectURL(file)
@@ -324,5 +325,25 @@ $recipe = $arResult['RECIPE'];
 	function buttonCheck() {
 		submit_button.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
 	}
+    Filevalidation = () =>
+    {
+        const fi = document.getElementById('img_inp');
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for ( let i = 0; i <= fi.files.length - 1; i++) {
+
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 2048)
+                {
+                    alert(
+                        "ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
+                    fi.value='';
+                }
+
+            }
+        }
+    }
 
 </script>
