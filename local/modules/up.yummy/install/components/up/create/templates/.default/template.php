@@ -103,7 +103,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	let textareaCount = 0;
 	let selectCount = 0;
     let create_recipe_btn = document.getElementById("create_recipe_btn");
-
+	console.log(products)
+	console.log(measures)
 	let emptyProducts = [];
 	let hasNotEmptyProducts = true;
 

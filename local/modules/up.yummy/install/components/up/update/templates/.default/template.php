@@ -10,6 +10,12 @@ $productsCount = 1;
 $stepsSize = $arResult['STEPS_SIZE'];
 $productsSize = $arResult['PRODUCTS_SIZE'];
 $recipe = $arResult['RECIPE'];
+$jsParams = json_encode([
+	'products' => json_encode($arResult['PRODUCTS']),
+	'measures' => json_encode($arResult['PRODUCT_MEASURES']),
+	'stepSize' => $arResult['STEPS_SIZE'],
+	'productsSize' => $arResult['PRODUCTS_SIZE'],
+]);
 ?>
 <form action="/detail/<?= $recipe['ID'] ?>/" method="get" class="create_btn">
 	<button class="button is-success" id="comeback_btn">Назад</button>
@@ -53,8 +59,8 @@ $recipe = $arResult['RECIPE'];
 					<?php foreach ($arResult['USED_PRODUCTS'] as $productSelect): ?>
 						<div class="select_container" id="container_<?= $productsCount ?>">
 							<div class="select select_div">
-								<select name="PRODUCTS[]" id="update_product_<?= $productsCount ?>" class="product_select">
-									<option>Выберите продукт</option>
+								<select name="PRODUCTS[]" id="update_product_<?= $productsCount ?>" class="product_select" onclick="UpdateRecipe.updateSelects()">
+									<option onClick="UpdateRecipe.updateSelects()">Выберите продукт</option>
 									<?php foreach ($arResult['PRODUCTS'] as $product): ?>
 										<option <?= ($product['ID'] === $productSelect['PRODUCT_ID']) ? 'selected' : '' ?>
 											value="<?= $product['ID'] ?>"
@@ -90,12 +96,13 @@ $recipe = $arResult['RECIPE'];
 					<?php endforeach; ?>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" id="add_product_btn" type="button" onClick="createSelect()">Добавить
-						продукт
+					<button class="button is-primary is-expanded" id="add_product_btn" type="button"
+							onclick="UpdateRecipe.createSelect()"
+					>Добавить продукт
 					</button>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" id="remove_product_btn" type="button" onClick="deleteSelect()">Удалить
+					<button class="button is-primary is-expanded" id="remove_product_btn" type="button" onclick="UpdateRecipe.deleteSelect()">Удалить
 						продукт
 					</button>
 				</div>
@@ -112,10 +119,10 @@ $recipe = $arResult['RECIPE'];
 				<?php endforeach; ?>
 			</div>
 			<div class="step_btn">
-				<button class="button is-primary is-expanded" id="add_step_btn" type="button" onClick="createStep()">Добавить шаг</button>
+				<button class="button is-primary is-expanded" id="add_step_btn" type="button" onclick="UpdateRecipe.createStep()">Добавить шаг</button>
 			</div>
 			<div class="step_btn">
-				<button class="button is-primary is-expanded" id="remove_step_btn" type="button" onClick="deleteStep()">Удалить шаг</button>
+				<button class="button is-primary is-expanded" id="remove_step_btn" type="button" onclick="UpdateRecipe.deleteStep()">Удалить шаг</button>
 			</div>
 			<label for="IMAGES">Фото рецепта</label>
 			<div class="field is-horizontal">
@@ -125,7 +132,7 @@ $recipe = $arResult['RECIPE'];
 							<?php
 							echo bitrix_sessid_post();
 							?>
-                            <input type="file" name="IMAGES" id="img_input" accept="image/*">
+                            <input type="file" name="IMAGES" id="img_input" accept="image/*" onclick="UpdateRecipe.changeImage()">
 							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt="your image"/>
 						</p>
 					</div>
@@ -145,15 +152,19 @@ $recipe = $arResult['RECIPE'];
 		</form>
 	</div>
 </div>
-
 <script>
-	const products = JSON.parse('<?=$products;?>');
-	const measures = JSON.parse('<?=$productMeasures;?>');
+	UpdateRecipe.init(<?=$products?> , <?=$productMeasures?>, <?=$stepsSize?>, <?=$productsSize?>);
+	UpdateRecipe.buttonCheck();
+
+</script>
+<!--<script>
+	const products = JSON.parse('<?php /*=$products;*/?>');
+	const measures = JSON.parse('<?php /*=$productMeasures;*/?>');
 	const body = document.getElementById("container");
 	const imgInp = document.getElementById("img_input");
 	const imgPre = document.getElementById("img_pre");
-	let textareaCount = <?=$stepsSize?>;
-	let selectCount = <?=$productsSize?>;
+	let textareaCount = <?php /*=$stepsSize*/?>;
+	let selectCount = <?php /*=$productsSize*/?>;
 	const stepContainer = document.getElementById("step_container")
 	let update_recipe_btn = document.getElementById("update_recipe_btn");
 
@@ -351,3 +362,4 @@ $recipe = $arResult['RECIPE'];
     }
 
 </script>
+-->
