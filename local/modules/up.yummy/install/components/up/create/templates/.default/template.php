@@ -35,7 +35,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="text" id="create_time_input" pattern="[0-9]{,3}"
+							<input class="input" name="TIME" type="number" id="create_time_input" min="1" pattern="[0-9]{,3}"
 								   placeholder="Время приготовления" required>
 						</p>
 					</div>
@@ -48,7 +48,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
                             <input type="file" name="IMAGES" id="img_input" accept="image/*">
-                            <img id="img_pre" src="#" alt="your image" />
+                            <img id="img_pre" src="#" alt=""/>
 						</p>
 					</div>
 				</div>
@@ -127,7 +127,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			input.id = `create_product_quantity_${selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
-
+			input.type = `number`;
+			input.min = 1;
 			select.className = `product_select`;
 			input.className = `input product_input`;
 			container.className = `select_container`
@@ -210,6 +211,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			textarea.required = true;
 			textarea.maxLength = 150;
 			textarea.name = `STEPS[]`;
+			textarea.className = `textarea`;
 			textarea.id = `create_step_description_${textareaCount}`;
 			stepContainer.appendChild(textarea);
             buttonCheck()

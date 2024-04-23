@@ -42,7 +42,7 @@ $recipe = $arResult['RECIPE'];
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="number" value="<?= $recipe['TIME'] ?>"
+							<input class="input" name="TIME" type="number" min="1" value="<?= $recipe['TIME'] ?>"
 								   placeholder="Время приготовления" id="update_time_input" required>
 						</p>
 					</div>
@@ -66,7 +66,8 @@ $recipe = $arResult['RECIPE'];
 							</div>
 							<input
 								id="update_product_quantity_<?= $productsCount ?>"
-								type="text"
+								type="number"
+								min="1"
 								class="input product_input"
 								required
 								name="PRODUCTS_QUANTITY[]"
@@ -126,7 +127,7 @@ $recipe = $arResult['RECIPE'];
 							echo bitrix_sessid_post();
 							?>
                             <input type="file" name="IMAGES" id="img_input" accept="image/*">
-							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt="your image"/>
+							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt=""/>
 						</p>
 					</div>
 				</div>
@@ -232,6 +233,8 @@ $recipe = $arResult['RECIPE'];
 			input.id = `update_product_quantity_${selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
+			input.type = `number`;
+			input.min = 1;
 
 			select.className = `product_select`;
 			input.className = `input product_input`;
@@ -305,7 +308,8 @@ $recipe = $arResult['RECIPE'];
 			textarea.required = true;
 			textarea.name = `STEPS[]`;
 			textarea.className = `textarea`;
-			textarea.id = `update_step_description_${textareaCount}`
+			textarea.id = `update_step_description_${textareaCount}`;
+			textarea.maxLength = 150;
 			stepContainer.appendChild(textarea);
 			buttonCheck()
 		}
