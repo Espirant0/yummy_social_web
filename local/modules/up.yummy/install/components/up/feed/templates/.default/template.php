@@ -25,7 +25,7 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 			<?=(empty($arResult['RECIPES'])?$arResult['NOT_FOUND_MESSAGE']: '')?>
             <?php foreach($arResult['RECIPES'] as $recipe):?>
 				<div class="card recipe_card">
-					<a href="/detail/<?=$recipe['ID']?>/">
+					<a href="/detail/<?=$recipe['ID']?>/" id="recipe_card_<?=$recipe['ID']?>">
 					<img
                         <?php if (isset($recipe['IMAGE'])):?>
                         src="<?=$recipe['IMAGE']?>"
@@ -66,11 +66,11 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 		</div>
 		<div class="column right_col is-one-quarter is-offset-1">
 			<div class="daily_recipe">
-				<form action="/create/" method="get" target="_blank" class="create_btn">
-					<button class="button is-success">Добавить рецепт</button>
+				<form action="/create/" method="get" class="create_btn">
+					<button class="button is-success" id="add_recipe_btn">Добавить рецепт</button>
 				</form>
 				<p class="title is-4 has-text-centered">Рецепт дня</p>
-				<a href="/detail/<?=$dailyRecipe['ID']?>/">
+				<a href="/detail/<?=$dailyRecipe['ID']?>/" id="daily_recipe_card">
 					<div class="card">
 						<img
 							<?php if (isset($dailyRecipe['IMAGE'])):?>
@@ -85,13 +85,16 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 						</div>
 					</div>
 				</a>
+				<form action="/planner/" method="get" class="create_btn">
+					<button class="button is-success" id="planner_btn">Планировщик</button>
+				</form>
 			</div>
 		</div>
 	</div>
     <?php if(!($arResult['PAGES'][0]==1 && $arResult['PAGE']<2)):?>
-    <a id="backward" href="/?page=<?=$arResult['PAGES'][0]?>">НАЗАД</a>
+    <a id="prev_page_btn" href="/?page=<?=$arResult['PAGES'][0]?>">НАЗАД</a>
     <?php endif;?>
     <?php if($arResult['PAGE']<$arResult['PAGES'][1]):?>
-    <a id="forward" href="/?page=<?=$arResult['PAGES'][1]?>">ВПЕРЕД</a>
+    <a id="next_page_btn" href="/?page=<?=$arResult['PAGES'][1]?>">ВПЕРЕД</a>
     <?php endif;?>
 </div>

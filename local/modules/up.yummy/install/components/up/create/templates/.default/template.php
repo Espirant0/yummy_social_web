@@ -6,6 +6,9 @@
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
+<form action="/" method="get" class="create_btn">
+	<button class="button is-success" id="comeback_btn">Назад</button>
+</form>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
 		<p class="title has-text-centered">Добавить рецепт</p>
@@ -14,7 +17,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field ">
 						<p class="control">
-							<input class="input" name="NAME" type="text" placeholder="Название рецепта" required>
+							<input class="input" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" required>
 						</p>
 					</div>
 				</div>
@@ -23,7 +26,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control">
-							<textarea class="textarea" name="DESCRIPTION" placeholder="Описание рецепта" maxlength="250"></textarea>
+							<textarea class="textarea" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250"></textarea>
 						</div>
 					</div>
 				</div>
@@ -32,7 +35,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="text" pattern="[0-9]{,3}"
+							<input class="input" name="TIME" type="text" id="create_time_input" pattern="[0-9]{,3}"
 								   placeholder="Время приготовления" required>
 						</p>
 					</div>
@@ -44,7 +47,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 					<div class="field">
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
-                            <input type="file" name="IMAGES" id="img_inp" accept="image/*">
+                            <input type="file" name="IMAGES" id="img_input" accept="image/*">
                             <img id="img_pre" src="#" alt="your image" />
 						</p>
 					</div>
@@ -55,23 +58,23 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить
+					<button class="button is-primary is-expanded" type="button" id="add_product_btn" onClick="createSelect()">Добавить
 						продукт
 					</button>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="deleteSelect()">Удалить
+					<button class="button is-primary is-expanded" type="button" id="remove_product_btn" onClick="deleteSelect()">Удалить
 						продукт
 					</button>
 				</div>
 			</div>
 			<div id="step_container">
 				<div class="step_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг
+					<button class="button is-primary is-expanded" type="button" id="add_step_btn"  onClick="createStep()">Добавить шаг
 					</button>
 				</div>
 				<div class="step_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="deleteStep()">Удалить шаг
+					<button class="button is-primary is-expanded" type="button" id="remove_step_btn" onClick="deleteStep()">Удалить шаг
 					</button>
 				</div>
 			</div>
@@ -79,7 +82,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button type="submit" class="button is-primary" id="submit_button" disabled>
+							<button type="submit" class="button is-primary" id="create_recipe_btn" disabled>
 								Добавить рецепт
 							</button>
 						</div>
@@ -95,11 +98,11 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	const measures = JSON.parse('<?=$productMeasures;?>');
 	const body = document.getElementById("container");
 	const stepContainer = document.getElementById("step_container");
-    const imgInp=document.getElementById("img_inp");
+    const imgInp=document.getElementById("img_input");
     const imgPre=document.getElementById("img_pre");
 	let textareaCount = 0;
 	let selectCount = 0;
-    let submit_button = document.getElementById("submit_button");
+    let create_recipe_btn = document.getElementById("create_recipe_btn");
 
 	let emptyProducts = [];
 	let hasNotEmptyProducts = true;
@@ -116,12 +119,12 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			const div = document.createElement("div");
 			const div2 = document.createElement("div");
 			const container = document.createElement("div");
-			select.id = `PRODUCT_${selectCount}`;
+			select.id = `create_product_${selectCount}`;
 			select.name = `PRODUCTS[]`;
-			measure_select.id = `MEASURE_${selectCount}`;
+			measure_select.id = `create_measure_${selectCount}`;
 			measure_select.name = `MEASURES[]`;
 
-			input.id = `PRODUCT_QUANTITY_${selectCount}`;
+			input.id = `create_product_quantity_${selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 
@@ -207,7 +210,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			textarea.required = true;
 			textarea.maxLength = 150;
 			textarea.name = `STEPS[]`;
-			textarea.id = `textarea-${textareaCount}`;
+			textarea.id = `create_step_description_${textareaCount}`;
 			stepContainer.appendChild(textarea);
             buttonCheck()
 		}
@@ -215,13 +218,13 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	}
 
 	function deleteStep() {
-		const element = document.getElementById(`textarea-${textareaCount}`);
+		const element = document.getElementById(`create_step_description_${textareaCount}`);
 		element.remove();
 		textareaCount--;
         buttonCheck()
 	}
 	function buttonCheck() {
-		submit_button.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
+		create_recipe_btn.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
 	}
 
 
@@ -235,7 +238,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
     }
     Filevalidation = () =>
     {
-        const fi = document.getElementById('img_inp');
+        const fi = document.getElementById('img_input');
         // Check if any file is selected.
         if (fi.files.length > 0) {
             for ( let i = 0; i <= fi.files.length - 1; i++) {

@@ -11,6 +11,9 @@ $stepsSize = $arResult['STEPS_SIZE'];
 $productsSize = $arResult['PRODUCTS_SIZE'];
 $recipe = $arResult['RECIPE'];
 ?>
+<form action="/detail/<?= $recipe['ID'] ?>/" method="get" class="create_btn">
+	<button class="button is-success" id="comeback_btn">Назад</button>
+</form>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
 		<p class="title has-text-centered">ИЗМЕНИТЬ РЕЦЕПТ</p>
@@ -20,7 +23,7 @@ $recipe = $arResult['RECIPE'];
 					<div class="field ">
 						<p class="control">
 							<input class="input" name="NAME" type="text" placeholder="Название рецепта"
-								   value="<?= $recipe['TITLE'] ?>" required>
+								   value="<?= $recipe['TITLE'] ?>" id="update_title_input" required>
 						</p>
 					</div>
 				</div>
@@ -30,7 +33,7 @@ $recipe = $arResult['RECIPE'];
 					<div class="field">
 						<div class="control">
 							<textarea class="textarea" required
-									  name="DESCRIPTION" maxlength="250"><?= $recipe['DESCRIPTION'] ?></textarea>
+									  name="DESCRIPTION" maxlength="250" id="update_description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -40,7 +43,7 @@ $recipe = $arResult['RECIPE'];
 					<div class="field">
 						<p class="control">
 							<input class="input" name="TIME" type="number" value="<?= $recipe['TIME'] ?>"
-								   placeholder="Время приготовления" required>
+								   placeholder="Время приготовления" id="update_time_input" required>
 						</p>
 					</div>
 				</div>
@@ -50,7 +53,7 @@ $recipe = $arResult['RECIPE'];
 					<?php foreach ($arResult['USED_PRODUCTS'] as $productSelect): ?>
 						<div class="select_container" id="container_<?= $productsCount ?>">
 							<div class="select select_div">
-								<select name="PRODUCTS[]" id="PRODUCT_<?= $productsCount ?>" class="product_select">
+								<select name="PRODUCTS[]" id="update_product_<?= $productsCount ?>" class="product_select">
 									<option>Выберите продукт</option>
 									<?php foreach ($arResult['PRODUCTS'] as $product): ?>
 										<option <?= ($product['ID'] === $productSelect['PRODUCT_ID']) ? 'selected' : '' ?>
@@ -62,7 +65,7 @@ $recipe = $arResult['RECIPE'];
 								</select>
 							</div>
 							<input
-								id="PRODUCT_QUANTITY_<?= $productsCount ?>"
+								id="update_product_quantity_<?= $productsCount ?>"
 								type="text"
 								class="input product_input"
 								required
@@ -70,7 +73,7 @@ $recipe = $arResult['RECIPE'];
 								<?= isset($productSelect['VALUE']) ? "value='" . $productSelect['VALUE'] . "'" : '' ?>
 							>
 							<div class="select select_div" id="select_div_<?= $productsCount ?>">
-								<select name="MEASURES[]" id="MEASURE_<?= $productsCount ?>">
+								<select name="MEASURES[]" id="update_measure_<?= $productsCount ?>">
 									<?php foreach ($arResult['PRODUCT_MEASURES'] as $product): ?>
 										<?php foreach ($product as $measure): ?>
 											<option <?= ($productSelect['MEASURE_ID'] === $measure['ID']) ? 'selected' : '' ?>
@@ -87,12 +90,12 @@ $recipe = $arResult['RECIPE'];
 					<?php endforeach; ?>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="createSelect()">Добавить
+					<button class="button is-primary is-expanded" id="add_product_btn" type="button" onClick="createSelect()">Добавить
 						продукт
 					</button>
 				</div>
 				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" onClick="deleteSelect()">Удалить
+					<button class="button is-primary is-expanded" id="remove_product_btn" type="button" onClick="deleteSelect()">Удалить
 						продукт
 					</button>
 				</div>
@@ -101,7 +104,7 @@ $recipe = $arResult['RECIPE'];
 				<?php foreach ($arResult['STEPS'] as $step): ?>
 					<textarea class="textarea"
 							  name="STEPS[]"
-							  id="textarea-<?= $step['STEP'] ?>"
+							  id="update_step_description_<?= $step['STEP'] ?>"
 							  placeholder="Описание шага"
 							  required
 							  maxlength="150"
@@ -109,10 +112,10 @@ $recipe = $arResult['RECIPE'];
 				<?php endforeach; ?>
 			</div>
 			<div class="step_btn">
-				<button class="button is-primary is-expanded" type="button" onClick="createStep()">Добавить шаг</button>
+				<button class="button is-primary is-expanded" id="add_step_btn" type="button" onClick="createStep()">Добавить шаг</button>
 			</div>
 			<div class="step_btn">
-				<button class="button is-primary is-expanded" type="button" onClick="deleteStep()">Удалить шаг</button>
+				<button class="button is-primary is-expanded" id="remove_step_btn" type="button" onClick="deleteStep()">Удалить шаг</button>
 			</div>
 			<label for="IMAGES">Фото рецепта</label>
 			<div class="field is-horizontal">
@@ -122,7 +125,7 @@ $recipe = $arResult['RECIPE'];
 							<?php
 							echo bitrix_sessid_post();
 							?>
-                            <input type="file" name="IMAGES" id="img_inp" accept="image/*">
+                            <input type="file" name="IMAGES" id="img_input" accept="image/*">
 							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt="your image"/>
 						</p>
 					</div>
@@ -132,7 +135,7 @@ $recipe = $arResult['RECIPE'];
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary" id="submit_button">
+							<button class="button is-primary" id="update_recipe_btn">
 								Изменить рецепт
 							</button>
 						</div>
@@ -147,22 +150,22 @@ $recipe = $arResult['RECIPE'];
 	const products = JSON.parse('<?=$products;?>');
 	const measures = JSON.parse('<?=$productMeasures;?>');
 	const body = document.getElementById("container");
-	const imgInp = document.getElementById("img_inp");
+	const imgInp = document.getElementById("img_input");
 	const imgPre = document.getElementById("img_pre");
 	let textareaCount = <?=$stepsSize?>;
 	let selectCount = <?=$productsSize?>;
 	const stepContainer = document.getElementById("step_container")
-	let submit_button = document.getElementById("submit_button");
+	let update_recipe_btn = document.getElementById("update_recipe_btn");
 
 	let emptyProducts = [];
 	let hasNotEmptyProducts = true;
 
 	for (let i = 1; i <= selectCount; i++) {
-		let startSelect = document.getElementById(`PRODUCT_${i}`);
-		let input = document.getElementById(`PRODUCT_QUANTITY_${i}`);
-		let measure_select = document.getElementById(`MEASURE_${i}`);
+		let startSelect = document.getElementById(`update_product_${i}`);
+		let input = document.getElementById(`update_product_quantity_${i}`);
+		let measure_select = document.getElementById(`update_measure_${i}`);
 		let div2 = document.getElementById(`select_div_${i}`);
-		measure_select.id = `MEASURE_${i}`;
+		measure_select.id = `update_measure_${i}`;
 		measure_select.name = `MEASURES[]`;
 		div2.className = `select select_div`;
 		div2.id = `select_div_${i}`;
@@ -173,9 +176,9 @@ $recipe = $arResult['RECIPE'];
 			measure_select.innerHTML = '';
 			buttonCheck()
 			if (selectedText === 'Выберите продукт') {
-				document.getElementById(`PRODUCT_QUANTITY_${i}`).remove();
+				document.getElementById(`update_product_quantity_${i}`).remove();
 				emptyProducts[i] = true;
-				document.getElementById(`MEASURE_${i}`).remove();
+				document.getElementById(`update_measure_${i}`).remove();
 				measure_select.remove();
 				document.getElementById(`select_div_${i}`).remove();
 				hasNotEmptyProducts = checkArray(emptyProducts);
@@ -221,12 +224,12 @@ $recipe = $arResult['RECIPE'];
 			const div = document.createElement("div");
 			const div2 = document.createElement("div");
 			const container = document.createElement("div");
-			select.id = `PRODUCT_${selectCount}`;
+			select.id = `update_product_${selectCount}`;
 			select.name = `PRODUCTS[]`;
-			measure_select.id = `MEASURE_${selectCount}`;
+			measure_select.id = `update_measure_${selectCount}`;
 			measure_select.name = `MEASURES[]`;
 
-			input.id = `PRODUCT_QUANTITY_${selectCount}`;
+			input.id = `update_product_quantity_${selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 
@@ -302,14 +305,14 @@ $recipe = $arResult['RECIPE'];
 			textarea.required = true;
 			textarea.name = `STEPS[]`;
 			textarea.className = `textarea`;
-			textarea.id = `textarea-${textareaCount}`
+			textarea.id = `update_step_description_${textareaCount}`
 			stepContainer.appendChild(textarea);
 			buttonCheck()
 		}
 	}
 
 	function deleteStep() {
-		const element = document.getElementById(`textarea-${textareaCount}`);
+		const element = document.getElementById(`update_step_description_${textareaCount}`);
 		element.remove();
 		textareaCount--;
 		buttonCheck()
@@ -324,11 +327,11 @@ $recipe = $arResult['RECIPE'];
 	}
 
 	function buttonCheck() {
-		submit_button.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
+		update_recipe_btn.disabled = !(textareaCount > 0 && selectCount > 0 && hasNotEmptyProducts === true);
 	}
     Filevalidation = () =>
     {
-        const fi = document.getElementById('img_inp');
+        const fi = document.getElementById('img_input');
         // Check if any file is selected.
         if (fi.files.length > 0) {
             for ( let i = 0; i <= fi.files.length - 1; i++) {

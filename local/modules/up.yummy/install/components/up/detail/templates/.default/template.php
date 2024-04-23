@@ -17,7 +17,10 @@ $recipe = $arResult['RECIPE'];
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">
-				<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>" class="author_link">
+				<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>"
+				   class="author_link"
+				   id="author_link"
+				>
 					<div class="author_image"> ЛК</div>
 				</a>
 				<div class="likes_container">
@@ -26,23 +29,23 @@ $recipe = $arResult['RECIPE'];
 				<?php if (!$arResult['FEATURED']): ?>
 					<form class="featured" action="/featured/" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-success ">В избранное</button>
+						<button class="button is-success" id="add_to_featured_btn">В избранное</button>
 					</form>
 				<?php else: ?>
 					<form action="/featured/" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-danger">Убрать из избранного</button>
+						<button class="button is-danger" id="remove_from_featured_btn">Убрать из избранного</button>
 					</form>
 				<?php endif; ?>
 				<?php if (!$arResult['LIKED']): ?>
 					<form class="like" action="/like/" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-success">Лайк</button>
+						<button class="button is-success" id="like_btn">Лайк</button>
 					</form>
 				<?php else: ?>
 					<form action="/like/" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-danger">Лайк</button>
+						<button class="button is-danger" id="unlike_btn">Лайк</button>
 					</form>
 				<?php endif; ?>
 			</div>
@@ -77,7 +80,7 @@ $recipe = $arResult['RECIPE'];
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/delete/" method="post">
 						<input type="hidden" name="deleteId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-danger"
+						<button class="button is-danger" id="delete_recipe_btn"
 								onclick="return window.confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить
 							рецепт
 						</button>
@@ -107,7 +110,7 @@ $recipe = $arResult['RECIPE'];
 				</div>
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/update/<?= $recipe['ID'] ?>/" method="get">
-						<button class="button is-warning">Изменить рецепт</button>
+						<button class="button is-warning" id="edit_recipe_btn">Изменить рецепт</button>
 					</form>
 				<?php endif; ?>
 			</div>
@@ -116,7 +119,7 @@ $recipe = $arResult['RECIPE'];
 			<p class="title">Описание</p><br>
 			<?= $recipe['DESCRIPTION'] ?>
 		</div>
-		<div class="step_container container instruction">
+		<div class="step_container   container instruction">
 			<?php foreach($arResult['STEPS']as $step):?>
 			<div class="notification is-primary">
                 <div>Шаг номер <?=$step['STEP']?></div>

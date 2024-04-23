@@ -3,11 +3,14 @@
  * @var $arResult
  */
 ?>
+<form action="/" method="get" class="create_btn">
+	<button class="button is-success" id="comeback_btn">Назад</button>
+</form>
 <div class="content">
 	<div class="buttons">
-		<a href="/planner/?date=<?=date('d.m.Y', $arResult['PREV_WEEK'])?>" class="button">Предыдущая неделя</a>
-		<a href="/planner/" class="button">Текущая неделя</a>
-		<a href="/planner/?date=<?=date('d.m.Y',$arResult['NEXT_WEEK'])?>" class="button">Следующая неделя</a>
+		<a href="/planner/?date=<?=date('d.m.Y', $arResult['PREV_WEEK'])?>" id="prev_week_btn" class="button">Предыдущая неделя</a>
+		<a href="/planner/" class="button" id="current_week_btn">Текущая неделя</a>
+		<a href="/planner/?date=<?=date('d.m.Y',$arResult['NEXT_WEEK'])?>" id="next_week_btn" class="button">Следующая неделя</a>
 	</div>
 	<p class="has-text-centered">Сегодня <?=$arResult['CURR_DATE']?></p>
 	<table class="table is-bordered is-hoverable planner_table">
