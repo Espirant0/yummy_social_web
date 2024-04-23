@@ -9,6 +9,7 @@ class CreateRecipe {
 		this.textareaCount = 0;
 		this.selectCount = 0;
 		this.create_recipe_btn = document.getElementById("create_recipe_btn");
+		this.deletePhoto=document.getElementById("delete_photo");
 		this.emptyProducts = [];
 		this.hasNotEmptyProducts = true;
 		this.createSelect = this.createSelect.bind(this);
@@ -28,8 +29,16 @@ class CreateRecipe {
 			const [file] = this.imgInp.files;
 			if (file) {
 				this.imgPre.src = URL.createObjectURL(file);
+
 			}
 		};
+		this.deletePhoto.onclick=(evt)=>
+		{
+			this.imgPre.src ="#";
+			this.imgInp.value = "";
+			this.deletePhoto.disabled=true;
+		}
+
 	}
 
 	createSelect() {
@@ -163,10 +172,12 @@ class CreateRecipe {
 			for (let i = 0; i <= fi.files.length - 1; i++) {
 				const fsize = fi.files.item(i).size;
 				const file = Math.round(fsize / 1024);
+				this.deletePhoto.disabled=false;
 				// The size of the file.
 				if (file >= 2048) {
 					alert("ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
 					fi.value = "";
+					this.deletePhoto.disabled=true;
 				}
 			}
 		}

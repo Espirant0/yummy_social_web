@@ -52,6 +52,9 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 						</p>
 					</div>
 				</div>
+                <button class="button is-primary" id="delete_photo" type="button" disabled>
+                    Удалить фотографию
+                </button>
 			</div>
 			<div class="product_container">
 				<div id="container" class="products_selects">
