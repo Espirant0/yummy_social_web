@@ -132,7 +132,7 @@ $recipe = $arResult['RECIPE'];
 							echo bitrix_sessid_post();
 							?>
                             <input type="file" name="IMAGES" id="img_input" accept="image/*">
-							<img id="img_pre" src="<?= $arResult['IMAGE'] ?>" alt=""/>
+							<img id="img_pre" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
 						</p>
 					</div>
 				</div>

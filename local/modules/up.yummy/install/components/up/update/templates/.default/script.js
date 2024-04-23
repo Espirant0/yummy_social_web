@@ -5,8 +5,8 @@ class UpdateRecipe {
 		this.body = document.getElementById("container");
 		this.imgInp = document.getElementById("img_input");
 		this.imgPre = document.getElementById("img_pre");
-		this.deletePhoto=document.getElementById("delete_photo");
-		this.photoStatus=document.getElementById("photoStatus");
+		this.deletePhoto = document.getElementById("delete_photo");
+		this.photoStatus = document.getElementById("photoStatus");
 		this.textareaCount = stepsSize;
 		this.selectCount = productsSize;
 		this.stepContainer = document.getElementById("step_container");
@@ -66,18 +66,25 @@ class UpdateRecipe {
 		}
 
 
+		if(this.imgPre.src[this.imgPre.src.length - 1] === "#")
+		{
+			this.photoStatus.value = '1'
+			this.deletePhoto.disabled = true;
+		}
+
+
 		this.imgInp.onchange = (evt) => {
 			this.Filevalidation();
 			const [file] = this.imgInp.files;
 			if (file) {
 				this.imgPre.src = URL.createObjectURL(file);
-				this.photoStatus.value=0
+				this.photoStatus.value = 0
 			}
 		};
-		this.deletePhoto.onclick=(evt)=>
-		{
-			this.photoStatus.value=1
-			this.imgPre.src ="#"
+		this.deletePhoto.onclick = (evt) => {
+			this.photoStatus.value = 1
+			this.imgPre.src = "#"
+			this.deletePhoto.disabled = true;
 		}
 
 		this.buttonCheck();
@@ -208,10 +215,12 @@ class UpdateRecipe {
 			for (let i = 0; i <= fi.files.length - 1; i++) {
 				const fsize = fi.files.item(i).size;
 				const file = Math.round(fsize / 1024);
+				this.deletePhoto.disabled = false;
 				// The size of the file.
 				if (file >= 2048) {
 					alert("ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
 					fi.value = "";
+					this.deletePhoto.disabled = true;
 				}
 			}
 		}
