@@ -100,59 +100,6 @@ class up_yummy extends CModule
 		);
 	}
 
-	public function installLinks(array $itemData): void
-	{
-		$siteId = 's1';
-		$adminOption = Option::get('intranet', 'left_menu_items_to_all_' . $siteId, '', $siteId);
-
-		if (!empty($adminOption))
-		{
-			$adminOption = unserialize($adminOption, ['allowed_classes' => false]);
-				foreach ($adminOption as $item)
-				{
-					if ($item['ID'] == $itemData['ID'])
-						break;
-				}
-			$adminOption[] = $itemData;
-		}
-		else
-		{
-			$adminOption = array($itemData);
-		}
-
-		Option::set('intranet', 'left_menu_items_to_all_' . $siteId, serialize($adminOption), false, $siteId);
-	}
-
-	public function uninstallLinks(array $itemData):void
-	{
-		$siteId = 's1';
-		foreach (['left_menu_items_to_all_' . $siteId, 'left_menu_items_marketplace_' . $siteId] as $optionName)
-		{
-			if (($adminOption = Option::get('intranet', $optionName, '', $siteId))
-				&& !empty($adminOption)
-				&& ($adminOption = unserialize($adminOption, ['allowed_classes' => false]))
-			)
-			{
-				foreach ($adminOption as $key => $item)
-				{
-					if ($item['ID'] == $itemData['ID'])
-					{
-						unset($adminOption[$key]);
-						if (empty($adminOption))
-						{
-							\COption::RemoveOption('intranet', $optionName);
-						}
-						else
-						{
-							Option::set('intranet', $optionName, serialize($adminOption), $siteId);
-						}
-						break 2;
-					}
-				}
-			}
-		}
-	}
-
 	public function doInstall(): void
 	{
 		global $USER, $APPLICATION;
@@ -161,23 +108,11 @@ class up_yummy extends CModule
 		{
 			return;
 		}
-		$links = array(
-			array(
-				'TEXT' => 'Планировщик',
-				'LINK' => '/planner/',
-				'ID' => 'plannerId',
-				'NEW_PAGE' => 'Y',
-			),
-		);
 
 		$this->installDB();
 		$this->installFiles();
 		$this->installEvents();
 
-		foreach ($links as $link)
-		{
-			$this->installLinks($link);
-		}
 		$APPLICATION->IncludeAdminFile(
 			Loc::getMessage('UP_YUMMY_INSTALL_TITLE'),
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/step.php'
@@ -187,27 +122,6 @@ class up_yummy extends CModule
 	public function doUninstall(): void
 	{
 		global $USER, $APPLICATION, $step;
-
-		$links = array(
-			array(
-				'TEXT' => 'Добавить рецепт',
-				'LINK' => '/create/',
-				'ID' => 'newCreateId',
-				'NEW_PAGE' => 'Y',
-			),
-			array(
-				'TEXT' => 'Планировщик',
-				'LINK' => '/planner/',
-				'ID' => 'plannerId',
-				'NEW_PAGE' => 'Y',
-			),
-			array(
-				'TEXT' => 'Детальная',
-				'LINK' => '/detail/1/',
-				'ID' => 'detailId',
-				'NEW_PAGE' => 'Y',
-			),
-		);
 
 		if (!$USER->isAdmin())
 		{
@@ -227,10 +141,6 @@ class up_yummy extends CModule
 			$this->uninstallDB();
 			$this->uninstallFiles();
 			$this->uninstallEvents();
-			foreach ($links as $link)
-			{
-				$this->uninstallLinks($link);
-			}
 
 			$APPLICATION->IncludeAdminFile(
 				Loc::getMessage('UP_YUMMY_UNINSTALL_TITLE'),
