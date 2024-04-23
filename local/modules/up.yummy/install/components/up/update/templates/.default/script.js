@@ -5,6 +5,8 @@ class UpdateRecipe {
 		this.body = document.getElementById("container");
 		this.imgInp = document.getElementById("img_input");
 		this.imgPre = document.getElementById("img_pre");
+		this.deletePhoto=document.getElementById("delete_photo");
+		this.photoStatus=document.getElementById("photoStatus");
 		this.textareaCount = stepsSize;
 		this.selectCount = productsSize;
 		this.stepContainer = document.getElementById("step_container");
@@ -63,13 +65,20 @@ class UpdateRecipe {
 			});
 		}
 
+
 		this.imgInp.onchange = (evt) => {
 			this.Filevalidation();
 			const [file] = this.imgInp.files;
 			if (file) {
 				this.imgPre.src = URL.createObjectURL(file);
+				this.photoStatus.value=0
 			}
 		};
+		this.deletePhoto.onclick=(evt)=>
+		{
+			this.photoStatus.value=1
+			this.imgPre.src ="#"
+		}
 
 		this.buttonCheck();
 	}

@@ -42,7 +42,11 @@ class RecipeRepository
 	{
 		$products = RecipeProductTable::getList([
 			'select' =>
-				['*', 'TITLE' => 'PRODUCT.NAME', 'MEASURE_NAME' => 'MEASURE.TITLE'],
+				['*', 'TITLE' => 'PRODUCT.NAME',
+					'MEASURE_NAME' => 'MEASURE.TITLE',
+					'COEF'=>'MEASURE.COEFFICIENT',
+					'WPU'=>'PRODUCT.WEIGHT_PER_UNIT'
+				],
 			'filter' =>
 				['=RECIPE_ID' => $id]
 		]);
@@ -400,5 +404,60 @@ class RecipeRepository
 				'MEASURE_ID' => $product[2]
 			]);
 		}
+	}
+	public static function mergeProducts(array $products)
+	{
+		$productArray=[];
+		$output=[];
+		foreach ($products as &$product)
+		{
+			if($productArray[$product['PRODUCT_ID']]===null)
+			{
+				$productArray[$product['PRODUCT_ID']] = 1;
+			}
+			else
+			{
+				$productArray[$product['PRODUCT_ID']]++;
+			}
+		}
+		//var_dump($productArray);
+		foreach ($products as &$product)
+		{
+			$productArray[$product['PRODUCT_ID']]--;
+			if($productArray[$product['PRODUCT_ID']]===0&&$output[$product['PRODUCT_ID']]===null)
+			{
+				$output[$product['PRODUCT_ID']]=$product;
+			}
+			else if($output[$product['PRODUCT_ID']]===null)
+			{
+				$product['MEASURE_ID']=1;
+				$product['MEASURE_NAME']="гр";
+				if($product['MEASURE_ID']!=7)
+				{
+					$product['VALUE'] = $product['VALUE'] * $product['COEF'];
+					$output[$product['PRODUCT_ID']] = $product;
+				}
+				else
+				{
+					$product['VALUE'] = $product['VALUE'] * $product['WPU'];
+					$output[$product['PRODUCT_ID']] = $product;
+				}
+				$product['MEASURE_NAME']="гр";
+			}
+			else
+			{
+				if($product['MEASURE_ID']!=7)
+				{
+					$output[$product['PRODUCT_ID']]['VALUE']+=$product['VALUE']*$product['COEF'];
+
+				}
+				else
+				{
+					$output[$product['PRODUCT_ID']]['VALUE']+=$product['VALUE']*$product['WPU'];
+				}
+			}
+		}
+		return $output;
+
 	}
 }

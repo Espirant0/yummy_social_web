@@ -39,20 +39,31 @@ class ImageRepository
 		}
 		return null;
 	}
-	public static function updateRecipeImage($recipeID):void
+	public static function updateRecipeImage($recipeID,$photoStatus):void
 	{
-		if($_FILES['IMAGES']['name']!=="")
+		if($photoStatus==0)
 		{
-			$imageID=self::validateImage();
-			$id=ImagesTable::query()->setSelect(['ID'])->setFilter(['IS_COVER'=>1,'RECIPE_ID'=>$recipeID])->fetch()['ID'];
-			if(isset($id))
+			if ($_FILES['IMAGES']['name'] !== "")
 			{
-				ImagesTable::update($id,['PATH'=>$imageID]);
-			}
-			else
-			{
-				ImagesTable::add(['PATH' => $imageID, 'RECIPE_ID' => $recipeID, 'IS_COVER' => 1]);
+				$imageID = self::validateImage();
+				$id = ImagesTable::query()->setSelect(['ID'])->setFilter(['IS_COVER' => 1, 'RECIPE_ID' => $recipeID])->fetch()['ID'];
+				if (isset($id))
+				{
+					ImagesTable::update($id, ['PATH' => $imageID]);
+				}
+				else
+				{
+					ImagesTable::add(['PATH' => $imageID, 'RECIPE_ID' => $recipeID, 'IS_COVER' => 1]);
+				}
 			}
 		}
+		else if($photoStatus==1)
+		{
+			ImageRepository::deleteImageRecipe($recipeID);
+		}
+	}
+	public static function deleteImageRecipe($recipeID):void
+	{
+		ImagesTable::deleteByFilter(['RECIPE_ID'=>$recipeID]);
 	}
 }

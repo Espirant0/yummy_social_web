@@ -113,6 +113,10 @@ $recipe = $arResult['RECIPE'];
 					><?= $step['DESCRIPTION'] ?></textarea>
 				<?php endforeach; ?>
 			</div>
+            <button class="button is-primary" id="delete_photo" type="button">
+                Удалить фотографию
+            </button>
+            <input type="hidden" value="0" name="photoStatus" id="photoStatus">
 			<div class="step_btn">
 				<button class="button is-primary is-expanded" id="add_step_btn" type="button" onclick="updateRecipe.createStep()">Добавить шаг</button>
 			</div>
@@ -145,6 +149,7 @@ $recipe = $arResult['RECIPE'];
 				</div>
 			</div>
 		</form>
+
 	</div>
 </div>
 <script>

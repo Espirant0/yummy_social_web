@@ -40,8 +40,9 @@ class UpdateComponent extends CBitrixComponent
 				$products =request()['PRODUCTS'];
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 				$measures = request()['MEASURES'];
+				$photoStatus=(int)request()['photoStatus'];
 				if (isset($title, $description, $time, $productsQuantity, $products,$steps)) {
-					$this->insertRecipe($recipeId, $title, $description, $time, $products, $steps, $productsQuantity, $measures );
+					$this->insertRecipe($recipeId, $title, $description, $time, $products, $steps, $productsQuantity, $measures,$photoStatus );
 					LocalRedirect("/detail/{$recipeId}/");
 				}
 				else
@@ -82,13 +83,14 @@ class UpdateComponent extends CBitrixComponent
 		array $products,
 		array $steps,
 		array $productsQuantity,
-		array $measures
+		array $measures,
+		int $photoStatus
 	):void
 	{
 		RecipesTable::update($recipeId, ['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time]);
 		$productsList = array_map(null, $products, $productsQuantity, $measures);
 		RecipeRepository::updateProducts($recipeId, $productsList);
-		ImageRepository::updateRecipeImage($recipeId);
+		ImageRepository::updateRecipeImage($recipeId,$photoStatus);
 		InstructionRepository::updateSteps($recipeId, $steps);
 		RecipeRepository::insertRecipeStats($recipeId,$productsList);
 	}
