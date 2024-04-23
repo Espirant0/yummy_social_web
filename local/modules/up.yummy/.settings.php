@@ -1,18 +1,13 @@
 <?php
+
 return [
-	'ui.entity-selector' => [
+	'controllers' => [
 		'value' => [
-			'entities' => [
-				[
-					'entityId' => 'products',
-					'provider' => [
-						'moduleId' => 'up.yummy',
-						'className' => '\\Up\\Yummy\\Integration\\UI\\EntitySelector\\ProductProvider'
-					],
-				],
+			'namespaces' => [
+				'\\Up\\Yummy\\Controller' => 'api',
 			],
-			'extensions' => ['up.yummy.entity-selector'],
+			'defaultNamespace' => '\\Up\\Yummy\\Controller',
 		],
 		'readonly' => true,
-	]
+	],
 ];
