@@ -1,18 +1,19 @@
-class UpdateRecipe {
-	constructor(products, measures, stepsSize, productsSize) {
+class CreateRecipe {
+	constructor(products, measures) {
 		this.products = products;
 		this.measures = measures;
 		this.body = document.getElementById("container");
+		this.stepContainer = document.getElementById("step_container");
 		this.imgInp = document.getElementById("img_input");
 		this.imgPre = document.getElementById("img_pre");
-		this.textareaCount = stepsSize;
-		this.selectCount = productsSize;
-		this.stepContainer = document.getElementById("step_container");
-		this.update_recipe_btn = document.getElementById("update_recipe_btn");
+		this.textareaCount = 0;
+		this.selectCount = 0;
+		this.create_recipe_btn = document.getElementById("create_recipe_btn");
 		this.emptyProducts = [];
 		this.hasNotEmptyProducts = true;
 		this.createSelect = this.createSelect.bind(this);
 		this.deleteSelect = this.deleteSelect.bind(this);
+		this.checkArray = this.checkArray.bind(this);
 		this.createStep = this.createStep.bind(this);
 		this.deleteStep = this.deleteStep.bind(this);
 		this.buttonCheck = this.buttonCheck.bind(this);
@@ -20,48 +21,7 @@ class UpdateRecipe {
 	}
 
 	init() {
-		for (let i = 1; i <= this.selectCount; i++) {
-			let startSelect = document.getElementById(`update_product_${i}`);
-			let input = document.getElementById(`update_product_quantity_${i}`);
-			let measure_select = document.getElementById(`update_measure_${i}`);
-			let div2 = document.getElementById(`select_div_${i}`);
-			measure_select.id = `update_measure_${i}`;
-			measure_select.name = `MEASURES[]`;
-			div2.className = `select select_div`;
-			div2.id = `select_div_${i}`;
-
-			startSelect.addEventListener("change", () => {
-				let selectedValue = startSelect.value;
-				let selectedText = startSelect.options[startSelect.selectedIndex].text;
-				measure_select.innerHTML = "";
-				this.buttonCheck();
-				if (selectedText === "Выберите продукт") {
-					document.getElementById(`update_product_quantity_${i}`).remove();
-					this.emptyProducts[i] = true;
-					document.getElementById(`update_measure_${i}`).remove();
-					measure_select.remove();
-					document.getElementById(`select_div_${i}`).remove();
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
-					this.buttonCheck();
-				} else {
-					input.value = ``;
-					document.getElementById(`container_${i}`).appendChild(input);
-					this.emptyProducts[i] = false;
-					div2.appendChild(measure_select);
-					document.getElementById(`container_${i}`).appendChild(div2);
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
-					this.buttonCheck();
-				}
-				this.measures[selectedValue].forEach(function (option) {
-					let secondOption = document.createElement("option");
-					secondOption.value = option.ID;
-					secondOption.text = option.MEASURE_NAME;
-					measure_select.appendChild(secondOption);
-				});
-				this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
-				this.buttonCheck();
-			});
-		}
+		this.create_recipe_btn.disabled = true;
 
 		this.imgInp.onchange = (evt) => {
 			this.Filevalidation();
@@ -70,17 +30,6 @@ class UpdateRecipe {
 				this.imgPre.src = URL.createObjectURL(file);
 			}
 		};
-
-		this.buttonCheck();
-	}
-
-	checkArray(emptyProducts) {
-		for (let i = 0; i < emptyProducts.length; i++) {
-			if (emptyProducts[i] === true) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	createSelect() {
@@ -95,16 +44,17 @@ class UpdateRecipe {
 			const div = document.createElement("div");
 			const div2 = document.createElement("div");
 			const container = document.createElement("div");
-			select.id = `update_product_${this.selectCount}`;
+			select.id = `create_product_${this.selectCount}`;
 			select.name = `PRODUCTS[]`;
-			measure_select.id = `update_measure_${this.selectCount}`;
+			measure_select.id = `create_measure_${this.selectCount}`;
 			measure_select.name = `MEASURES[]`;
 
-			input.id = `update_product_quantity_${this.selectCount}`;
+			input.id = `create_product_quantity_${this.selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 			input.type = `number`;
 			input.min = 1;
+
 
 			select.className = `product_select`;
 			input.className = `input product_input`;
@@ -142,6 +92,7 @@ class UpdateRecipe {
 						this.buttonCheck();
 					} else {
 						this.emptyProducts[i] = false;
+						input.value = ``;
 						container.appendChild(input);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
@@ -171,25 +122,38 @@ class UpdateRecipe {
 		this.buttonCheck();
 	}
 
+	checkArray(emptyProducts) {
+		for (let i = 0; i < emptyProducts.length; i++) {
+			if (emptyProducts[i] === true) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	createStep() {
 		if (this.textareaCount < 10) {
 			this.textareaCount++;
 			const textarea = document.createElement("textarea");
 			textarea.required = true;
-			textarea.name = `STEPS[]`;
-			textarea.className = `textarea`;
-			textarea.id = `update_step_description_${this.textareaCount}`;
 			textarea.maxLength = 150;
+			textarea.name = `STEPS[]`;
+			textarea.id = `create_step_description_${this.textareaCount}`;
+			textarea.className = `textarea`;
 			this.stepContainer.appendChild(textarea);
 			this.buttonCheck();
 		}
 	}
 
 	deleteStep() {
-		const element = document.getElementById(`update_step_description_${this.textareaCount}`);
+		const element = document.getElementById(`create_step_description_${this.textareaCount}`);
 		element.remove();
 		this.textareaCount--;
 		this.buttonCheck();
+	}
+
+	buttonCheck() {
+		this.create_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0 && this.hasNotEmptyProducts === true);
 	}
 
 	Filevalidation() {
@@ -206,9 +170,5 @@ class UpdateRecipe {
 				}
 			}
 		}
-	}
-
-	buttonCheck() {
-		this.update_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0 && this.hasNotEmptyProducts === true);
 	}
 }
