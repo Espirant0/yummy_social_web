@@ -45,3 +45,7 @@
 .product_input{
 	max-width: 100px;
 }
+html{
+	max-width: 100%;
+	overflow-y: hidden;
+}

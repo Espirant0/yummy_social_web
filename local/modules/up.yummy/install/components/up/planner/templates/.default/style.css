@@ -5,6 +5,10 @@
 	display: flex;
 	justify-content: space-between;
 }
+html{
+	max-width: 100%;
+	overflow-y: hidden;
+}
 .planner_table{
 	margin-top: 50px;
 	text-align: center;

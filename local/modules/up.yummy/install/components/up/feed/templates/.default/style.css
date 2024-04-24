@@ -39,3 +39,7 @@
 	border: 1px solid black !important;
 	width: 10% !important;
 }
+html{
+	max-width: 100%;
+	overflow-y: hidden;
+}
