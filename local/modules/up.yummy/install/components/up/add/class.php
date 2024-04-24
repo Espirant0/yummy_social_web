@@ -60,6 +60,7 @@ class AddComponent extends CBitrixComponent
 	}
 	protected function createRecipe(string $title,string $description,int $time,int $userId,array $products,array $steps)
 	{
+		$products=RecipeRepository::mergeProducts($products);
 		$recipeId = RecipeRepository::addRecipe($title, $description, $time, $userId, $products);
 		RecipeRepository::insertRecipeStats($recipeId, $products);
 		InstructionRepository::insertSteps($recipeId, $steps);

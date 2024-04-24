@@ -48,3 +48,30 @@ __yummyMigrate(56, function ($updater, $DB) {
 	}
 });
 
+__yummyMigrate(58, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("INSERT INTO up_final_product_measures(PRODUCT_ID, MEASURE_ID) VALUES
+    (11,1),
+    (11,2),
+    (11,7),
+    (12,1),
+    (12,2),
+    (12,7),
+    (13,1),
+    (13,2),
+    (14,1),
+    (14,8),
+    (15,1),
+    (15,8),
+    (16,5),
+    (16,6),
+    (17,5),
+    (17,6),
+    (18,5),
+    (18,6),
+    (19,1),
+    (19,2),
+    (19,7);");
+	}
+});

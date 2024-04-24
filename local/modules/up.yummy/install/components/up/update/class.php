@@ -87,8 +87,10 @@ class UpdateComponent extends CBitrixComponent
 		int $photoStatus
 	):void
 	{
+
 		RecipesTable::update($recipeId, ['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time]);
 		$productsList = array_map(null, $products, $productsQuantity, $measures);
+		$productsList=RecipeRepository::mergeProducts($productsList);
 		RecipeRepository::updateProducts($recipeId, $productsList);
 		ImageRepository::updateRecipeImage($recipeId,$photoStatus);
 		InstructionRepository::updateSteps($recipeId, $steps);

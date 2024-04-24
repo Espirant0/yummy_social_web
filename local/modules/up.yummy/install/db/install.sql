@@ -164,7 +164,28 @@ INSERT INTO up_final_product_measures(PRODUCT_ID, MEASURE_ID) VALUES
 (9,1),
 (9,2),
 (10,1),
-(10,2);
+(10,2),
+(11,1),
+(11,2),
+(11,7),
+(12,1),
+(12,2),
+(12,7),
+(13,1),
+(13,2),
+(14,1),
+(14,8),
+(15,1),
+(15,8),
+(16,5),
+(16,6),
+(17,5),
+(17,6),
+(18,5),
+(18,6),
+(19,1),
+(19,2),
+(19,7);
 CREATE TABLE IF NOT EXISTS `up_final_daily_recipe`(`ID` int PRIMARY KEY);
 alter table up_final_daily_recipe add RECIPE_ID INT default 1;
 INSERT INTO `up_final_products`
@@ -229,3 +250,5 @@ VALUES
     (8,2,2,7),
     (8,3,2,7),
     (8,5,2,7);
+
+
