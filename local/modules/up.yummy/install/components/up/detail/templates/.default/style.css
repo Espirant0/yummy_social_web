@@ -94,6 +94,10 @@ html{
 .step_container{
 	word-break: break-all;
 }
+html{
+	max-width: 100%;
+	overflow-y: hidden;
+}
 /*
 .workarea-content{
 	background-color: transparent !important;
