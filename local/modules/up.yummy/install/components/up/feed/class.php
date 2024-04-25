@@ -2,6 +2,7 @@
 
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\UI\Filter\Options;
+use Up\Yummy\Repository\PlannerRepository;
 use Up\Yummy\Repository\RecipeRepository;
 use Up\Yummy\Service\PaginationService;
 
@@ -52,7 +53,10 @@ class FeedComponent extends CBitrixComponent
 			['id' => 'LIKED', 'name' => 'Понравилось мне', 'type' => 'checkbox', 'default' => false],
 			$user,
 		];
-
+		global $USER;
+		$userId = $USER->GetID();
+		$date = new DateTime('today');
+		$date = $date->format('Y-m-d');
 		$filterOption = new Options('recipe_list');
 		$filter = $filterOption->getFilter([$this->arParams['FILTER']]);
 		$page = PaginationService::validateOffset(request()['page']);
@@ -62,6 +66,8 @@ class FeedComponent extends CBitrixComponent
 		$this->arResult['DAILY_RECIPE'] = RecipeRepository::getDailyRecipe();
 		$this->arResult['PAGE'] = $page;
 		$this->arResult['NOT_FOUND_MESSAGE'] = 'По вашему запросу ничего найдено.';
+		$this->arResult['PLANNER_COURSES'] = PlannerRepository::getCourses();
+		$this->arResult['PLANNER_RECIPES'] = PlannerRepository::getDailyPlan($userId, $date);
 		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize)
 		{
 			array_pop($this->arResult['RECIPES']);
