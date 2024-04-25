@@ -2,19 +2,17 @@
 
 namespace Up\Yummy\Controller;
 
+use Bitrix\Bizproc\Error;
+use Up\Yummy\Repository\PlannerRepository;
+
 class Planner extends \Bitrix\Main\Engine\Controller
 {
 	public function getListAction(): ?array
 	{
-		return [
-			[
-				'id' => 1,
-				'name' => 'test 1',
-			],
-			[
-				'id' => 2,
-				'name' => 'test 2',
-			],
-		];
+		return PlannerRepository::getPlan();
+	}
+	public function getCoursesAction(): ?array
+	{
+		return PlannerRepository::getCourses();
 	}
 }

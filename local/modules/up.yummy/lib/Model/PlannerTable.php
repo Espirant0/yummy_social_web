@@ -48,6 +48,7 @@ class PlannerTable extends DataManager
 			new IntegerField(
 				'RECIPE_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PLANNER_ENTITY_RECIPE_ID_FIELD')
 				]
 			),
@@ -58,6 +59,7 @@ class PlannerTable extends DataManager
 			new IntegerField(
 				'USER_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PLANNER_ENTITY_USER_ID_FIELD')
 				]
 			),
@@ -68,6 +70,7 @@ class PlannerTable extends DataManager
 			new IntegerField(
 				'COURSE_ID',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PLANNER_ENTITY_COURSE_ID_FIELD')
 				]
 			),
@@ -78,6 +81,7 @@ class PlannerTable extends DataManager
 			new DateField(
 				'DATE',
 				[
+					'primary' => true,
 					'title' => Loc::getMessage('PLANNER_ENTITY_DATE_FIELD')
 				]
 			),
