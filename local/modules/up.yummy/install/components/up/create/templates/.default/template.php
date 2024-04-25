@@ -36,7 +36,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 					<div class="field">
 						<p class="control">
 							<input class="input" name="TIME" type="text" id="create_time_input" pattern="[0-9]{,3}"
-								   placeholder="Время приготовления" required>
+								   placeholder="Время приготовления" min="1" required>
 						</p>
 					</div>
 				</div>

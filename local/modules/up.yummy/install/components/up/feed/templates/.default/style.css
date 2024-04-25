@@ -49,3 +49,7 @@ html{
 #planner_btn{
 	margin-top: 20px;
 }
+html{
+	max-width: 100%;
+	overflow-y: hidden;
+}

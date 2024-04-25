@@ -48,6 +48,13 @@ class ValidationService
 		{
 			return null;
 		}
+		foreach ($amount as $value)
+		{
+			if($value < 1)
+			{
+				return null;
+			}
+		}
 		return $amount;
 
 	}
