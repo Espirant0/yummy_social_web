@@ -21,7 +21,7 @@ class AddComponent extends CBitrixComponent
 		if($this->handleExceptions($title,$description,$time,$steps,$amount))
 		{
 			$products = array_map(null, request()['PRODUCTS'], $amount, request()['MEASURES']);
-			$this->createRecipe($title,$description,$time,$userId,$products,$steps);
+			$recipeId=$this->createRecipe($title,$description,$time,$userId,$products,$steps);
 			LocalRedirect('/');
 		}
 		$this->includeComponentTemplate();
@@ -46,6 +46,10 @@ class AddComponent extends CBitrixComponent
 			case($steps === null):
 				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
 				return false;
+			case(RecipeRepository::checkForDublicates($title)!==false):
+				$this->arResult['MESSAGE'] = "РЕЦЕПТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ";
+				return false;
+
 			default:
 				return true;
 		}
@@ -65,6 +69,7 @@ class AddComponent extends CBitrixComponent
 		RecipeRepository::insertRecipeStats($recipeId, $products);
 		InstructionRepository::insertSteps($recipeId, $steps);
 		$this->addImage($recipeId);
+		return $recipeId;
 	}
 
 }

@@ -466,7 +466,7 @@ class RecipeRepository
 		return $output;
 
 	}
-	public static function getMeasuresForMerge($productId)
+	private static function getMeasuresForMerge($productId)
 	{
 		$measures=[];
 		$productMeasures = ProductMeasuresTable::getList([
@@ -498,5 +498,12 @@ class RecipeRepository
 			['select' =>['COEFFICIENT'],
 				'filter'=>['=ID'=>$measureId]]
 		)->fetch()["COEFFICIENT"];
+	}
+	public static function checkForDublicates($name)
+	{
+		return RecipesTable::getList(
+			['select' =>['ID'],
+				'filter'=>['=TITLE'=>$name]]
+		)->fetch();
 	}
 }

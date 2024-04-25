@@ -41,7 +41,8 @@ class UpdateComponent extends CBitrixComponent
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
 				$measures = request()['MEASURES'];
 				$photoStatus=(int)request()['photoStatus'];
-				if (isset($title, $description, $time, $productsQuantity, $products,$steps)) {
+				$checkName=RecipeRepository::checkForDublicates($title);
+				if (isset($title, $description, $time, $productsQuantity, $products,$steps)&&$checkName!==false) {
 					$this->insertRecipe($recipeId, $title, $description, $time, $products, $steps, $productsQuantity, $measures,$photoStatus );
 					LocalRedirect("/detail/{$recipeId}/");
 				}

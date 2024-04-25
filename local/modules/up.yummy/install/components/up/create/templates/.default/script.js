@@ -19,6 +19,7 @@ class CreateRecipe {
 		this.deleteStep = this.deleteStep.bind(this);
 		this.buttonCheck = this.buttonCheck.bind(this);
 		this.Filevalidation = this.Filevalidation.bind(this);
+		this.form=document.getElementById("form");
 	}
 
 	init() {
@@ -38,6 +39,10 @@ class CreateRecipe {
 			this.imgInp.value = "";
 			this.deletePhoto.disabled=true;
 		}
+		this.create_recipe_btn.addEventListener("click", function(){
+			this.create_recipe_btn.disabled = true;
+			this.form.submit();
+		});
 
 	}
 

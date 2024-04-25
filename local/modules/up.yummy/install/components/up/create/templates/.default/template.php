@@ -6,7 +6,7 @@
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
-<form action="/" method="get" class="create_btn">
+<form action="/" method="get" class="create_btn" id="form">
 	<button class="button is-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
