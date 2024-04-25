@@ -2,99 +2,24 @@
 /**
  * @var $arResult
  */
+\Bitrix\Main\UI\Extension::load('up.planner');
+
+$timestamp =  $arResult['START_DATE'];
+$user = $arResult['USER'];
+$newDate = date("D M d Y H:i:s \G\M\TO (T)", $timestamp);
 ?>
 <form action="/" method="get" class="create_btn">
 	<button class="button is-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
-	<div class="buttons">
-		<a href="/planner/?date=<?=date('d.m.Y', $arResult['PREV_WEEK'])?>" id="prev_week_btn" class="button">Предыдущая неделя</a>
+	<div class="buttons" id="buttons">
+		<a href="/planner/?day=<?=date('d.m.Y', $arResult['PREV_WEEK'])?>" id="prev_week_btn" class="button">Предыдущая неделя</a>
 		<a href="/planner/" class="button" id="current_week_btn">Текущая неделя</a>
-		<a href="/planner/?date=<?=date('d.m.Y',$arResult['NEXT_WEEK'])?>" id="next_week_btn" class="button">Следующая неделя</a>
+		<a href="/planner/?day=<?=date('d.m.Y',$arResult['NEXT_WEEK'])?>" id="next_week_btn" class="button">Следующая неделя</a>
 	</div>
 	<p class="has-text-centered">Сегодня <?=$arResult['CURR_DATE']?></p>
 	<table class="table is-bordered is-hoverable planner_table">
-		<thead>
-		<tr>
-			<th class="is-info"></th>
-			<?php for ($i = 0;$i < 7;$i++):?>
-				<th class="is-info is-primary"><?=$arResult['WEEK_DAYS'][$i]?> <br> <?=date("d.m.Y", strtotime('+'.$i.' day', $arResult['START_DATE']))?></th>
-			<?php endfor;?>
-		</tr>
-		</thead>
-		<tbody class="planner_table">
-		<tr>
-			<th class="is-info">Завтрак</th>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-		</tr>
-		<tr>
-			<th class="is-info">Обед</th>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-		</tr>
-		<tr>
-			<th class="is-info">Ужин</th>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-			<td>
-				<a href="#win1">+</a>
-			</td>
-		</tr>
+		<tbody class="planner_table" id="planner_table">
 		</tbody>
 	</table>
 </div>
@@ -104,3 +29,14 @@
 	Окно
 	<a class="close" title="Закрыть" href="#close"></a>
 </div>
+
+
+<script>
+	BX.ready(function (){
+		window.YummyPlanner = new BX.Up.Yummy.Planner({
+			rootNodeId: 'planner_table',
+			currentDay: new Date('<?=$newDate?>'),
+			userId: '<?=$user?>',
+		});
+	});
+</script>

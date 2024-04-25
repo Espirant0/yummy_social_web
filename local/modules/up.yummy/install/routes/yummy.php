@@ -16,5 +16,6 @@ return function (RoutingConfigurator $routes) {
 	$routes->post('/add/', new PublicPageController('/local/modules/up.yummy/views/add.php'));
 	$routes->get('/update/{id}/', new PublicPageController('/local/modules/up.yummy/views/update.php'));
 	$routes->post('/update/{id}/', new PublicPageController('/local/modules/up.yummy/views/update.php'));
+	$routes->get('/error/{id}/', new PublicPageController('/local/modules/up.yummy/views/errorUpdate.php'));
 
 };
