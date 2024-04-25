@@ -75,14 +75,12 @@ $recipe = $arResult['RECIPE'];
 							>
 							<div class="select select_div" id="select_div_<?= $productsCount ?>">
 								<select name="MEASURES[]" id="update_measure_<?= $productsCount ?>">
-									<?php foreach ($arResult['PRODUCT_MEASURES'] as $product): ?>
-										<?php foreach ($product as $measure): ?>
-											<option <?= ($productSelect['MEASURE_ID'] === $measure['ID']) ? 'selected' : '' ?>
-												value="<?= $measure['ID'] ?>"
+									<?php foreach ($arResult['PRODUCT_MEASURES'][$productSelect['PRODUCT_ID']] as $product): ?>
+											<option <?= ($productSelect['MEASURE_ID'] === $product['ID']) ? 'selected' : '' ?>
+												value="<?= $product['ID'] ?>"
 											>
-												<?= $measure['MEASURE_NAME'] ?>
+												<?= $product['MEASURE_NAME'] ?>
 											</option>
-										<?php endforeach; ?>
 									<?php endforeach; ?>
 								</select>
 							</div>
