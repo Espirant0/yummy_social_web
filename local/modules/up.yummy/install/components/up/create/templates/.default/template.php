@@ -6,13 +6,13 @@
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
-<form action="/" method="get" class="create_btn" id="form">
+<form action="/" method="get" class="create_btn">
 	<button class="button is-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
 		<p class="title has-text-centered">Добавить рецепт</p>
-		<form action="/add/" method="post" enctype="multipart/form-data">
+		<form action="/add/" method="post" enctype="multipart/form-data" id="form">
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
