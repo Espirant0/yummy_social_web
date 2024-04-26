@@ -75,3 +75,21 @@ __yummyMigrate(58, function ($updater, $DB) {
     (19,7);");
 	}
 });
+
+__yummyMigrate(60, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("INSERT INTO `up_final_course` (`TITLE`) VALUES
+('Завтрак'),
+('Обед'),
+('Ужин');");
+	}
+});
+
+__yummyMigrate(60, function ($updater, $DB) {
+	if ($updater->CanUpdateDatabase())
+	{
+		$DB->query("INSERT INTO `up_final_planner`(`RECIPE_ID`, `USER_ID`, `COURSE_ID`, `DATE`) VALUES
+(1,1,1,'2024-04-26')
+");	}
+});

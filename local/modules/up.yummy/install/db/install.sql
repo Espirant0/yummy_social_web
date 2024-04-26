@@ -251,4 +251,7 @@ VALUES
     (8,3,2,7),
     (8,5,2,7);
 
-
+INSERT INTO `up_final_course` (`TITLE`) VALUES
+        ('Завтрак'),
+        ('Обед'),
+        ('Ужин');
