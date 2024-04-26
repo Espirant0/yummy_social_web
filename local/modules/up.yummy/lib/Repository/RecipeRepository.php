@@ -425,7 +425,6 @@ class RecipeRepository
 			$measures=self::getMeasuresForMerge($product['0']);
 			$product['WPU']=self::getWPUForMerge($product['0']);
 			$product['COEF']=self::getCoefForMerge($product['2']);
-			echo '<pre>' , var_dump($product) , '</pre>';
 			$productArray[$product['0']]--;
 			if($productArray[$product['0']]===0&&$output[$product['0']]===null)
 			{

@@ -6,6 +6,8 @@ class PlannerComponent extends CBitrixComponent
 	{
 		$this->getUserId();
 		$this->getDates();
+		$recipes=\Up\Yummy\Repository\PlannerRepository::getPlanForWeek($this->arResult['START_DATE']);
+		$this->arResult['PRODUCTS']=\Up\Yummy\Repository\PlannerRepository::getProductsForWeek($recipes);
 		$this->includeComponentTemplate();
 	}
 

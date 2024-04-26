@@ -86,7 +86,7 @@ __yummyMigrate(60, function ($updater, $DB) {
 	}
 });
 
-__yummyMigrate(60, function ($updater, $DB) {
+__yummyMigrate(61, function ($updater, $DB) {
 	if ($updater->CanUpdateDatabase())
 	{
 		$DB->query("INSERT INTO `up_final_planner`(`RECIPE_ID`, `USER_ID`, `COURSE_ID`, `DATE`) VALUES
