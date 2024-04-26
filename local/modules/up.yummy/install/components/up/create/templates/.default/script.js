@@ -24,7 +24,6 @@ class CreateRecipe {
 
 	init() {
 		this.create_recipe_btn.disabled = true;
-
 		this.imgInp.onchange = (evt) => {
 			this.Filevalidation();
 			const [file] = this.imgInp.files;
@@ -39,11 +38,15 @@ class CreateRecipe {
 			this.imgInp.value = "";
 			this.deletePhoto.disabled=true;
 		}
-		this.create_recipe_btn.addEventListener("click", function(){
-			this.create_recipe_btn.disabled = true;
-			this.form.submit();
+		this.create_recipe_btn.addEventListener("click", () => {
+			this.disableButton();
 		});
+	}
 
+	disableButton()
+	{
+		this.create_recipe_btn.disabled = true;
+		this.form.submit();
 	}
 
 	createSelect() {

@@ -85,7 +85,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button type="submit" class="button is-primary" id="create_recipe_btn" disabled>
+							<button class="button is-primary" id="create_recipe_btn">
 								Добавить рецепт
 							</button>
 						</div>
