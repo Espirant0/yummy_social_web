@@ -5,6 +5,9 @@
  */
 $recipe = $arResult['RECIPE'];
 ?>
+<form action="/" method="get" class="create_btn">
+	<button class="button is-success" id="detail_comeback_btn">На главную</button>
+</form>
 <div class="content">
 	<p class="title recipe_title"><?= $recipe['TITLE'] ?></p>
 	<div class="columns">
