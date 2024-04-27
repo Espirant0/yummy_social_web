@@ -95,11 +95,16 @@ class PlannerRepository
 				$nproduct[0]=$product['PRODUCT_ID'];
 				$nproduct[1]=$product['VALUE'];
 				$nproduct[2]=$product['MEASURE_ID'];
+				$nproduct[3]=$product['TITLE'];
 				$productArray[]=$nproduct;
 
 			}
 		}
 		$productArray=RecipeRepository::mergeProducts($productArray);
+		foreach ($productArray as &$product)
+		{
+			$product[2]=MeasureRepository::getMeasureName($product[2]);
+		}
 		return $productArray;
 	}
 	public static function getPlanForWeek($start):array

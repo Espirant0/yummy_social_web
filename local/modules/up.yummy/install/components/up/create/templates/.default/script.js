@@ -46,7 +46,14 @@ class CreateRecipe {
 	disableButton()
 	{
 		this.create_recipe_btn.disabled = true;
-		this.form.submit();
+		if(this.validateTime()===true)
+		{
+			this.form.submit();
+		}
+		else
+		{
+			this.create_recipe_btn.disabled = false;
+		}
 	}
 
 	createSelect() {
@@ -188,6 +195,21 @@ class CreateRecipe {
 					this.deletePhoto.disabled=true;
 				}
 			}
+		}
+	}
+	validateTime()
+	{
+		let TimeInput=document.getElementById("create_time_input");
+		let test=document.getElementById("test")
+		if(TimeInput.value<1)
+		{
+			TimeInput.value="";
+			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 }

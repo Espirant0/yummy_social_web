@@ -22,6 +22,20 @@ $newDate = date("D M d Y H:i:s \G\M\TO (T)", $timestamp);
 		<tbody class="planner_table" id="planner_table">
 		</tbody>
 	</table>
+    <table>
+        <tr>
+            <th>Продукт</th>
+            <th>Количество</th>
+            <th>Мера</th>
+        </tr>
+	<?php foreach($arResult['PRODUCTS'] as $product):?>
+        <tr>
+            <th><?=$product['3']?></th>
+            <th><?=$product['1']?></th>
+            <th><?=$product['2']?></th>
+        </tr>
+	<?php endforeach;?>
+    </table>
 </div>
 
 <a href="#x" class="overlay" id="win1"></a>

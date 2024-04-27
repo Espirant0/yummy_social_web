@@ -98,6 +98,7 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 								<?php endif?>
 							</div>
 						</div>
+
 					</a>
 				</div>
 				<form action="/planner/" method="get" class="create_btn">
