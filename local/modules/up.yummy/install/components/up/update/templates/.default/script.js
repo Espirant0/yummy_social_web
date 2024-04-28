@@ -19,6 +19,7 @@ class UpdateRecipe {
 		this.deleteStep = this.deleteStep.bind(this);
 		this.buttonCheck = this.buttonCheck.bind(this);
 		this.Filevalidation = this.Filevalidation.bind(this);
+		this.form=document.getElementById("form");
 	}
 
 	init() {
@@ -65,7 +66,6 @@ class UpdateRecipe {
 			});
 		}
 
-
 		if(this.imgPre.src[this.imgPre.src.length - 1] === "#")
 		{
 			this.photoStatus.value = '1'
@@ -88,6 +88,23 @@ class UpdateRecipe {
 		}
 
 		this.buttonCheck();
+		this.update_recipe_btn.addEventListener("click", () => {
+			this.disableButton();
+		});
+	}
+	disableButton()
+	{
+		if(this.validateTime()===true
+			&& this.validateProductCount()===true
+			&& this.validateStepCount()===true
+			&& this.validateName()===true
+			&& this.validateDescription()===true)
+		{
+			this.update_recipe_btn.disabled = true;
+			alert("HERE");
+			this.form.submit();
+		}
+
 	}
 
 	checkArray(emptyProducts) {
@@ -228,5 +245,72 @@ class UpdateRecipe {
 
 	buttonCheck() {
 		this.update_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0 && this.hasNotEmptyProducts === true);
+	}
+	validateTime()
+	{
+		let TimeInput=document.getElementById("update_time_input");
+		if(!(parseInt(TimeInput.value)==TimeInput.value)|| TimeInput.value<1)
+		{
+			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
+			this.form.preventDefault();
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	validateProductCount()
+	{
+		if(this.selectCount === 0)
+		{
+			alert("Нет продуктов");
+			this.form.preventDefault();
+			return false;
+		}
+		else {
+			return true
+		}
+	}
+	validateStepCount()
+	{
+		if(this.textareaCount === 0)
+		{
+			alert("Нет шагов");
+			this.form.preventDefault();
+			return false;
+		}
+		else {
+			return true
+		}
+	}
+	validateName()
+	{
+		let title=document.getElementById("update_title_input");
+		if(title.value.length<1 || title.value.length>50)
+		{
+			alert("Неправильное название");
+			this.form.preventDefault();
+
+			return false
+		}
+		else
+		{
+			return true
+		}
+
+	}
+	validateDescription()
+	{
+		let description=document.getElementById("update_description_input");
+		if(description.value.length<1 || description.value.length>250)
+		{
+			alert("Неправильное описание");
+			return false
+		}
+		else
+		{
+			return true
+		}
 	}
 }

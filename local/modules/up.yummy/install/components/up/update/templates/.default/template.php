@@ -17,7 +17,7 @@ $recipe = $arResult['RECIPE'];
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
 		<p class="title has-text-centered">ИЗМЕНИТЬ РЕЦЕПТ</p>
-		<form action="/update/<?= $recipe['ID'] ?>/" method="post" enctype="multipart/form-data">
+		<form action="/update/<?= $recipe['ID'] ?>/" method="post" enctype="multipart/form-data" id="form">
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
@@ -139,7 +139,7 @@ $recipe = $arResult['RECIPE'];
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary" id="update_recipe_btn">
+							<button class="button is-primary" id="update_recipe_btn" type="button">
 								Изменить рецепт
 							</button>
 						</div>

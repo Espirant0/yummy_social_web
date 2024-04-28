@@ -45,15 +45,17 @@ class CreateRecipe {
 
 	disableButton()
 	{
-		this.create_recipe_btn.disabled = true;
-		if(this.validateTime()===true)
+		if(this.validateTime()===true
+			&& this.validateProductCount()===true
+			&& this.validateStepCount()===true
+			&& this.validateName()===true
+			&& this.validateDescription()===true)
 		{
+			this.create_recipe_btn.disabled = true;
+			alert("HERE");
 			this.form.submit();
 		}
-		else
-		{
-			this.create_recipe_btn.disabled = false;
-		}
+
 	}
 
 	createSelect() {
@@ -200,16 +202,68 @@ class CreateRecipe {
 	validateTime()
 	{
 		let TimeInput=document.getElementById("create_time_input");
-		let test=document.getElementById("test")
-		if(TimeInput.value<1)
+		if(!(parseInt(TimeInput.value)==TimeInput.value)|| TimeInput.value<1)
 		{
-			TimeInput.value="";
 			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
+			this.form.preventDefault();
 			return false;
 		}
 		else
 		{
 			return true;
+		}
+	}
+	validateProductCount()
+	{
+		if(this.selectCount === 0)
+		{
+			alert("Нет продуктов");
+			this.form.preventDefault();
+			return false;
+		}
+		else {
+			return true
+		}
+	}
+	validateStepCount()
+	{
+		if(this.textareaCount === 0)
+		{
+			alert("Нет шагов");
+			this.form.preventDefault();
+			return false;
+		}
+		else {
+			return true
+		}
+	}
+	validateName()
+	{
+		let title=document.getElementById("create_title_input");
+		if(title.value.length<1 || title.value.length>50)
+		{
+			alert("Неправильное название");
+			this.form.preventDefault();
+
+			return false
+		}
+		else
+		{
+			return true
+		}
+
+	}
+	validateDescription()
+	{
+		let description=document.getElementById("create_description_input");
+		if(description.value.length<1 || description.value.length>250)
+		{
+			alert("Неправильное описание");
+			return false
+		}
+		else
+		{
+			return true
 		}
 	}
 }

@@ -6,7 +6,7 @@
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
-<form action="/" method="get" class="create_btn">
+<form action="/" method="get" class="create_btn" id="test">
 	<button class="button is-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
@@ -17,7 +17,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field ">
 						<p class="control">
-							<input class="input" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" required>
+							<input class="input" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" maxlength="50" required>
 						</p>
 					</div>
 				</div>
@@ -26,7 +26,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control">
-							<textarea class="textarea" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250"></textarea>
+							<textarea class="textarea" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<p class="control">
-							<input class="input" name="TIME" type="text" id="create_time_input" pattern="[0-9]{,3}"
+							<input class="input" name="TIME" type="number" id="create_time_input" pattern="[0-9]{,3}"
 								   placeholder="Время приготовления" min="1" required >
 						</p>
 					</div>
@@ -85,7 +85,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary" id="create_recipe_btn">
+							<button class="button is-primary" type="button" id="create_recipe_btn">
 								Добавить рецепт
 							</button>
 						</div>
