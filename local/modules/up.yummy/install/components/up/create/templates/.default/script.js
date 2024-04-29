@@ -222,6 +222,16 @@ class CreateRecipe {
 			return false;
 		}
 		else {
+			for (let i = 1; i <= this.selectCount; i++)
+			{
+				const input = document.getElementById(`create_product_quantity_${i}`);
+				if(input.value === '')
+				{
+					alert("Нет продуктов");
+					this.form.preventDefault();
+					return false;
+				}
+			}
 			return true
 		}
 	}
@@ -234,6 +244,16 @@ class CreateRecipe {
 			return false;
 		}
 		else {
+			for (let i = 1; i <= this.textareaCount; i++)
+			{
+				const input = document.getElementById(`create_step_description_${i}`);
+				if(input.value === '')
+				{
+					alert("Пустое описание шага");
+					this.form.preventDefault();
+					return false;
+				}
+			}
 			return true
 		}
 	}
