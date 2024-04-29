@@ -9,7 +9,7 @@ class CreateRecipe {
 		this.textareaCount = 0;
 		this.selectCount = 0;
 		this.create_recipe_btn = document.getElementById("create_recipe_btn");
-		this.deletePhoto=document.getElementById("delete_photo");
+		this.deletePhoto = document.getElementById("delete_photo");
 		this.emptyProducts = [];
 		this.hasNotEmptyProducts = true;
 		this.createSelect = this.createSelect.bind(this);
@@ -19,7 +19,7 @@ class CreateRecipe {
 		this.deleteStep = this.deleteStep.bind(this);
 		this.buttonCheck = this.buttonCheck.bind(this);
 		this.Filevalidation = this.Filevalidation.bind(this);
-		this.form=document.getElementById("form");
+		this.form = document.getElementById("form");
 	}
 
 	init() {
@@ -32,25 +32,22 @@ class CreateRecipe {
 
 			}
 		};
-		this.deletePhoto.onclick=(evt)=>
-		{
-			this.imgPre.src ="#";
+		this.deletePhoto.onclick = (evt) => {
+			this.imgPre.src = "#";
 			this.imgInp.value = "";
-			this.deletePhoto.disabled=true;
+			this.deletePhoto.disabled = true;
 		}
 		this.create_recipe_btn.addEventListener("click", () => {
 			this.disableButton();
 		});
 	}
 
-	disableButton()
-	{
-		if(this.validateTime()===true
-			&& this.validateProductCount()===true
-			&& this.validateStepCount()===true
-			&& this.validateName()===true
-			&& this.validateDescription()===true)
-		{
+	disableButton() {
+		if (this.validateTime() === true
+			&& this.validateProductCount() === true
+			&& this.validateStepCount() === true
+			&& this.validateName() === true
+			&& this.validateDescription() === true) {
 			this.create_recipe_btn.disabled = true;
 			alert("HERE");
 			this.form.submit();
@@ -189,45 +186,38 @@ class CreateRecipe {
 			for (let i = 0; i <= fi.files.length - 1; i++) {
 				const fsize = fi.files.item(i).size;
 				const file = Math.round(fsize / 1024);
-				this.deletePhoto.disabled=false;
+				this.deletePhoto.disabled = false;
 				// The size of the file.
 				if (file >= 2048) {
 					alert("ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
 					fi.value = "";
-					this.deletePhoto.disabled=true;
+					this.deletePhoto.disabled = true;
 				}
 			}
 		}
 	}
-	validateTime()
-	{
-		let TimeInput=document.getElementById("create_time_input");
-		if(!(parseInt(TimeInput.value)==TimeInput.value)|| TimeInput.value<1)
-		{
+
+	validateTime() {
+		let TimeInput = document.getElementById("create_time_input");
+		if (!(parseInt(TimeInput.value) == TimeInput.value) || TimeInput.value < 1) {
 			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
 			this.form.preventDefault();
 			return false;
-		}
-		else
-		{
+		} else {
 			return true;
 		}
 	}
-	validateProductCount()
-	{
-		if(this.selectCount === 0)
-		{
+
+	validateProductCount() {
+		if (this.selectCount === 0) {
 			alert("Нет продуктов");
 			this.form.preventDefault();
 			return false;
-		}
-		else {
-			for (let i = 1; i <= this.selectCount; i++)
-			{
+		} else {
+			for (let i = 1; i <= this.selectCount; i++) {
 				const input = document.getElementById(`create_product_quantity_${i}`);
-				if(input.value === '')
-				{
-					alert("Нет продуктов");
+				if (input.value === '' || input.value < 1) {
+					alert("Неправильно переданы продукты");
 					this.form.preventDefault();
 					return false;
 				}
@@ -235,20 +225,16 @@ class CreateRecipe {
 			return true
 		}
 	}
-	validateStepCount()
-	{
-		if(this.textareaCount === 0)
-		{
+
+	validateStepCount() {
+		if (this.textareaCount === 0) {
 			alert("Нет шагов");
 			this.form.preventDefault();
 			return false;
-		}
-		else {
-			for (let i = 1; i <= this.textareaCount; i++)
-			{
+		} else {
+			for (let i = 1; i <= this.textareaCount; i++) {
 				const input = document.getElementById(`create_step_description_${i}`);
-				if(input.value === '')
-				{
+				if (input.value === '') {
 					alert("Пустое описание шага");
 					this.form.preventDefault();
 					return false;
@@ -257,32 +243,26 @@ class CreateRecipe {
 			return true
 		}
 	}
-	validateName()
-	{
-		let title=document.getElementById("create_title_input");
-		if(title.value.length<1 || title.value.length>50)
-		{
+
+	validateName() {
+		let title = document.getElementById("create_title_input");
+		if (title.value.length < 1 || title.value.length > 50) {
 			alert("Неправильное название");
 			this.form.preventDefault();
 
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 
 	}
-	validateDescription()
-	{
-		let description=document.getElementById("create_description_input");
-		if(description.value.length<1 || description.value.length>250)
-		{
+
+	validateDescription() {
+		let description = document.getElementById("create_description_input");
+		if (description.value.length < 1 || description.value.length > 250) {
 			alert("Неправильное описание");
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 	}

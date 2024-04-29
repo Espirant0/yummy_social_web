@@ -272,9 +272,8 @@ class UpdateRecipe {
 			for (let i = 1; i <= this.selectCount; i++)
 			{
 				const input = document.getElementById(`update_product_quantity_${i}`);
-				if(input.value === '')
-				{
-					alert("Нет продуктов");
+				if (input.value === '' || input.value < 1) {
+					alert("Неправильно переданы продукты");
 					this.form.preventDefault();
 					return false;
 				}
