@@ -43,7 +43,7 @@ class UpdateComponent extends CBitrixComponent
 				$measures = request()['MEASURES'];
 				$photoStatus = (int)request()['photoStatus'];
 				$checkName = RecipeRepository::checkForDublicates($title);
-				if($recipe['TITLE'] === $title)
+				if ($recipe['TITLE'] === $title)
 				{
 					$checkName = false;
 				}
@@ -54,7 +54,25 @@ class UpdateComponent extends CBitrixComponent
 				}
 				else
 				{
-					LocalRedirect("/404/");
+					$this->arResult['MESSAGE'] = [];
+					switch (true)
+					{
+						case($title === null):
+							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ НАЗВАНИЕ";
+						case($description === null):
+							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ОПИСАНИЕ";
+						case($time === null):
+							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
+						case($productsQuantity === null):
+							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ПРОДУКТЫ";
+						case($steps === null):
+							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
+						case(RecipeRepository::checkForDublicates($title) !== false):
+							$this->arResult['MESSAGE'][] = "РЕЦЕПТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ";
+
+
+					}
+					$this->includeComponentTemplate("test");
 				}
 			}
 			else
@@ -68,6 +86,7 @@ class UpdateComponent extends CBitrixComponent
 			LocalRedirect("/404/");
 		}
 	}
+
 
 	protected function prepareRecipeData(int $recipeId, array $recipe): void
 	{

@@ -101,7 +101,6 @@ class UpdateRecipe {
 			&& this.validateDescription()===true)
 		{
 			this.update_recipe_btn.disabled = true;
-			alert("HERE");
 			this.form.submit();
 		}
 
@@ -249,9 +248,15 @@ class UpdateRecipe {
 	validateTime()
 	{
 		let TimeInput=document.getElementById("update_time_input");
-		if(!(parseInt(TimeInput.value)==TimeInput.value)|| TimeInput.value<1)
+		if (!(parseInt(TimeInput.value) == TimeInput.value))
 		{
-			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
+			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
+			this.form.preventDefault();
+			return false;
+		}
+		else if (TimeInput.value < 1)
+		{
+			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
 			this.form.preventDefault();
 			return false;
 		}
@@ -306,11 +311,16 @@ class UpdateRecipe {
 	validateName()
 	{
 		let title=document.getElementById("update_title_input");
-		if(title.value.length<1 || title.value.length>50)
+		if(title.value.length<1)
 		{
-			alert("Неправильное название");
+			alert("Введите название");
 			this.form.preventDefault();
-
+			return false
+		}
+		else if (title.value.length>50)
+		{
+			alert("Название должно быть меньше 50 символов");
+			this.form.preventDefault();
 			return false
 		}
 		else
@@ -322,9 +332,14 @@ class UpdateRecipe {
 	validateDescription()
 	{
 		let description=document.getElementById("update_description_input");
-		if(description.value.length<1 || description.value.length>250)
+		if (description.value.length < 1)
 		{
-			alert("Неправильное описание");
+			alert("Введите описание");
+			return false
+		}
+		else if( description.value.length > 250)
+		{
+			alert("Описание должно быть меньше 250 символов");
 			return false
 		}
 		else

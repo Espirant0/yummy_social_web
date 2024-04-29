@@ -49,7 +49,6 @@ class CreateRecipe {
 			&& this.validateName() === true
 			&& this.validateDescription() === true) {
 			this.create_recipe_btn.disabled = true;
-			alert("HERE");
 			this.form.submit();
 		}
 
@@ -199,11 +198,20 @@ class CreateRecipe {
 
 	validateTime() {
 		let TimeInput = document.getElementById("create_time_input");
-		if (!(parseInt(TimeInput.value) == TimeInput.value) || TimeInput.value < 1) {
-			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ");
+		if (!(parseInt(TimeInput.value) == TimeInput.value))
+		{
+			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
 			this.form.preventDefault();
 			return false;
-		} else {
+		}
+		else if (TimeInput.value < 1)
+		{
+			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
+			this.form.preventDefault();
+			return false;
+		}
+		else
+		{
 			return true;
 		}
 	}
@@ -246,12 +254,20 @@ class CreateRecipe {
 
 	validateName() {
 		let title = document.getElementById("create_title_input");
-		if (title.value.length < 1 || title.value.length > 50) {
-			alert("Неправильное название");
+		if(title.value.length<1)
+		{
+			alert("Введите название");
 			this.form.preventDefault();
-
 			return false
-		} else {
+		}
+		else if (title.value.length>50)
+		{
+			alert("Название должно быть меньше 50 символов");
+			this.form.preventDefault();
+			return false
+		}
+		else
+		{
 			return true
 		}
 
@@ -259,10 +275,18 @@ class CreateRecipe {
 
 	validateDescription() {
 		let description = document.getElementById("create_description_input");
-		if (description.value.length < 1 || description.value.length > 250) {
-			alert("Неправильное описание");
+		if (description.value.length < 1)
+		{
+			alert("Введите описание");
 			return false
-		} else {
+		}
+		else if( description.value.length > 250)
+		{
+			alert("Описание должно быть меньше 250 символов");
+			return false
+		}
+		else
+		{
 			return true
 		}
 	}
