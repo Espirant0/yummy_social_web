@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\DateField,
 	Bitrix\Main\ORM\Fields\IntegerField;
+use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\UserTable;
 
@@ -27,6 +28,7 @@ Loc::loadMessages(__FILE__);
 
 class PlannerTable extends DataManager
 {
+	use DeleteByFilterTrait;
 	/**
 	 * Returns DB table name for entity.
 	 *

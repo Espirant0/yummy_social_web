@@ -9,6 +9,7 @@ return [
 	'js' => 'dist/planner.bundle.js',
 	'rel' => [
 		'main.core',
+		'main.popup',
 	],
 	'skip_core' => false,
 ];

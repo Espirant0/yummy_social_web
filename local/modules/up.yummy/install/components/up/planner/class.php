@@ -1,28 +1,18 @@
 <?php
 
+use Up\Yummy\Repository\PlannerRepository;
+
 class PlannerComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
 		$this->getUserId();
 		$this->getDates();
-		$recipes=\Up\Yummy\Repository\PlannerRepository::getPlanForWeek($this->arResult['START_DATE']);
-		$this->arResult['PRODUCTS']=\Up\Yummy\Repository\PlannerRepository::getProductsForWeek($recipes);
 		$this->includeComponentTemplate();
 	}
 
 	protected function getDates(): void
 	{
-		$this->arResult['WEEK_DAYS'] = [
-			"Понедельник",
-			"Вторник",
-			"Среда",
-			"Четверг",
-			"Пятница",
-			"Суббота",
-			"Воскресенье",
-		];
-
 		$this->arResult['CURR_DATE'] = date('d.m.Y');
 
 		if (isset(request()['day']) && is_numeric(strtotime(request()['day'])))

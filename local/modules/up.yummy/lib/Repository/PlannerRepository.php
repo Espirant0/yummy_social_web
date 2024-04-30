@@ -1,38 +1,67 @@
 <?php
+
 namespace Up\Yummy\Repository;
-use Bitrix\Main\Type\DateTime;
+
+use DateTime;
+use Bitrix\Main\Type\Date;
 use Up\Yummy\Model\CourseTable;
 use Up\Yummy\Model\MeasuresTable;
 use Up\Yummy\Model\PlannerTable;
 use Up\Yummy\Model\RecipeProductTable;
+use Up\Yummy\Model\RecipesTable;
+
 
 class PlannerRepository
 {
-	public static function addPlan()
+	public static function addPlan($date, $course, $recipe, $user): void
 	{
-		return null;
-	}
-	public static function deletePlan()
-	{
-		return null;
-	}
-
-	public static function getPlan():array
-	{
-		$plan = PlannerTable::getList([
-			'select' => [
-				'recipe_name' => 'RECIPE.TITLE',
-				'owner_id' => 'USER_ID',
-				'course_name' => 'COURSE.TITLE',
-				'date_of_plan' => 'DATE',
-				],
-			'group' => ['course_name'],
+		$date = new DateTime($date);
+		$date = \Bitrix\Main\Type\DateTime::createFromPhp($date);
+		PlannerTable::add([
+			'RECIPE_ID' => $recipe,
+			'DATE' => $date,
+			'COURSE_ID' => $course,
+			'USER_ID' => $user,
 		]);
-
-		return $plan->fetchAll();
 	}
 
-	public static function getCourses():array
+	public static function deletePlan($date, $course, $user): void
+	{
+		$date = new DateTime($date);
+		$date = \Bitrix\Main\Type\Date::createFromPhp($date);
+		PlannerTable::deleteByFilter([
+			'=DATE' => new Date($date),
+			'=COURSE_ID' => $course,
+			'=USER_ID' => $user,
+		]);
+	}
+	public static function isPlanExists($date, $course, $user):bool
+	{
+		$date = new DateTime($date);
+		$date = \Bitrix\Main\Type\Date::createFromPhp($date);
+		$plan = PlannerTable::getRow([
+			'filter' => [
+				'=DATE' => new Date($date),
+				'=COURSE_ID' => $course,
+				'=USER_ID' => $user,
+			],
+		]);
+		if(isset($plan))
+		{
+			return true;
+		}
+		return false;
+	}
+	public static function getRecipeList(): array
+	{
+		return RecipesTable::getList([
+			'select' => [
+				'ID', 'TITLE',
+			],
+		])->fetchAll();
+	}
+
+	public static function getCourses(): array
 	{
 		return CourseTable::getList([
 			'select' => [
@@ -41,92 +70,68 @@ class PlannerRepository
 		])->fetchAll();
 	}
 
-	public static function getDailyPlan(int $userId, $date):array
+	public static function getDailyPlan(int $userId, $date): array
 	{
-		$recipes = PlannerTable::getList([
+		$date = new DateTime($date);
+		$date = \Bitrix\Main\Type\DateTime::createFromPhp($date);
+		return PlannerTable::getList([
 			'select' => [
+				'RECIPE_ID',
 				'RECIPE_NAME' => 'RECIPE.TITLE',
+				'OWNER_ID' => 'USER_ID',
 				'COURSE_NAME' => 'COURSE.TITLE',
-				'DATE'
+				'DATE_OF_PLAN' => 'DATE',
 			],
 			'filter' => [
+				'=DATE_OF_PLAN' => new Date($date),
 				'=USER_ID' => $userId,
 			],
 		])->fetchAll();
-		$dailyRecipes = [];
+	}
+
+	public static function getProducts(array $recipes): array
+	{
+		$productArray = [];
 		foreach ($recipes as $recipe)
 		{
-			if(strtotime($recipe['DATE']) === strtotime($date))
-			{
-				$dailyRecipes [] = $recipe;
-			}
-		}
-
-		$groupedRecipes = array();
-
-		foreach ($dailyRecipes as $recipe) {
-			$meal = $recipe["COURSE_NAME"];
-			$recipeName = $recipe["RECIPE_NAME"];
-
-			if (!isset($groupedRecipes[$meal])) {
-				$groupedRecipes[$meal] = array($recipeName);
-			} else {
-				if (!in_array($recipeName, $groupedRecipes[$meal])) {
-					$groupedRecipes[$meal][] = $recipeName;
-				}
-			}
-		}
-
-		$result = array();
-
-		foreach ($groupedRecipes as $meal => $recipeList) {
-			$result[] = array("COURSE_NAME" => $meal, "RECIPE_NAME" => implode(", ", $recipeList));
-		}
-		return $result;
-	}
-	public static function getProductsForWeek(array $recipes):array
-	{
-		$productArray=[];
-		foreach($recipes as $recipe)
-		{
-			$products=RecipeRepository::getRecipeProducts($recipe["RECIPE_ID"]);
+			$products = RecipeRepository::getRecipeProducts($recipe["RECIPE_ID"]);
 			foreach ($products as $product)
 			{
-				$nproduct[0]=$product['PRODUCT_ID'];
-				$nproduct[1]=$product['VALUE'];
-				$nproduct[2]=$product['MEASURE_ID'];
-				$nproduct[3]=$product['TITLE'];
-				$productArray[]=$nproduct;
+				$nproduct[0] = $product['PRODUCT_ID'];
+				$nproduct[1] = $product['VALUE'];
+				$nproduct[2] = $product['MEASURE_ID'];
+				$nproduct[3] = $product['TITLE'];
+				$productArray[] = $nproduct;
 
 			}
 		}
-		$productArray=RecipeRepository::mergeProducts($productArray);
+		$productArray = RecipeRepository::mergeProducts($productArray);
 		foreach ($productArray as &$product)
 		{
-			$product[2]=MeasureRepository::getMeasureName($product[2]);
+			$product[2] = MeasureRepository::getMeasureName($product[2]);
 		}
 		return $productArray;
 	}
-	public static function getPlanForWeek($start):array
+
+	public static function getPlanForWeek($user, $start): array
 	{
-		$finish=$start+604800;
-		$start=DateTime::createFromTimestamp($start);
-		$finish=DateTime::createFromTimestamp($finish);
+		$finish = $start + 604800;
+		$start = \Bitrix\Main\Type\DateTime::createFromTimestamp($start);
+		$finish = \Bitrix\Main\Type\DateTime::createFromTimestamp($finish);
 		$plan = PlannerTable::getList([
 			'select' => [
-				'recipe_name' => 'RECIPE.TITLE',
-				'owner_id' => 'USER_ID',
-				'course_name' => 'COURSE.TITLE',
-				'date_of_plan' => 'DATE',
-				'RECIPE_ID'
+				'RECIPE_ID',
+				'RECIPE_NAME' => 'RECIPE.TITLE',
+				'OWNER_ID' => 'USER_ID',
+				'COURSE_NAME' => 'COURSE.TITLE',
+				'DATE_OF_PLAN' => 'DATE',
 			],
-			'filter'=>[
-				">date_of_plan" => $start,
-				"<=date_of_plan" => $finish,
-				],
+			'filter' => [
+				">DATE_OF_PLAN" => $start,
+				"<=DATE_OF_PLAN" => $finish,
+				"=OWNER_ID" => $user,
+			],
 		]);
-		//$plan=PlannerTable::query()->setSelect(['*'])->whereBetween('DATE',date($start),date($finish));
-
 		return $plan->fetchAll();
 	}
 }

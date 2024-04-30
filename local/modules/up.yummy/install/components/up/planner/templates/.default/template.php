@@ -1,7 +1,9 @@
 <?php
 /**
+ * @var DateTime $currentTime;
  * @var $arResult
  */
+
 \Bitrix\Main\UI\Extension::load('up.planner');
 
 $timestamp =  $arResult['START_DATE'];
@@ -22,34 +24,20 @@ $newDate = date("D M d Y H:i:s \G\M\TO (T)", $timestamp);
 		<tbody class="planner_table" id="planner_table">
 		</tbody>
 	</table>
-    <table>
-        <tr>
-            <th>Продукт</th>
-            <th>Количество</th>
-            <th>Мера</th>
-        </tr>
-	<?php foreach($arResult['PRODUCTS'] as $product):?>
-        <tr>
-            <th><?=$product['3']?></th>
-            <th><?=$product['1']?></th>
-            <th><?=$product['2']?></th>
-        </tr>
-	<?php endforeach;?>
-    </table>
+	<table id="daily_product_table">
+	</table>
+	<table id="product_table">
+	</table>
+	<div id="modal">
+	</div>
 </div>
-
-<a href="#x" class="overlay" id="win1"></a>
-<div class="popup">
-	Окно
-	<a class="close" title="Закрыть" href="#close"></a>
-</div>
-
 
 <script>
 	BX.ready(function (){
 		window.YummyPlanner = new BX.Up.Yummy.Planner({
 			rootNodeId: 'planner_table',
-			currentDay: new Date('<?=$newDate?>'),
+			currentDate: new Date('<?=$newDate?>'),
+			start: <?=$timestamp?>,
 			userId: '<?=$user?>',
 		});
 	});
