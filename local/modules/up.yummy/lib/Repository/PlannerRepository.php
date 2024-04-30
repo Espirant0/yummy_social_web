@@ -17,12 +17,15 @@ class PlannerRepository
 	{
 		$date = new DateTime($date);
 		$date = \Bitrix\Main\Type\DateTime::createFromPhp($date);
-		PlannerTable::add([
-			'RECIPE_ID' => $recipe,
-			'DATE' => $date,
-			'COURSE_ID' => $course,
-			'USER_ID' => $user,
-		]);
+		if((RecipesTable::getRowById($recipe) !== null) && (CourseTable::getRowById($course) !== null))
+		{
+			PlannerTable::add([
+				'RECIPE_ID' => $recipe,
+				'DATE' => $date,
+				'COURSE_ID' => $course,
+				'USER_ID' => $user,
+			]);
+		}
 	}
 
 	public static function deletePlan($date, $course, $user): void
@@ -73,7 +76,7 @@ class PlannerRepository
 	public static function getDailyPlan(int $userId, $date): array
 	{
 		$date = new DateTime($date);
-		$date = \Bitrix\Main\Type\DateTime::createFromPhp($date);
+		$date = \Bitrix\Main\Type\Date::createFromPhp($date);
 		return PlannerTable::getList([
 			'select' => [
 				'RECIPE_ID',

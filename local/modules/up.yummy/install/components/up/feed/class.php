@@ -65,7 +65,6 @@ class FeedComponent extends CBitrixComponent
 		$this->arResult['PAGES'] = PaginationService::getPages($page, $this->arResult['RECIPES']);
 		$this->arResult['DAILY_RECIPE'] = RecipeRepository::getDailyRecipe();
 		$this->arResult['PAGE'] = $page;
-		$this->arResult['NOT_FOUND_MESSAGE'] = 'По вашему запросу ничего найдено.';
 		$this->arResult['PLANNER_COURSES'] = PlannerRepository::getCourses();
 		$this->arResult['PLANNER_RECIPES'] = PlannerRepository::getDailyPlan($userId, $date);
 		if (count($this->arResult['RECIPES']) > PaginationService::$displayArraySize)
