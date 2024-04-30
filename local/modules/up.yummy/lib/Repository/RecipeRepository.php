@@ -273,18 +273,34 @@ class RecipeRepository
 			}
 		}
 
-		if (isset($filter['MY_RECIPES'])) {
-			if ($filter['MY_RECIPES'] === 'Y') {
-				$recipes->addFilter('AUTHOR_ID', $userId);
-			} else {
-				$recipes->addFilter('!=AUTHOR_ID', $userId);
+//		if (isset($filter['MY_RECIPES'])) {
+//			if ($filter['MY_RECIPES'] === 'Y') {
+//				$recipes->addFilter('AUTHOR_ID', $userId);
+//			} else {
+//				$recipes->addFilter('!=AUTHOR_ID', $userId);
+//			}
+//		}
+//
+//		if (isset($filter['AUTHOR_ID'])) {
+//			$recipes->addFilter('=AUTHOR_ID', $filter['AUTHOR_ID']);
+//		}
+		$userArray=[];
+		if(isset($filter['MY_RECIPES'])&&($filter['MY_RECIPES'] === 'Y'))
+		{
+			$userArray[]=$userId;
+		}
+
+		if (isset($filter['AUTHOR_ID']))
+		{
+			foreach ($filter['AUTHOR_ID'] as $authorId)
+			{
+				$userArray[]=$authorId;
 			}
 		}
-
-		if (isset($filter['AUTHOR_ID'])) {
-			$recipes->addFilter('=AUTHOR_ID', $filter['AUTHOR_ID']);
+		if($userArray!==[])
+		{
+			$recipes->addFilter('=AUTHOR_ID', $userArray);
 		}
-
 		if (isset($filter['PRODUCTS'])) {
 			$products = [];
 			foreach ($filter['PRODUCTS'] as $product) {
