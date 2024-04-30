@@ -40,17 +40,17 @@ $recipe = $arResult['RECIPE'];
 						<button class="button is-danger" id="remove_from_featured_btn">Убрать из избранного</button>
 					</form>
 				<?php endif; ?>
-				<?php if (!$arResult['LIKED']): ?>
-					<form class="like" action="/like/" method="post">
+				<?php /*if (!$arResult['LIKED']): */?>
+					<form class="like" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-success" id="like_btn">Лайк</button>
+						<button class="button <?=(!$arResult['LIKED'])?'is-success': 'is-danger'?>" type="button" id="like_btn">Лайк</button>
 					</form>
-				<?php else: ?>
+				<?php /*else: */?><!--
 					<form action="/like/" method="post">
-						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
+						<input type="hidden" name="recipeId" value="<?php /*= $recipe['ID'] */?>">
 						<button class="button is-danger" id="unlike_btn">Лайк</button>
 					</form>
-				<?php endif; ?>
+				--><?php /*endif; */?>
 			</div>
 			<p class="title">Ингредиенты</p><br>
 			<div class="column is-half is-offset-one-quarter products">
@@ -165,3 +165,24 @@ $recipe = $arResult['RECIPE'];
 	</div>
 </div>
 </div>
+
+<script>
+	const likeBtn = document.getElementById('like_btn')
+	likeBtn.addEventListener('click', () =>{
+		BX.ajax.runAction(
+			'up:yummy.detail.like',
+			{
+				data: {
+					user: <?=$arResult['AUTHOR_ID']?>,
+					recipe: <?= $recipe['ID'] ?>,
+				}
+			})
+			.then((response) => {
+				console.log(`success`);
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+		;
+	});
+</script>

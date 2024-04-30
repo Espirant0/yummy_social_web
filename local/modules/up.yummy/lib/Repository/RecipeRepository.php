@@ -125,11 +125,11 @@ class RecipeRepository
 		]);
 	}
 
-	public static function likeRecipe(int $authorId, int $recipeId): void
+	public static function likeRecipe(int $userId, int $recipeId): void
 	{
 		LikesTable::add([
 			'RECIPE_ID' => $recipeId,
-			'USER_ID' => $authorId,
+			'USER_ID' => $userId,
 		]);
 	}
 
