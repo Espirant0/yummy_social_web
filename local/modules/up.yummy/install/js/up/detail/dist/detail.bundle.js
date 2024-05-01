@@ -14,6 +14,12 @@ this.BX.Up = this.BX.Up || {};
 	    this.recipe = options.recipe;
 	    this.likeBtn = document.getElementById('like_btn');
 	    this.featuredBtn = document.getElementById('add_to_featured_btn');
+	    this.isRecipeInFeatured().then(function (r) {
+	      return _this.reload();
+	    });
+	    this.isRecipeLiked().then(function (r) {
+	      return _this.reload();
+	    });
 	    this.likeBtn.addEventListener('click', function () {
 	      _this.like(_this.user, _this.recipe).then(function (r) {
 	        return _this.reload();
@@ -46,6 +52,7 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "like",
 	    value: function like(user, recipe) {
+	      var _this3 = this;
 	      return new Promise(function (resolve, reject) {
 	        BX.ajax.runAction('up:yummy.detail.like', {
 	          data: {
@@ -54,6 +61,7 @@ this.BX.Up = this.BX.Up || {};
 	          }
 	        }).then(function (response) {
 	          console.log('success');
+	          _this3.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
 	        });
@@ -62,6 +70,7 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "addToFeatured",
 	    value: function addToFeatured(user, recipe) {
+	      var _this4 = this;
 	      return new Promise(function (resolve, reject) {
 	        BX.ajax.runAction('up:yummy.detail.addToFeatured', {
 	          data: {
@@ -70,6 +79,7 @@ this.BX.Up = this.BX.Up || {};
 	          }
 	        }).then(function (response) {
 	          console.log('success');
+	          _this4.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
 	        });
@@ -141,7 +151,6 @@ this.BX.Up = this.BX.Up || {};
 	        this.featuredBtn.className = "button is-success";
 	        this.featuredBtn.textContent = "\u0412 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435";
 	      }
-	      this.reload();
 	    }
 	  }]);
 	  return Detail;

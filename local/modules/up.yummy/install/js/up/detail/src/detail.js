@@ -8,11 +8,13 @@ export class Detail
 		this.recipe = options.recipe;
 		this.likeBtn = document.getElementById('like_btn')
 		this.featuredBtn = document.getElementById('add_to_featured_btn')
+		this.isRecipeInFeatured().then(r => this.reload());
+		this.isRecipeLiked().then(r => this.reload());
 		this.likeBtn.addEventListener('click', () => {
-			this.like(this.user, this.recipe).then(r => this.reload());
+			this.like(this.user, this.recipe).then(r => this.reload())
 		});
 		this.featuredBtn.addEventListener('click', () => {
-			this.addToFeatured(this.user, this.recipe).then(r => this.reload());
+			this.addToFeatured(this.user, this.recipe).then(r => this.reload())
 		});
 		this.reload();
 	}
@@ -46,6 +48,7 @@ export class Detail
 				})
 				.then((response) => {
 					console.log('success');
+					this.reload();
 				})
 				.catch((error) => {
 					console.error(error);
@@ -66,6 +69,7 @@ export class Detail
 				})
 				.then((response) => {
 					console.log('success');
+					this.reload();
 				})
 				.catch((error) => {
 					console.error(error);
@@ -153,6 +157,5 @@ export class Detail
 			this.featuredBtn.className = `button is-success`;
 			this.featuredBtn.textContent = `В избранное`;
 		}
-		this.reload();
 	}
 }

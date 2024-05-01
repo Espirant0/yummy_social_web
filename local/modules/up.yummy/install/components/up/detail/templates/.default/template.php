@@ -34,7 +34,7 @@ $recipe = $arResult['RECIPE'];
 				</div>
 					<form class="featured" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-success" type="button" id="add_to_featured_btn">В избранное</button>
+						<button class="button" type="button" id="add_to_featured_btn">В избранное</button>
 					</form>
 					<form class="like" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">

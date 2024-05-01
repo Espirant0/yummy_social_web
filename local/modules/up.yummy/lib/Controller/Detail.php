@@ -17,11 +17,11 @@ class Detail extends \Bitrix\Main\Engine\Controller
 				]
 			]) === null)
 		{
-			RecipeRepository::likeRecipe($user, $recipe);
+			RecipeRepository::likeRecipe((int)$user, (int)$recipe);
 		}
 		else
 		{
-			RecipeRepository::unlikeRecipe($user, $recipe);
+			RecipeRepository::unlikeRecipe((int)$user, (int)$recipe);
 		}
 
 	}
@@ -35,27 +35,27 @@ class Detail extends \Bitrix\Main\Engine\Controller
 				]
 			]) === null)
 		{
-			RecipeRepository::addRecipeToFeatured($user, $recipe);
+			RecipeRepository::addRecipeToFeatured((int)$user, (int)$recipe);
 		}
 		else
 		{
-			RecipeRepository::deleteRecipeFromFeatured($user, $recipe);
+			RecipeRepository::deleteRecipeFromFeatured((int)$user, (int)$recipe);
 		}
 
 	}
 
 	public function getLikesCountAction($recipe):int
 	{
-		return RecipeRepository::likesCount($recipe);
+		return RecipeRepository::likesCount((int)$recipe);
 	}
 
 	public function isRecipeLikedAction($user, $recipe):bool
 	{
-		return RecipeRepository::isRecipeLiked($user, $recipe);
+		return RecipeRepository::isRecipeLiked((int)$user, (int)$recipe);
 	}
 
 	public function isRecipeInFeaturedAction($user, $recipe):bool
 	{
-		return RecipeRepository::isRecipeInFeatured($user, $recipe);
+		return RecipeRepository::isRecipeInFeatured((int)$user, (int)$recipe);
 	}
 }
