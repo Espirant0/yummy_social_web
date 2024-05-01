@@ -1,5 +1,7 @@
 <?php
 namespace Up\Yummy\Service;
+use Up\Yummy\Model\ProductMeasuresTable;
+
 class ValidationService
 {
 	public static function validateRecipeId($id)
@@ -44,7 +46,7 @@ class ValidationService
 	}
 	public static function validateProductAmount($amount):mixed
 	{
-		if(!is_array($amount)||in_array("",$amount,true))
+		if(!is_array($amount)||in_array("",$amount,true)||count($amount)>10)
 		{
 			return null;
 		}
@@ -60,7 +62,7 @@ class ValidationService
 	}
 	public static function validateSteps($steps):mixed
 	{
-		if(!is_array($steps)||empty($steps))
+		if(!is_array($steps)||empty($steps)||count($steps)>10)
 		{
 			return null;
 		}
@@ -69,5 +71,19 @@ class ValidationService
 			return null;
 		}
 		return $steps;
+	}
+	public static function checkForIllegalIDs(array $products):bool
+	{
+		foreach ($products as $product)
+		{
+			$pair=ProductMeasuresTable::query()->setSelect(['*'])
+				->setFilter(["=PRODUCT_ID"=>$product[0]])
+				->setFilter(["=MEASURE_ID"=>$product[2]])->fetch();
+			if($pair===false)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

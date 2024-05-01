@@ -9,6 +9,7 @@ use Up\Yummy\Model\ImagesTable;
 use Up\Yummy\Model\InstructionTable;
 use Up\Yummy\Model\LikesTable;
 use Up\Yummy\Model\MeasuresTable;
+use Up\Yummy\Model\PlannerTable;
 use Up\Yummy\Model\ProductMeasuresTable;
 use Up\Yummy\Model\ProductsTable;
 use Up\Yummy\Model\RecipeProductTable;
@@ -115,6 +116,7 @@ class RecipeRepository
 		RecipesTable::getByPrimary($id)->fetchObject()->delete();
 		InstructionTable::deleteByFilter(['RECIPE_ID' => $id]);
 		ImagesTable::deleteByFilter(['RECIPE_ID' => $id]);
+		PlannerTable::deleteByFilter(['RECIPE_ID' => $id]);
 	}
 
 	public static function addRecipeToFeatured(int $authorId, int $recipeId): void

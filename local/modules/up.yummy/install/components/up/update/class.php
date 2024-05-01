@@ -40,6 +40,7 @@ class UpdateComponent extends CBitrixComponent
 				$steps = ValidationService::validateSteps(request()['STEPS']);
 				$products = request()['PRODUCTS'];
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
+				$productsValidation=ValidationService::checkForIllegalIDs($products);
 				$measures = request()['MEASURES'];
 				$photoStatus = (int)request()['photoStatus'];
 				$checkName = RecipeRepository::checkForDublicates($title);
@@ -63,7 +64,7 @@ class UpdateComponent extends CBitrixComponent
 							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ОПИСАНИЕ";
 						case($time === null):
 							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
-						case($productsQuantity === null):
+						case($productsQuantity === null||$productsValidation===false):
 							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ПРОДУКТЫ";
 						case($steps === null):
 							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
