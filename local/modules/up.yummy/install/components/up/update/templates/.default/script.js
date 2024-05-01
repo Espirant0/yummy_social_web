@@ -11,15 +11,13 @@ class UpdateRecipe {
 		this.selectCount = productsSize;
 		this.stepContainer = document.getElementById("step_container");
 		this.update_recipe_btn = document.getElementById("update_recipe_btn");
-		this.emptyProducts = [];
-		this.hasNotEmptyProducts = true;
 		this.createSelect = this.createSelect.bind(this);
 		this.deleteSelect = this.deleteSelect.bind(this);
 		this.createStep = this.createStep.bind(this);
 		this.deleteStep = this.deleteStep.bind(this);
 		this.buttonCheck = this.buttonCheck.bind(this);
 		this.Filevalidation = this.Filevalidation.bind(this);
-		this.form=document.getElementById("form");
+		this.form = document.getElementById("form");
 	}
 
 	init() {
@@ -40,19 +38,15 @@ class UpdateRecipe {
 				this.buttonCheck();
 				if (selectedText === "Выберите продукт") {
 					document.getElementById(`update_product_quantity_${i}`).remove();
-					this.emptyProducts[i] = true;
 					document.getElementById(`update_measure_${i}`).remove();
 					measure_select.remove();
 					document.getElementById(`select_div_${i}`).remove();
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 					this.buttonCheck();
 				} else {
 					input.value = ``;
 					document.getElementById(`container_${i}`).appendChild(input);
-					this.emptyProducts[i] = false;
 					div2.appendChild(measure_select);
 					document.getElementById(`container_${i}`).appendChild(div2);
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 					this.buttonCheck();
 				}
 				this.measures[selectedValue].forEach(function (option) {
@@ -61,13 +55,11 @@ class UpdateRecipe {
 					secondOption.text = option.MEASURE_NAME;
 					measure_select.appendChild(secondOption);
 				});
-				this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 				this.buttonCheck();
 			});
 		}
 
-		if(this.imgPre.src[this.imgPre.src.length - 1] === "#")
-		{
+		if (this.imgPre.src[this.imgPre.src.length - 1] === "#") {
 			this.photoStatus.value = '1'
 			this.deletePhoto.disabled = true;
 		}
@@ -92,23 +84,24 @@ class UpdateRecipe {
 			this.disableButton();
 		});
 	}
-	disableButton()
-	{
-		if(this.validateTime()===true
-			&& this.validateProductCount()===true
-			&& this.validateStepCount()===true
-			&& this.validateName()===true
-			&& this.validateDescription()===true)
-		{
+
+	disableButton() {
+		if (this.validateTime() === true
+			&& this.validateProductCount() === true
+			&& this.validateStepCount() === true
+			&& this.validateName() === true
+			&& this.validateDescription() === true) {
 			this.update_recipe_btn.disabled = true;
 			this.form.submit();
 		}
-
 	}
 
-	checkArray(emptyProducts) {
-		for (let i = 0; i < emptyProducts.length; i++) {
-			if (emptyProducts[i] === true) {
+	checkArray() {
+		for (let i = 1; i <= this.selectCount; i++) {
+			let productField = document.getElementById(`update_product_${i}`);
+			let selectedText = productField.options[productField.selectedIndex].text;
+			if (selectedText === "Выберите продукт") {
+				alert("Есть невыбранные продукты");
 				return false;
 			}
 		}
@@ -118,8 +111,6 @@ class UpdateRecipe {
 	createSelect() {
 		if (this.selectCount < 15) {
 			this.selectCount++;
-			this.emptyProducts[this.selectCount] = true;
-			this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 			this.buttonCheck();
 			const select = document.createElement("select");
 			const measure_select = document.createElement("select");
@@ -160,24 +151,19 @@ class UpdateRecipe {
 				select.appendChild(firstOption);
 			});
 			for (let i = 1; i <= this.selectCount; i++) {
-				this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 				this.buttonCheck();
 				select.addEventListener("change", () => {
 					var selectedValue = select.value;
 					var selectedText = select.options[select.selectedIndex].text;
 					measure_select.innerHTML = "";
 					if (selectedText === placeholder.text) {
-						this.emptyProducts[i] = true;
 						div2.remove();
 						input.remove();
-						this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 						this.buttonCheck();
 					} else {
-						this.emptyProducts[i] = false;
 						container.appendChild(input);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
-						this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 						this.buttonCheck();
 					}
 					this.measures[selectedValue].forEach(function (option) {
@@ -186,7 +172,6 @@ class UpdateRecipe {
 						secondOption.text = option.MEASURE_NAME;
 						measure_select.appendChild(secondOption);
 					});
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 					this.buttonCheck();
 				});
 			}
@@ -194,12 +179,10 @@ class UpdateRecipe {
 	}
 
 	deleteSelect() {
-		this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 		this.buttonCheck();
 		const element = document.getElementById(`container_${this.selectCount}`);
 		element.remove();
 		this.selectCount--;
-		this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 		this.buttonCheck();
 	}
 
@@ -243,39 +226,33 @@ class UpdateRecipe {
 	}
 
 	buttonCheck() {
-		this.update_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0 && this.hasNotEmptyProducts === true);
+		this.update_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
 	}
-	validateTime()
-	{
-		let TimeInput=document.getElementById("update_time_input");
-		if (!(parseInt(TimeInput.value) == TimeInput.value))
-		{
+
+	validateTime() {
+		let timeInput = document.getElementById("update_time_input");
+		if (!(parseInt(timeInput.value) == timeInput.value)) {
 			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
 			this.form.preventDefault();
 			return false;
-		}
-		else if (TimeInput.value < 1)
-		{
+		} else if (timeInput.value < 1) {
 			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
 			this.form.preventDefault();
 			return false;
-		}
-		else
-		{
+		} else {
 			return true;
 		}
 	}
-	validateProductCount()
-	{
-		if(this.selectCount === 0)
-		{
+
+	validateProductCount() {
+		if (this.selectCount === 0) {
 			alert("Нет продуктов");
 			this.form.preventDefault();
 			return false;
-		}
-		else {
-			for (let i = 1; i <= this.selectCount; i++)
-			{
+		} else if (!this.checkArray()) {
+			return false;
+		} else {
+			for (let i = 1; i <= this.selectCount; i++) {
 				const input = document.getElementById(`update_product_quantity_${i}`);
 				if (input.value === '' || input.value < 1) {
 					alert("Неправильно переданы продукты");
@@ -286,20 +263,16 @@ class UpdateRecipe {
 			return true
 		}
 	}
-	validateStepCount()
-	{
-		if(this.textareaCount === 0)
-		{
+
+	validateStepCount() {
+		if (this.textareaCount === 0) {
 			alert("Нет шагов");
 			this.form.preventDefault();
 			return false;
-		}
-		else {
-			for (let i = 1; i <= this.textareaCount; i++)
-			{
+		} else {
+			for (let i = 1; i <= this.textareaCount; i++) {
 				const input = document.getElementById(`update_step_description_${i}`);
-				if(input.value === '')
-				{
+				if (input.value === '') {
 					alert("Пустое описание шага");
 					this.form.preventDefault();
 					return false;
@@ -308,42 +281,32 @@ class UpdateRecipe {
 			return true
 		}
 	}
-	validateName()
-	{
-		let title=document.getElementById("update_title_input");
-		if(title.value.length<1)
-		{
+
+	validateName() {
+		let title = document.getElementById("update_title_input");
+		if (title.value.length < 1) {
 			alert("Введите название");
 			this.form.preventDefault();
 			return false
-		}
-		else if (title.value.length>50)
-		{
+		} else if (title.value.length > 50) {
 			alert("Название должно быть меньше 50 символов");
 			this.form.preventDefault();
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 
 	}
-	validateDescription()
-	{
-		let description=document.getElementById("update_description_input");
-		if (description.value.length < 1)
-		{
+
+	validateDescription() {
+		let description = document.getElementById("update_description_input");
+		if (description.value.length < 1) {
 			alert("Введите описание");
 			return false
-		}
-		else if( description.value.length > 250)
-		{
+		} else if (description.value.length > 250) {
 			alert("Описание должно быть меньше 250 символов");
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 	}

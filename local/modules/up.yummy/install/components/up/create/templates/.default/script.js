@@ -138,14 +138,10 @@ class CreateRecipe {
 	}
 
 	checkArray() {
-
-		for (let i =1; i <= this.selectCount; i++)
-		{
-
-			let productField=document.getElementById(`create_product_${i}`);
+		for (let i = 1; i <= this.selectCount; i++) {
+			let productField = document.getElementById(`create_product_${i}`);
 			let selectedText = productField.options[productField.selectedIndex].text;
-			if (selectedText === "Выберите продукт")
-			{
+			if (selectedText === "Выберите продукт") {
 				alert("Есть невыбранные продукты");
 				return false;
 			}
@@ -197,37 +193,28 @@ class CreateRecipe {
 	}
 
 	validateTime() {
-		let TimeInput = document.getElementById("create_time_input");
-		if (!(parseInt(TimeInput.value) == TimeInput.value))
-		{
+		let timeInput = document.getElementById("create_time_input");
+		if (!(parseInt(timeInput.value) == timeInput.value)) {
 			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
 			this.form.preventDefault();
 			return false;
-		}
-		else if (TimeInput.value < 1)
-		{
+		} else if (timeInput.value < 1) {
 			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
 			this.form.preventDefault();
 			return false;
-		}
-		else
-		{
+		} else {
 			return true;
 		}
 	}
 
 	validateProductCount() {
-		if (this.selectCount === 0)
-		{
+		if (this.selectCount === 0) {
 			alert("Нет продуктов");
 			this.form.preventDefault();
 			return false;
-		}
-		else if(!this.checkArray())
-		{
+		} else if (!this.checkArray()) {
 			return false;
-		}
-		else {
+		} else {
 			for (let i = 1; i <= this.selectCount; i++) {
 				const input = document.getElementById(`create_product_quantity_${i}`);
 				if (input.value === '' || input.value < 1) {
@@ -260,20 +247,15 @@ class CreateRecipe {
 
 	validateName() {
 		let title = document.getElementById("create_title_input");
-		if(title.value.length<1)
-		{
+		if (title.value.length < 1) {
 			alert("Введите название");
 			this.form.preventDefault();
 			return false
-		}
-		else if (title.value.length>50)
-		{
+		} else if (title.value.length > 50) {
 			alert("Название должно быть меньше 50 символов");
 			this.form.preventDefault();
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 
@@ -281,18 +263,13 @@ class CreateRecipe {
 
 	validateDescription() {
 		let description = document.getElementById("create_description_input");
-		if (description.value.length < 1)
-		{
+		if (description.value.length < 1) {
 			alert("Введите описание");
 			return false
-		}
-		else if( description.value.length > 250)
-		{
+		} else if (description.value.length > 250) {
 			alert("Описание должно быть меньше 250 символов");
 			return false
-		}
-		else
-		{
+		} else {
 			return true
 		}
 	}
