@@ -21,8 +21,15 @@ class AddComponent extends CBitrixComponent
 		if($this->handleExceptions($title,$description,$time,$steps,$amount))
 		{
 			$products = array_map(null, request()['PRODUCTS'], $amount, request()['MEASURES']);
-			$recipeId=$this->createRecipe($title,$description,$time,$userId,$products,$steps);
-			LocalRedirect('/');
+			if(ValidationService::checkForIllegalIDs($products)===true)
+			{
+				$recipeId = $this->createRecipe($title, $description, $time, $userId, $products, $steps);
+				LocalRedirect('/');
+			}
+			else
+			{
+				$this->arResult['MESSAGE'] = "НЕПРАВИЛЬНЫЕ ДАННЫЕ О ПРОДУКТЕ";
+			}
 		}
 		$this->includeComponentTemplate();
 	}
