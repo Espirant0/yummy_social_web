@@ -136,7 +136,7 @@ this.BX.Up = this.BX.Up || {};
 	    value: function render() {
 	      var _this5 = this;
 	      this.rootNode.innerHTML = '';
-	      var daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+	      var daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 	      var currentDate = this.currentDate;
 	      var currentDayOfWeek = currentDate.getDay();
 	      var firstDayOfWeek = new Date(currentDate);
@@ -179,7 +179,7 @@ this.BX.Up = this.BX.Up || {};
 	        document.getElementById("product_table").appendChild(productRow);
 	      }
 	      var headerRow = main_core.Tag.render(_templateObject5 || (_templateObject5 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t<tr>\n\t\t\t\t<th class=\"is-info\"></th>\n\t\t\t\t", "\n\t\t\t</tr>\n\t\t"])), dates.map(function (dateData) {
-	        return main_core.Tag.render(_templateObject6 || (_templateObject6 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t\t\t<th class=\"is-info\" data-date=\"", "\">", " (", ")</th>\n\t\t\t\t"])), dateData.date, dateData.date, dateData.dayOfWeek);
+	        return main_core.Tag.render(_templateObject6 || (_templateObject6 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t\t\t<th class=\"is-info\" data-date=\"", "\">", " <br>", "</th>\n\t\t\t\t"])), dateData.date, _this5.formatDate(dateData.date), dateData.dayOfWeek);
 	      }));
 	      this.rootNode.insertBefore(headerRow, this.rootNode.firstChild);
 	      var cells = document.querySelectorAll('td[data-date][data-course-id]');
@@ -195,6 +195,23 @@ this.BX.Up = this.BX.Up || {};
 	      		this.openProductsView(event);
 	      	});
 	      });*/
+	    }
+	  }, {
+	    key: "formatDate",
+	    value: function formatDate(dateString) {
+	      var date = new Date(dateString);
+	      var day = date.getDate();
+	      var month = date.getMonth() + 1;
+	      var year = date.getFullYear();
+
+	      // Добавляем ведущий ноль, если день или месяц состоят из одной цифры
+	      if (day < 10) {
+	        day = "0" + day;
+	      }
+	      if (month < 10) {
+	        month = "0" + month;
+	      }
+	      return day + "." + month + "." + year;
 	    }
 	  }, {
 	    key: "openProductsView",
@@ -268,7 +285,7 @@ this.BX.Up = this.BX.Up || {};
 	      editButton.className = "button";
 	      editButton.type = "button";
 	      editButton.id = "edit_btn";
-	      editButton.textContent = "Изменить";
+	      editButton.textContent = "Применить";
 	      var deleteButton = document.createElement("button");
 	      deleteButton.className = "button";
 	      deleteButton.type = "button";

@@ -14,8 +14,8 @@ class PlannerComponent extends CBitrixComponent
 	protected function getDates(): void
 	{
 		$this->arResult['CURR_DATE'] = date('d.m.Y');
-
-		if (isset(request()['day']) && is_numeric(strtotime(request()['day'])))
+		$requestDate = request()['day'];
+		if (isset($requestDate) && is_numeric(strtotime($requestDate)) && $this->checkYearInRange($requestDate, 2050))
 		{
 			$date = request()['day'];
 			$currentDayOfWeek = date('N', strtotime($date));
@@ -37,5 +37,21 @@ class PlannerComponent extends CBitrixComponent
 	{
 		global $USER;
 		$this->arResult['USER'] = (int)$USER->GetID();
+	}
+
+	protected function checkYearInRange($dateString, $futureYear): bool
+	{
+		$date = date_create_from_format('d.m.Y', $dateString);
+		$year = date_format($date, 'Y');
+		$currentYear = date('Y');
+
+		if ($year >= $currentYear && $year <= $futureYear)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

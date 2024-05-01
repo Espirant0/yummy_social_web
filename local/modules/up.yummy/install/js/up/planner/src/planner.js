@@ -151,7 +151,7 @@ export class Planner {
 	render() {
 		this.rootNode.innerHTML = '';
 
-		const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+		const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 		const currentDate = this.currentDate;
 		const currentDayOfWeek = currentDate.getDay();
 		const firstDayOfWeek = new Date(currentDate);
@@ -218,7 +218,7 @@ export class Planner {
 			<tr>
 				<th class="is-info"></th>
 				${dates.map(dateData => Tag.render`
-					<th class="is-info" data-date="${dateData.date}">${dateData.date} (${dateData.dayOfWeek})</th>
+					<th class="is-info" data-date="${dateData.date}">${this.formatDate(dateData.date)} <br>${dateData.dayOfWeek}</th>
 				`)}
 			</tr>
 		`;
@@ -236,6 +236,23 @@ export class Planner {
 				this.openProductsView(event);
 			});
 		});*/
+	}
+
+	formatDate(dateString) {
+		let date = new Date(dateString);
+		let day = date.getDate();
+		let month = date.getMonth() + 1;
+		let year = date.getFullYear();
+
+		// Добавляем ведущий ноль, если день или месяц состоят из одной цифры
+		if (day < 10) {
+			day = "0" + day;
+		}
+		if (month < 10) {
+			month = "0" + month;
+		}
+
+		return day + "." + month + "." + year;
 	}
 	openProductsView(event)
 	{
@@ -325,7 +342,7 @@ export class Planner {
 		editButton.className = "button";
 		editButton.type = "button";
 		editButton.id = "edit_btn";
-		editButton.textContent = "Изменить";
+		editButton.textContent = "Применить";
 
 		const deleteButton = document.createElement("button");
 		deleteButton.className = "button";
