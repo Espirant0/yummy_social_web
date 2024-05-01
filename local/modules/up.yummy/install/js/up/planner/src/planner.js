@@ -218,7 +218,7 @@ export class Planner {
 			<tr>
 				<th class="is-info"></th>
 				${dates.map(dateData => Tag.render`
-					<th class="is-info" data-date="${dateData.date}">${this.formatDate(dateData.date)} <br>${dateData.dayOfWeek}</th>
+					<th class="is-info table_cell" data-date="${dateData.date}">${this.formatDate(dateData.date)} <br>${dateData.dayOfWeek}</th>
 				`)}
 			</tr>
 		`;
@@ -230,12 +230,14 @@ export class Planner {
 			});
 		});
 
-		/*const headerDates = document.querySelectorAll('th[data-date]');
+		const headerDates = document.querySelectorAll('th[data-date]');
 		headerDates.forEach(date => {
-			date.addEventListener('click', event => {
-				this.openProductsView(event);
+			this.loadDailyProductList(date.getAttribute('data-date')).then(productList => {
+				date.addEventListener('click', event => {
+					this.openProductsView(event, productList);
+				});
 			});
-		});*/
+		});
 	}
 
 	formatDate(dateString) {
@@ -254,17 +256,10 @@ export class Planner {
 
 		return day + "." + month + "." + year;
 	}
-	openProductsView(event)
+	openProductsView(event, products)
 	{
 		event.preventDefault();
 		const target = event.target;
-		const date = target.getAttribute('data-date');
-		this.loadDailyProductList(date).then(productList => {
-			this.dailyProductList = productList;
-			this.render();
-			this.reload();
-		});
-
 		const table = document.getElementById(`daily_product_table`);
 		const productHeader = Tag.render`
 		<tr>
@@ -273,12 +268,12 @@ export class Planner {
 			<th>Мера</th>
 		</tr>`;
 		table.appendChild(productHeader);
-		for (const key in this.dailyProductList) {
+		for (const key in products) {
 			const productRow = Tag.render`
 			 <tr>
-				<th>${this.dailyProductList[key][3]}</th>
-				<th>${this.dailyProductList[key][1]}</th>
-				<th>${this.dailyProductList[key][2]}</th>
+				<th>${products[key][3]}</th>
+				<th>${products[key][1]}</th>
+				<th>${products[key][2]}</th>
 			</tr>
 			`;
 			table.appendChild(productRow);
@@ -297,7 +292,6 @@ export class Planner {
 				events:{
 					onPopupClose: function() {
 						table.innerHTML = "";
-						this.dailyProductList = [];
 					}
 				}
 			}
@@ -305,7 +299,7 @@ export class Planner {
 		popup.setContent(BX('daily_product_table'));
 		popup.show();
 	}
-	openEditForm(event, recipes, selectedRecipe)
+	openEditForm(event, recipes)
 	{
 		event.preventDefault();
 		const target = event.target;

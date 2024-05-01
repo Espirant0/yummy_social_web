@@ -179,7 +179,7 @@ this.BX.Up = this.BX.Up || {};
 	        document.getElementById("product_table").appendChild(productRow);
 	      }
 	      var headerRow = main_core.Tag.render(_templateObject5 || (_templateObject5 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t<tr>\n\t\t\t\t<th class=\"is-info\"></th>\n\t\t\t\t", "\n\t\t\t</tr>\n\t\t"])), dates.map(function (dateData) {
-	        return main_core.Tag.render(_templateObject6 || (_templateObject6 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t\t\t<th class=\"is-info\" data-date=\"", "\">", " <br>", "</th>\n\t\t\t\t"])), dateData.date, _this5.formatDate(dateData.date), dateData.dayOfWeek);
+	        return main_core.Tag.render(_templateObject6 || (_templateObject6 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t\t\t<th class=\"is-info table_cell\" data-date=\"", "\">", " <br>", "</th>\n\t\t\t\t"])), dateData.date, _this5.formatDate(dateData.date), dateData.dayOfWeek);
 	      }));
 	      this.rootNode.insertBefore(headerRow, this.rootNode.firstChild);
 	      var cells = document.querySelectorAll('td[data-date][data-course-id]');
@@ -188,13 +188,14 @@ this.BX.Up = this.BX.Up || {};
 	          _this5.openEditForm(event, _this5.recipeList, _this5.selectedRecipe);
 	        });
 	      });
-
-	      /*const headerDates = document.querySelectorAll('th[data-date]');
-	      headerDates.forEach(date => {
-	      	date.addEventListener('click', event => {
-	      		this.openProductsView(event);
-	      	});
-	      });*/
+	      var headerDates = document.querySelectorAll('th[data-date]');
+	      headerDates.forEach(function (date) {
+	        _this5.loadDailyProductList(date.getAttribute('data-date')).then(function (productList) {
+	          date.addEventListener('click', function (event) {
+	            _this5.openProductsView(event, productList);
+	          });
+	        });
+	      });
 	    }
 	  }, {
 	    key: "formatDate",
@@ -215,21 +216,14 @@ this.BX.Up = this.BX.Up || {};
 	    }
 	  }, {
 	    key: "openProductsView",
-	    value: function openProductsView(event) {
-	      var _this6 = this;
+	    value: function openProductsView(event, products) {
 	      event.preventDefault();
 	      var target = event.target;
-	      var date = target.getAttribute('data-date');
-	      this.loadDailyProductList(date).then(function (productList) {
-	        _this6.dailyProductList = productList;
-	        _this6.render();
-	        _this6.reload();
-	      });
 	      var table = document.getElementById("daily_product_table");
 	      var productHeader = main_core.Tag.render(_templateObject7 || (_templateObject7 = babelHelpers.taggedTemplateLiteral(["\n\t\t<tr>\n\t\t\t<th>\u041F\u0440\u043E\u0434\u0443\u043A\u0442</th>\n\t\t\t<th>\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</th>\n\t\t\t<th>\u041C\u0435\u0440\u0430</th>\n\t\t</tr>"])));
 	      table.appendChild(productHeader);
-	      for (var key in this.dailyProductList) {
-	        var productRow = main_core.Tag.render(_templateObject8 || (_templateObject8 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t</tr>\n\t\t\t"])), this.dailyProductList[key][3], this.dailyProductList[key][1], this.dailyProductList[key][2]);
+	      for (var key in products) {
+	        var productRow = main_core.Tag.render(_templateObject8 || (_templateObject8 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t</tr>\n\t\t\t"])), products[key][3], products[key][1], products[key][2]);
 	        table.appendChild(productRow);
 	      }
 	      var popup = new BX.PopupWindow("products", target, {
@@ -246,7 +240,6 @@ this.BX.Up = this.BX.Up || {};
 	        events: {
 	          onPopupClose: function onPopupClose() {
 	            table.innerHTML = "";
-	            this.dailyProductList = [];
 	          }
 	        }
 	      });
@@ -255,8 +248,8 @@ this.BX.Up = this.BX.Up || {};
 	    }
 	  }, {
 	    key: "openEditForm",
-	    value: function openEditForm(event, recipes, selectedRecipe) {
-	      var _this7 = this;
+	    value: function openEditForm(event, recipes) {
+	      var _this6 = this;
 	      event.preventDefault();
 	      var target = event.target;
 	      var date = target.getAttribute('data-date');
@@ -331,32 +324,32 @@ this.BX.Up = this.BX.Up || {};
 	            date: date,
 	            course: courseId,
 	            recipe: recipeSelect.value,
-	            user: _this7.user
+	            user: _this6.user
 	          }
 	        }).then(function (response) {
 	          console.log("success");
-	          _this7.reload();
+	          _this6.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
 	        });
 	        popup.close();
-	        _this7.reload();
+	        _this6.reload();
 	      });
 	      deleteButton.addEventListener('click', function () {
 	        BX.ajax.runAction('up:yummy.planner.deletePlan', {
 	          data: {
 	            date: date,
 	            course: courseId,
-	            user: _this7.user
+	            user: _this6.user
 	          }
 	        }).then(function (response) {
 	          console.log("success");
-	          _this7.reload();
+	          _this6.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
 	        });
 	        popup.close();
-	        _this7.reload();
+	        _this6.reload();
 	      });
 	    }
 	  }]);
