@@ -40,7 +40,7 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 							</div>
 							<div class="media-content">
 								<div class="title_line">
-									<p class="title is-4 "><?=$recipe['TITLE']?></p>
+									<p class="title is-4 recipe_name"><?=$recipe['TITLE']?></p>
 									<p class="likes"><?=$recipe['LIKES_COUNT']?> ❤</p>
 								</div>
 								<p class="subtitle is-6"><?=TemplateService::truncate($recipe['DESCRIPTION'], 50)?></p>
@@ -86,20 +86,18 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 				</a>
 				<div class="daily_recipe">
 					<p class="title is-4 has-text-centered plan_title">Ваши рецепты на сегодня</p>
-					<a href="/planner/" id="daily_plan_card">
-						<div class="card">
-							<div class="card-content">
-								<?php if (!empty($arResult['PLANNER_RECIPES'])):?>
-									<?php foreach($arResult['PLANNER_RECIPES'] as $recipe):?>
-										<p class="title is-4"><?= $recipe['COURSE_NAME']?>:</p> <p class="title is-6"><?= $recipe['RECIPE_NAME']?><br></p>
-									<?php endforeach;?>
-								<?php else:?>
-									<p class="title is-4">У вас нет рецептов на сегодня</p>
-								<?php endif?>
-							</div>
+					<div class="card">
+						<div class="card-content">
+							<?php if (!empty($arResult['PLANNER_RECIPES'])):?>
+								<?php foreach($arResult['PLANNER_RECIPES'] as $recipe):?>
+									<p class="title is-4"><?= $recipe['COURSE_NAME']?>:</p> <p class="title is-6"><a
+											href="/detail/<?=$recipe['RECIPE_ID']?>/"><?= $recipe['RECIPE_NAME']?></a><br></p>
+								<?php endforeach;?>
+							<?php else:?>
+								<p class="title is-4">У вас нет рецептов на сегодня</p>
+							<?php endif?>
 						</div>
-
-					</a>
+					</div>
 				</div>
 				<form action="/planner/" method="get" class="create_btn">
 					<button class="button is-success" id="planner_btn">Планировщик</button>

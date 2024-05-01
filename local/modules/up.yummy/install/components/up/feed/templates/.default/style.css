@@ -22,6 +22,9 @@
 .search_btn{
 	margin-right: 50px;
 }
+.recipe_name{
+	max-width:80%;
+}
 
 .right_col{
 	display:flex;
