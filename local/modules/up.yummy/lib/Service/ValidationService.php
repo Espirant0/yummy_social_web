@@ -46,7 +46,7 @@ class ValidationService
 	}
 	public static function validateProductAmount($amount):mixed
 	{
-		if(!is_array($amount)||in_array("",$amount,true)||count($amount)>10)
+		if(!is_array($amount)||in_array("",$amount,true)||count($amount)>15)
 		{
 			return null;
 		}

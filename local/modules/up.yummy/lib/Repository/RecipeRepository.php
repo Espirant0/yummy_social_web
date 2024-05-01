@@ -541,6 +541,19 @@ class RecipeRepository
 				}
 			}
 		}
+		foreach($output as &$note)
+		{
+			if($note[2]==1&&$note[1]>1000)
+			{
+				$note[2]=2;
+				$note[1]=round($note[1]/1000,1);
+			}
+			if($note[2]==6&&$note[1]>1000)
+			{
+				$note[2]=5;
+				$note[1]=round($note[1]/1000,1);
+			}
+		}
 		return $output;
 
 	}

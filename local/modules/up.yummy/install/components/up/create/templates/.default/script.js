@@ -10,7 +10,6 @@ class CreateRecipe {
 		this.selectCount = 0;
 		this.create_recipe_btn = document.getElementById("create_recipe_btn");
 		this.deletePhoto = document.getElementById("delete_photo");
-		this.emptyProducts = [];
 		this.hasNotEmptyProducts = true;
 		this.createSelect = this.createSelect.bind(this);
 		this.deleteSelect = this.deleteSelect.bind(this);
@@ -57,8 +56,6 @@ class CreateRecipe {
 	createSelect() {
 		if (this.selectCount < 15) {
 			this.selectCount++;
-			this.emptyProducts[this.selectCount] = true;
-			this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 			this.buttonCheck();
 			const select = document.createElement("select");
 			const measure_select = document.createElement("select");
@@ -100,25 +97,23 @@ class CreateRecipe {
 				select.appendChild(firstOption);
 			});
 			for (let i = 1; i <= this.selectCount; i++) {
-				this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
+
 				this.buttonCheck();
 				select.addEventListener("change", () => {
 					var selectedValue = select.value;
 					var selectedText = select.options[select.selectedIndex].text;
 					measure_select.innerHTML = "";
 					if (selectedText === placeholder.text) {
-						this.emptyProducts[i] = true;
 						div2.remove();
 						input.remove();
-						this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
+
 						this.buttonCheck();
 					} else {
-						this.emptyProducts[i] = false;
 						input.value = ``;
 						container.appendChild(input);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
-						this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
+
 						this.buttonCheck();
 					}
 					this.measures[selectedValue].forEach(function (option) {
@@ -127,7 +122,7 @@ class CreateRecipe {
 						secondOption.text = option.MEASURE_NAME;
 						measure_select.appendChild(secondOption);
 					});
-					this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
+
 					this.buttonCheck();
 				});
 			}
@@ -135,18 +130,23 @@ class CreateRecipe {
 	}
 
 	deleteSelect() {
-		this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 		this.buttonCheck();
 		const element = document.getElementById(`container_${this.selectCount}`);
 		element.remove();
 		this.selectCount--;
-		this.hasNotEmptyProducts = this.checkArray(this.emptyProducts);
 		this.buttonCheck();
 	}
 
-	checkArray(emptyProducts) {
-		for (let i = 0; i < emptyProducts.length; i++) {
-			if (emptyProducts[i] === true) {
+	checkArray() {
+
+		for (let i =1; i <= this.selectCount; i++)
+		{
+
+			let productField=document.getElementById(`create_product_${i}`);
+			let selectedText = productField.options[productField.selectedIndex].text;
+			if (selectedText === "Выберите продукт")
+			{
+				alert("Есть невыбранные продукты");
 				return false;
 			}
 		}
@@ -175,7 +175,7 @@ class CreateRecipe {
 	}
 
 	buttonCheck() {
-		this.create_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0 && this.hasNotEmptyProducts === true);
+		this.create_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
 	}
 
 	Filevalidation() {
@@ -217,11 +217,17 @@ class CreateRecipe {
 	}
 
 	validateProductCount() {
-		if (this.selectCount === 0) {
+		if (this.selectCount === 0)
+		{
 			alert("Нет продуктов");
 			this.form.preventDefault();
 			return false;
-		} else {
+		}
+		else if(!this.checkArray())
+		{
+			return false;
+		}
+		else {
 			for (let i = 1; i <= this.selectCount; i++) {
 				const input = document.getElementById(`create_product_quantity_${i}`);
 				if (input.value === '' || input.value < 1) {
