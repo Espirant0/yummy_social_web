@@ -1,6 +1,6 @@
 module.exports = {
 	input: 'src/detail.js',
 	output: 'dist/detail.bundle.js',
-	namespace: 'BX.',
+	namespace: 'BX.Up.Yummy',
 	sourceMaps: false,
 };

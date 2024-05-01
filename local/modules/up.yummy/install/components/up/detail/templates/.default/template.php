@@ -3,6 +3,9 @@
  * @var array $arResult
  * @var array $arParams ;
  */
+
+\Bitrix\Main\UI\Extension::load('up.detail');
+
 $recipe = $arResult['RECIPE'];
 ?>
 <form action="/" method="get" class="create_btn">
@@ -27,30 +30,16 @@ $recipe = $arResult['RECIPE'];
 					<div class="author_image"> ЛК</div>
 				</a>
 				<div class="likes_container">
-					<p class="likes"><?= $arResult['LIKES_COUNT'] ?> ❤</p>
+					<div id="likes_counter" class="likes"></div>
 				</div>
-				<?php if (!$arResult['FEATURED']): ?>
-					<form class="featured" action="/featured/" method="post">
+					<form class="featured" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-success" id="add_to_featured_btn">В избранное</button>
+						<button class="button is-success" type="button" id="add_to_featured_btn">В избранное</button>
 					</form>
-				<?php else: ?>
-					<form action="/featured/" method="post">
-						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-danger" id="remove_from_featured_btn">Убрать из избранного</button>
-					</form>
-				<?php endif; ?>
-				<?php /*if (!$arResult['LIKED']): */?>
 					<form class="like" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button <?=(!$arResult['LIKED'])?'is-success': 'is-danger'?>" type="button" id="like_btn">Лайк</button>
+						<button class="button" type="button" id="like_btn">Лайк</button>
 					</form>
-				<?php /*else: */?><!--
-					<form action="/like/" method="post">
-						<input type="hidden" name="recipeId" value="<?php /*= $recipe['ID'] */?>">
-						<button class="button is-danger" id="unlike_btn">Лайк</button>
-					</form>
-				--><?php /*endif; */?>
 			</div>
 			<p class="title">Ингредиенты</p><br>
 			<div class="column is-half is-offset-one-quarter products">
@@ -167,22 +156,10 @@ $recipe = $arResult['RECIPE'];
 </div>
 
 <script>
-	const likeBtn = document.getElementById('like_btn')
-	likeBtn.addEventListener('click', () =>{
-		BX.ajax.runAction(
-			'up:yummy.detail.like',
-			{
-				data: {
-					user: <?=$arResult['AUTHOR_ID']?>,
-					recipe: <?= $recipe['ID'] ?>,
-				}
-			})
-			.then((response) => {
-				console.log(`success`);
-			})
-			.catch((error) => {
-				console.error(error);
-			})
-		;
+	BX.ready(function (){
+		window.YummyDetail = new BX.Up.Yummy.Detail({
+			user: <?=$arResult['AUTHOR_ID']?>,
+			recipe: <?= $recipe['ID'] ?>
+		});
 	});
 </script>
