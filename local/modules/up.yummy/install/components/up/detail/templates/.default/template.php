@@ -5,6 +5,7 @@
  */
 
 \Bitrix\Main\UI\Extension::load('up.detail');
+\Bitrix\Main\UI\Extension::load("ui.buttons.icons");
 
 $recipe = $arResult['RECIPE'];
 ?>
@@ -33,16 +34,13 @@ $recipe = $arResult['RECIPE'];
 							</div>
 						</div>
 					</a>
-				<div class="likes_container">
-					<div id="likes_counter" class="likes"></div>
-				</div>
 					<form class="featured" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button type="button" id="add_to_featured_btn" class="ui-btn">В избранное</button>
+						<button type="button" id="add_to_featured_btn" class="ui-btn ui-btn-lg ui-btn-wait">В избранное</button>
 					</form>
 					<form class="like" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="ui-btn" id="like_btn" type="button">Мне нравится</button>
+						<button class="ui-btn ui-btn-lg ui-btn-wait" id="like_btn" type="button">Мне нравится<i id="likes_counter" class="ui-btn-counter"></i></button>
 					</form>
 			</div>
 			<div class="column is-half is-offset-one-quarter products">
@@ -76,7 +74,7 @@ $recipe = $arResult['RECIPE'];
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/delete/" method="post">
 						<input type="hidden" name="deleteId" value="<?= $recipe['ID'] ?>">
-						<button class="ui-btn ui-btn-danger" id="delete_recipe_btn"
+						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" id="delete_recipe_btn"
 								onclick="return window.confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить
 							рецепт
 						</button>
@@ -106,7 +104,7 @@ $recipe = $arResult['RECIPE'];
 				</div>
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/update/<?= $recipe['ID'] ?>/" method="get">
-						<button class="ui-btn ui-btn-primary" id="edit_recipe_btn">Изменить рецепт</button>
+						<button class="ui-btn ui-btn-icon-edit ui-btn-primary" id="edit_recipe_btn">Изменить рецепт</button>
 					</form>
 				<?php endif; ?>
 			</div>
@@ -128,7 +126,7 @@ $recipe = $arResult['RECIPE'];
 		</div>
 		<div class="container notification comments">
 			<p class="title is-4 step_title">Комментарии</p>
-			<div class="notification comments_component">
+			<div class="comments_component">
 				<?=
 				$APPLICATION->IncludeComponent(
 					"bitrix:forum.comments",

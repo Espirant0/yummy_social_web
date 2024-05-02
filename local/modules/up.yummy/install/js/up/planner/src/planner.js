@@ -199,16 +199,14 @@ export class Planner {
 		<tr>
 			<th>Продукт</th>
 			<th>Количество</th>
-			<th>Мера</th>
 			
 		</tr>`;
 		document.getElementById(`product_table`).appendChild(productHeader);
 		for (const key in this.productList) {
 			const productRow = Tag.render`
 			 <tr>
-				<th>${this.productList[key][3]}</th>
-				<th>${this.productList[key][1]}</th>
-				<th>${this.productList[key][2]}</th>
+				<td>${this.productList[key][3]}</td>
+				<td>${this.productList[key][1]} ${this.productList[key][2]}</td>
 			</tr>
 			`;
 			document.getElementById(`product_table`).appendChild(productRow);
@@ -262,18 +260,16 @@ export class Planner {
 		const target = event.target;
 		const table = document.getElementById(`daily_product_table`);
 		const productHeader = Tag.render`
-		<tr>
+		<tr class="popup_table">
 			<th>Продукт</th>
 			<th>Количество</th>
-			<th>Мера</th>
 		</tr>`;
 		table.appendChild(productHeader);
 		for (const key in products) {
 			const productRow = Tag.render`
-			 <tr>
-				<th>${products[key][3]}</th>
-				<th>${products[key][1]}</th>
-				<th>${products[key][2]}</th>
+			 <tr class="popup_table">
+				<td>${products[key][3]}</td>
+				<td>${products[key][1]} ${products[key][2]}<</td>
 			</tr>
 			`;
 			table.appendChild(productRow);
@@ -316,33 +312,44 @@ export class Planner {
 		dateInput.name = "date";
 		dateInput.type = "text";
 		dateInput.id = "edit_date";
-		dateInput.value = currentTime.toISOString().split("T")[0];
+		dateInput.className = "ui-ctl-element";
+		dateInput.value = this.formatDate(currentTime.toISOString().split("T")[0]);
 		dateInput.readOnly = true;
 
 		const course = document.createElement("div");
 		course.id = "edit_course";
-		course.className = "container";
+		course.className = "notification course";
 		course.textContent = courseName;
 
 		const recipeDivSelect = document.createElement("div");
-		recipeDivSelect.className = "select";
+		recipeDivSelect.className = "ui-ctl ui-ctl-after-icon ui-ctl-dropdown";
+
+		const iconDiv = document.createElement("div");
+		iconDiv.className = "ui-ctl-after ui-ctl-icon-angle";
+		recipeDivSelect.appendChild(iconDiv);
 
 		const recipeSelect = document.createElement("select");
 		recipeSelect.id = "edit_recipe";
-
+		recipeSelect.className = "ui-ctl-element"
 		recipeDivSelect.appendChild(recipeSelect);
 
+		const buttonsDiv = document.createElement("div");
+		buttonsDiv.className = "popup_buttons";
+
 		const editButton = document.createElement("button");
-		editButton.className = "button";
+		editButton.className = "ui-btn ui-btn-success ui-btn-icon-edit";
 		editButton.type = "button";
 		editButton.id = "edit_btn";
 		editButton.textContent = "Применить";
 
 		const deleteButton = document.createElement("button");
-		deleteButton.className = "button";
+		deleteButton.className = "ui-btn ui-btn-danger ui-btn-icon-remove";
 		deleteButton.type = "button";
 		deleteButton.id = "delete_btn";
 		deleteButton.textContent = "Удалить";
+
+		buttonsDiv.appendChild(editButton);
+		buttonsDiv.appendChild(deleteButton);
 
 		recipes.forEach(recipesData => {
 			let option = document.createElement("option");
@@ -354,8 +361,7 @@ export class Planner {
 		popupForm.appendChild(dateInput);
 		popupForm.appendChild(course);
 		popupForm.appendChild(recipeDivSelect);
-		popupForm.appendChild(editButton);
-		popupForm.appendChild(deleteButton);
+		popupForm.appendChild(buttonsDiv);
 
 
 		const modal = document.getElementById('modal');

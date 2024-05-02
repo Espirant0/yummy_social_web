@@ -88,6 +88,8 @@ class PlannerRepository
 			'filter' => [
 				'=DATE_OF_PLAN' => new Date($date),
 				'=USER_ID' => $userId,
+			],'order' => [
+				'COURSE_ID' => 'ASC'
 			],
 		])->fetchAll(),'RECIPE_NAME');
 	}

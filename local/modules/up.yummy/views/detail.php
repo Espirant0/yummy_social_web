@@ -5,7 +5,8 @@
  */
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-$APPLICATION->SetTitle("Деталка");
+$title = \Up\Yummy\Repository\RecipeRepository::getRecipeTitle(request()['id']);
+$APPLICATION->SetTitle($title);
 
 $APPLICATION->IncludeComponent('up:detail', '', []);
 
