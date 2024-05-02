@@ -35,7 +35,7 @@ class RecipeRepository
 
 	public static function showRecipeDetail(int $id)
 	{
-		$recipe = RecipesTable::query()->setSelect(['*'])->where("ID", $id)->fetch();
+		$recipe = RecipesTable::query()->setSelect(['*', 'AUTHOR_NAME' => 'AUTHOR.NAME', 'AUTHOR_SURNAME' => 'AUTHOR.LAST_NAME'])->where("ID", $id)->fetch();
 		$recipe['IMAGE'] = ImageRepository::getRecipeCover($recipe['ID']);
 		return ValidationService::protectRecipeOutput($recipe);
 	}

@@ -9,12 +9,12 @@
 $recipe = $arResult['RECIPE'];
 ?>
 <form action="/" method="get" class="create_btn">
-	<button class="button is-success" id="detail_comeback_btn">На главную</button>
+	<button class="ui-btn ui-btn-success" id="detail_comeback_btn">На главную</button>
 </form>
 <div class="content">
 	<p class="title recipe_title"><?= $recipe['TITLE'] ?></p>
 	<div class="columns">
-		<div class="column is-two-fifths recipe_image_container">
+		<div class="column is-one-third recipe_image_container">
 			<img class="recipe_img" <?php if (isset($recipe['IMAGE'])): ?>
 					src="<?= $recipe['IMAGE'] ?>"
 				<?php else: ?>
@@ -23,27 +23,31 @@ $recipe = $arResult['RECIPE'];
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">
-				<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>"
-				   class="author_link"
-				   id="author_link"
-				>
-					<div class="author_image"> ЛК</div>
-				</a>
+					<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>"
+					   id="author_link"
+					>
+						<div class="author_link">
+							<div class="ui-icon ui-icon-common-user author_image"><i></i></div>
+							<div class="author_name">
+								<?=$recipe['AUTHOR_NAME']?> <?=$recipe['AUTHOR_SURNAME']?>
+							</div>
+						</div>
+					</a>
 				<div class="likes_container">
 					<div id="likes_counter" class="likes"></div>
 				</div>
 					<form class="featured" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button" type="button" id="add_to_featured_btn">В избранное</button>
+						<button type="button" id="add_to_featured_btn" class="ui-btn">В избранное</button>
 					</form>
 					<form class="like" method="post">
 						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="button" type="button" id="like_btn">Лайк</button>
+						<button class="ui-btn" id="like_btn" type="button">Мне нравится</button>
 					</form>
 			</div>
-			<p class="title">Ингредиенты</p><br>
 			<div class="column is-half is-offset-one-quarter products">
-				<table class="table ">
+				<p class="title is-4">Ингредиенты</p>
+				<table class="table products_table notification">
 					<thead>
 					<tr>
 						<th>Продукт</th>
@@ -72,13 +76,13 @@ $recipe = $arResult['RECIPE'];
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/delete/" method="post">
 						<input type="hidden" name="deleteId" value="<?= $recipe['ID'] ?>">
-						<button class="button is-danger" id="delete_recipe_btn"
+						<button class="ui-btn ui-btn-danger" id="delete_recipe_btn"
 								onclick="return window.confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить
 							рецепт
 						</button>
 					</form>
 				<?php endif; ?>
-				<div class="columns calories">
+				<div class="columns calories notification">
 					<div class="column">
 						<h5>Калории</h5>
 						<p><?= $recipe['CALORIES'] ?></p>
@@ -102,25 +106,29 @@ $recipe = $arResult['RECIPE'];
 				</div>
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/update/<?= $recipe['ID'] ?>/" method="get">
-						<button class="button is-warning" id="edit_recipe_btn">Изменить рецепт</button>
+						<button class="ui-btn ui-btn-primary" id="edit_recipe_btn">Изменить рецепт</button>
 					</form>
 				<?php endif; ?>
 			</div>
 		</div>
-		<div class="description_container notification is-info">
-			<p class="title">Описание</p><br>
-			<?= $recipe['DESCRIPTION'] ?>
+		<div class="description_container content">
+			<h1>Описание</h1><br>
+			<div class="notification description">
+				<?= $recipe['DESCRIPTION'] ?>
+			</div>
 		</div>
-		<div class="step_container   container instruction">
-			<?php foreach($arResult['STEPS']as $step):?>
-			<div class="notification is-primary">
-                <div>Шаг номер <?=$step['STEP']?></div>
+		<h1>Пошаговая инструкция</h1>
+		<div class="step_container container instruction">
+			<?php foreach($arResult['STEPS'] as $step):?>
+			<div class="notification step">
+                <p class="title is-5 step_title">Шаг <?=$step['STEP']?></p>
 				<?=$step['DESCRIPTION']?>
 			</div>
             <?php endforeach;?>
 		</div>
-		<div class="container notification">
-			<div class="notification column is-half is-offset-one-quarter">
+		<div class="container notification comments">
+			<p class="title is-4 step_title">Комментарии</p>
+			<div class="notification comments_component">
 				<?=
 				$APPLICATION->IncludeComponent(
 					"bitrix:forum.comments",

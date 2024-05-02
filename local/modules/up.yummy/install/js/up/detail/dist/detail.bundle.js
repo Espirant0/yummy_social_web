@@ -137,18 +137,18 @@ this.BX.Up = this.BX.Up || {};
 	    value: function render() {
 	      var counter = document.getElementById('likes_counter');
 	      counter.innerHTML = '';
-	      var likesNumber = main_core.Tag.render(_templateObject || (_templateObject = babelHelpers.taggedTemplateLiteral(["<p>", " \u2764</p>"])), this.likesCount);
+	      var likesNumber = main_core.Tag.render(_templateObject || (_templateObject = babelHelpers.taggedTemplateLiteral(["<p>", " \u2764\uFE0F</p>"])), this.likesCount);
 	      counter.appendChild(likesNumber);
 	      if (this.isLiked === true) {
-	        this.likeBtn.className = "button is-danger";
+	        this.likeBtn.className = "ui-btn ui-btn-danger";
 	      } else if (this.isLiked === false) {
-	        this.likeBtn.className = "button is-success";
+	        this.likeBtn.className = "ui-btn ui-btn-success";
 	      }
 	      if (this.isFeatured === true) {
-	        this.featuredBtn.className = "button is-danger";
+	        this.featuredBtn.className = "ui-btn ui-btn-danger";
 	        this.featuredBtn.textContent = "\u0423\u0431\u0440\u0430\u0442\u044C \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E";
 	      } else if (this.isFeatured === false) {
-	        this.featuredBtn.className = "button is-success";
+	        this.featuredBtn.className = "ui-btn ui-btn-success";
 	        this.featuredBtn.textContent = "\u0412 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435";
 	      }
 	    }

@@ -4,6 +4,7 @@ html{
 	width: 100%  !important;
 	max-width: 100%  !important;
 	overflow-x: hidden !important;
+	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .template-bitrix24
@@ -34,13 +35,13 @@ html{
 	align-content: center;
 }
 .recipe_img{
-	border: 1px solid black;
-	max-height: 500px;
+	max-height: 300px;
+	border-radius:10px;
 }
 .recipe_image_container{
 	display: flex;
 	justify-content: center;
-	margin-left: 100px;
+	margin-left: 50px;
 }
 #recipe_list_search_container
 {
@@ -55,9 +56,10 @@ html{
 .bottom_buttons{
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 .upper_buttons{
-	margin: 0 150px;
+	margin-right: 70px;
 	justify-content: space-between;
 }
 .products {
@@ -70,15 +72,28 @@ html{
 .likes{
 	align-content: center;
 }
-.author_image{
-	border: 1px solid black;
+.likes_container{
+	margin-left: 15px;
+}
+.author_name{
+	max-width: 60px;
 	padding: 15px;
+	margin-right: 15px;
+	font-size: 10px;
+	text-align:center;
+}
+.author_image{
+	align-content: center;
+}
+.author_link{
+	background-color: rgba(255,255,255, 0.3);
+	padding: 10px 15px;
+	border-radius: 10px;
+	display:flex;
+	justify-content: space-between;
 }
 .instruction{
 	margin: 20px 0;
-}
-.main-ui-filter-search{
-	border: 1px solid black !important;
 }
 .feed-post-more-text{
 	display:none;
@@ -89,8 +104,14 @@ html{
 	text-align: left;
 }
 .description_container{
+	margin-top: 20px;
 	word-break: break-all;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
+
 .step_container{
 	word-break: break-all;
 }
@@ -98,7 +119,48 @@ html{
 	max-width: 100%;
 	overflow-y: hidden;
 }
-/*
+.products{
+	display:flex;
+	flex-direction: column;
+}
+.products_table{
+	background-color: transparent;
+}
+.products_table tbody td{
+	border-color: #000000;
+}
+
+.products_table thead th{
+	border-color: #000000;
+}
+
 .workarea-content{
-	background-color: transparent !important;
-}*/
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.step_container{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.step{
+	background-color: rgba(255,255,255, 0.3);
+	margin-bottom: 20px;
+	width: 50%;
+}
+.step_title{
+	margin-bottom: 5px;
+}
+.description{
+	width: 80%;
+}
+.comments, .description, .calories{
+	background-color: rgba(255,255,255, 0.3);
+}
+
+.comments_component{
+	background: transparent;
+}
+.bx-layout-inner-inner-top-row{
+	display: none;
+}

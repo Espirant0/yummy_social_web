@@ -140,21 +140,21 @@ export class Detail
 	render() {
 		const counter = document.getElementById('likes_counter');
 		counter.innerHTML = '';
-		const likesNumber = Tag.render`<p>${this.likesCount} ❤</p>`;
+		const likesNumber = Tag.render`<p>${this.likesCount} ❤️</p>`;
 		counter.appendChild(likesNumber);
 		if(this.isLiked === true){
-			this.likeBtn.className = `button is-danger`;
+			this.likeBtn.className = `ui-btn ui-btn-danger`;
 		}
 		else if (this.isLiked === false){
-			this.likeBtn.className = `button is-success`;
+			this.likeBtn.className = `ui-btn ui-btn-success`;
 		}
 
 		if(this.isFeatured === true){
-			this.featuredBtn.className = `button is-danger`;
+			this.featuredBtn.className = `ui-btn ui-btn-danger`;
 			this.featuredBtn.textContent = `Убрать из избранного`;
 		}
 		else if (this.isFeatured === false){
-			this.featuredBtn.className = `button is-success`;
+			this.featuredBtn.className = `ui-btn ui-btn-success`;
 			this.featuredBtn.textContent = `В избранное`;
 		}
 	}
