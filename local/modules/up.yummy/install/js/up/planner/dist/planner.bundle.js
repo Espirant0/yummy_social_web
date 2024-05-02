@@ -172,10 +172,10 @@ this.BX.Up = this.BX.Up || {};
 	        _this5.rootNode.appendChild(planRow);
 	      });
 	      document.getElementById("product_table").innerHTML = "";
-	      var productHeader = main_core.Tag.render(_templateObject3 || (_templateObject3 = babelHelpers.taggedTemplateLiteral(["\n\t\t<tr>\n\t\t\t<th>\u041F\u0440\u043E\u0434\u0443\u043A\u0442</th>\n\t\t\t<th>\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</th>\n\t\t\t<th>\u041C\u0435\u0440\u0430</th>\n\t\t\t\n\t\t</tr>"])));
+	      var productHeader = main_core.Tag.render(_templateObject3 || (_templateObject3 = babelHelpers.taggedTemplateLiteral(["\n\t\t<tr>\n\t\t\t<th>\u041F\u0440\u043E\u0434\u0443\u043A\u0442</th>\n\t\t\t<th>\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</th>\n\t\t\t\n\t\t</tr>"])));
 	      document.getElementById("product_table").appendChild(productHeader);
 	      for (var key in this.productList) {
-	        var productRow = main_core.Tag.render(_templateObject4 || (_templateObject4 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t</tr>\n\t\t\t"])), this.productList[key][3], this.productList[key][1], this.productList[key][2]);
+	        var productRow = main_core.Tag.render(_templateObject4 || (_templateObject4 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr>\n\t\t\t\t<td>", "</td>\n\t\t\t\t<td>", " ", "</td>\n\t\t\t</tr>\n\t\t\t"])), this.productList[key][3], this.productList[key][1], this.productList[key][2]);
 	        document.getElementById("product_table").appendChild(productRow);
 	      }
 	      var headerRow = main_core.Tag.render(_templateObject5 || (_templateObject5 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t<tr>\n\t\t\t\t<th class=\"is-info\"></th>\n\t\t\t\t", "\n\t\t\t</tr>\n\t\t"])), dates.map(function (dateData) {
@@ -220,10 +220,10 @@ this.BX.Up = this.BX.Up || {};
 	      event.preventDefault();
 	      var target = event.target;
 	      var table = document.getElementById("daily_product_table");
-	      var productHeader = main_core.Tag.render(_templateObject7 || (_templateObject7 = babelHelpers.taggedTemplateLiteral(["\n\t\t<tr>\n\t\t\t<th>\u041F\u0440\u043E\u0434\u0443\u043A\u0442</th>\n\t\t\t<th>\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</th>\n\t\t\t<th>\u041C\u0435\u0440\u0430</th>\n\t\t</tr>"])));
+	      var productHeader = main_core.Tag.render(_templateObject7 || (_templateObject7 = babelHelpers.taggedTemplateLiteral(["\n\t\t<tr class=\"popup_table\">\n\t\t\t<th>\u041F\u0440\u043E\u0434\u0443\u043A\u0442</th>\n\t\t\t<th>\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E</th>\n\t\t</tr>"])));
 	      table.appendChild(productHeader);
 	      for (var key in products) {
-	        var productRow = main_core.Tag.render(_templateObject8 || (_templateObject8 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t\t<th>", "</th>\n\t\t\t</tr>\n\t\t\t"])), products[key][3], products[key][1], products[key][2]);
+	        var productRow = main_core.Tag.render(_templateObject8 || (_templateObject8 = babelHelpers.taggedTemplateLiteral(["\n\t\t\t <tr class=\"popup_table\">\n\t\t\t\t<td>", "</td>\n\t\t\t\t<td>", " ", "<</td>\n\t\t\t</tr>\n\t\t\t"])), products[key][3], products[key][1], products[key][2]);
 	        table.appendChild(productRow);
 	      }
 	      var popup = new BX.PopupWindow("products", target, {
@@ -263,27 +263,36 @@ this.BX.Up = this.BX.Up || {};
 	      dateInput.name = "date";
 	      dateInput.type = "text";
 	      dateInput.id = "edit_date";
-	      dateInput.value = currentTime.toISOString().split("T")[0];
+	      dateInput.className = "ui-ctl-element";
+	      dateInput.value = this.formatDate(currentTime.toISOString().split("T")[0]);
 	      dateInput.readOnly = true;
 	      var course = document.createElement("div");
 	      course.id = "edit_course";
-	      course.className = "container";
+	      course.className = "notification course";
 	      course.textContent = courseName;
 	      var recipeDivSelect = document.createElement("div");
-	      recipeDivSelect.className = "select";
+	      recipeDivSelect.className = "ui-ctl ui-ctl-after-icon ui-ctl-dropdown";
+	      var iconDiv = document.createElement("div");
+	      iconDiv.className = "ui-ctl-after ui-ctl-icon-angle";
+	      recipeDivSelect.appendChild(iconDiv);
 	      var recipeSelect = document.createElement("select");
 	      recipeSelect.id = "edit_recipe";
+	      recipeSelect.className = "ui-ctl-element";
 	      recipeDivSelect.appendChild(recipeSelect);
+	      var buttonsDiv = document.createElement("div");
+	      buttonsDiv.className = "popup_buttons";
 	      var editButton = document.createElement("button");
-	      editButton.className = "button";
+	      editButton.className = "ui-btn ui-btn-success ui-btn-icon-edit";
 	      editButton.type = "button";
 	      editButton.id = "edit_btn";
 	      editButton.textContent = "Применить";
 	      var deleteButton = document.createElement("button");
-	      deleteButton.className = "button";
+	      deleteButton.className = "ui-btn ui-btn-danger ui-btn-icon-remove";
 	      deleteButton.type = "button";
 	      deleteButton.id = "delete_btn";
 	      deleteButton.textContent = "Удалить";
+	      buttonsDiv.appendChild(editButton);
+	      buttonsDiv.appendChild(deleteButton);
 	      recipes.forEach(function (recipesData) {
 	        var option = document.createElement("option");
 	        option.value = recipesData.ID;
@@ -293,8 +302,7 @@ this.BX.Up = this.BX.Up || {};
 	      popupForm.appendChild(dateInput);
 	      popupForm.appendChild(course);
 	      popupForm.appendChild(recipeDivSelect);
-	      popupForm.appendChild(editButton);
-	      popupForm.appendChild(deleteButton);
+	      popupForm.appendChild(buttonsDiv);
 	      var modal = document.getElementById('modal');
 	      var div = document.createElement('modal_content');
 	      div.appendChild(popupForm);

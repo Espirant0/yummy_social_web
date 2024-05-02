@@ -13,6 +13,10 @@ html{
 	margin-top: 50px;
 	text-align: center;
 }
+.popup_table{
+	display: flex;
+	justify-content: space-between;
+}
 .planner_table td{
 	font-size:20px;
 }
@@ -20,10 +24,59 @@ html{
 	max-width: 100%;
 	overflow-y: hidden;
 }
+.is-info{
+	background-color: #3BC4F2 !important;
+}
 .table_cell:hover{
 	cursor: pointer;
+	background-color: #3BC4F2;
+	color: white;
+	transition: 0.5s ease all;
 }
 #modal, #daily_product_table{
+	padding: 30px;
+	border-spacing: 20px;
+	border-collapse: separate;
 	display: none;
 }
-
+#daily_product_table{
+	width: 350px;
+}
+.workarea-content{
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.bx-layout-inner-inner-top-row{
+	display: none;
+}
+#edit_date{
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.ui-ctl{
+	margin-bottom: 20px;
+}
+.popup_buttons{
+	display: flex;
+	justify-content: space-between;
+}
+.current_date{
+	display: flex;
+	justify-content: center;
+	line-height: 25px;
+}
+.course{
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+}
+#product_table{
+	border: none;
+	max-width: 70%;
+	margin-left: 25%;
+}
+.content{
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
