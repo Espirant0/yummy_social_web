@@ -1,20 +1,43 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
+.content{
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
 .card_image{
 	max-width: 300px;
+}
+.header_content{
+	margin-bottom: 30px;
+	background-color: rgba(255,255,255, 0.3);
+	box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
 }
 .search_line{
 	display:flex;
 	justify-content: space-between;
-	margin-bottom: 30px;
-	width: 10px  !important;
+	padding: 30px 0;
 }
-
+.main-ui-filter-compact-state{
+	margin-left: 20%;
+}
 .recipe_card{
-	width: 70%;
 	margin-bottom: 30px;
+	max-width: 500px;
+	border-radius: 10px;
 }
+.recipe_stats{
+	font-size: 14px;
+	text-align:center;
+	color: black;
 
+}
+.recipe_stats_header{
+	margin: 0 auto !important;
+	border-radius: 10px;
+}
+.clock_icon{
+	width: 30px;
+}
 .title_line{
 	display:flex;
 	justify-content: space-between;
@@ -25,23 +48,40 @@
 .recipe_name{
 	max-width:80%;
 }
-
+.left_col{
+	margin-left: 20%;
+}
+.main-ui-filter-search{
+	width: 500px;
+}
 .right_col{
 	display:flex;
 	justify-content: center;
 }
 .recipe_img{
 	width: 100%;
+	border-radius: 10px 10px 0 0;
 }
 .create_btn{
 	text-align: center;
-	margin-bottom: 30px;
-	margin-top: 5px;
 }
-.main-ui-filter-search{
-	border: 1px solid black !important;
-	width: 10% !important;
+.header_buttons{
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-right: 5%;
+	gap: 40px;
 }
+
+.daily_recipe{
+	display:flex;
+	flex-direction: column;
+	margin: 0 10% 0 30%;
+}
+#daily_recipe_card, .daily_recipe_planner{
+	text-align:center;
+}
+
 html{
 	max-width: 100%;
 	overflow-y: hidden;
@@ -49,10 +89,27 @@ html{
 .plan_title{
 	margin-top: 20px;
 }
-#planner_btn{
-	margin-top: 20px;
-}
 html{
 	max-width: 100%;
 	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.workarea-content{
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.pagetitle-wrap {
+	display:none;
+}
+.likes{
+	color: black;
+}
+.planner_info{
+	color: black !important;
+}
+.pagination{
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	gap: 30px;
 }

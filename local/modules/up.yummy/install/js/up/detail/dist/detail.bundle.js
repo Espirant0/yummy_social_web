@@ -140,15 +140,17 @@ this.BX.Up = this.BX.Up || {};
 	      var likesNumber = main_core.Tag.render(_templateObject || (_templateObject = babelHelpers.taggedTemplateLiteral(["<p>", " \u2764\uFE0F</p>"])), this.likesCount);
 	      counter.appendChild(likesNumber);
 	      if (this.isLiked === true) {
-	        this.likeBtn.className = "ui-btn ui-btn-danger";
+	        this.likeBtn.className = "ui-btn ui-btn-lg ui-btn-danger";
+	        likesNumber.style.color = 'white';
 	      } else if (this.isLiked === false) {
-	        this.likeBtn.className = "ui-btn ui-btn-success";
+	        this.likeBtn.className = "ui-btn ui-btn-lg ui-btn-success";
+	        likesNumber.style.color = 'black';
 	      }
 	      if (this.isFeatured === true) {
-	        this.featuredBtn.className = "ui-btn ui-btn-danger";
+	        this.featuredBtn.className = "ui-btn ui-btn-lg ui-btn-danger ui-btn-icon-remove";
 	        this.featuredBtn.textContent = "\u0423\u0431\u0440\u0430\u0442\u044C \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E";
 	      } else if (this.isFeatured === false) {
-	        this.featuredBtn.className = "ui-btn ui-btn-success";
+	        this.featuredBtn.className = "ui-btn ui-btn-lg ui-btn-success ui-btn-icon-add";
 	        this.featuredBtn.textContent = "\u0412 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435";
 	      }
 	    }

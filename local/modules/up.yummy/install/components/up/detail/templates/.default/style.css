@@ -5,6 +5,7 @@ html{
 	max-width: 100%  !important;
 	overflow-x: hidden !important;
 	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font: 14px var(--ui-font-family-primary, var(--ui-font-family-helvetica)) !important;
 }
 
 .template-bitrix24
@@ -59,7 +60,7 @@ html{
 	align-items: center;
 }
 .upper_buttons{
-	margin-right: 70px;
+	margin-right: 20%;
 	justify-content: space-between;
 }
 .products {
@@ -72,14 +73,11 @@ html{
 .likes{
 	align-content: center;
 }
-.likes_container{
-	margin-left: 15px;
-}
 .author_name{
-	max-width: 60px;
+	max-width: 100%;
 	padding: 15px;
 	margin-right: 15px;
-	font-size: 10px;
+	font-size: 14px;
 	text-align:center;
 }
 .author_image{
@@ -125,9 +123,14 @@ html{
 }
 .products_table{
 	background-color: transparent;
+	text-align: center;
 }
 .products_table tbody td{
 	border-color: #000000;
+}
+#likes_counter{
+	margin: 0 2px;
+	background-color: transparent;
 }
 
 .products_table thead th{
@@ -157,9 +160,12 @@ html{
 .comments, .description, .calories{
 	background-color: rgba(255,255,255, 0.3);
 }
-
+.comments{
+	width: 80%;
+}
 .comments_component{
 	background: transparent;
+	width: 80%;
 }
 .bx-layout-inner-inner-top-row{
 	display: none;

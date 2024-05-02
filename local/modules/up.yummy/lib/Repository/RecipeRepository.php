@@ -190,19 +190,19 @@ class RecipeRepository
 		return LikesTable::getCount(['=RECIPE_ID' => $recipeId]);
 	}
 
-	public static function updateRecipe()
+	public static function getRecipeTitle(int $recipeId):string
 	{
-		return null;
+		$recipe = RecipesTable::getRowById($recipeId);
+		return $recipe['TITLE'];
 	}
-
 	public static function getRecipeFeed(int $page, array $filter)
 	{
 		global $USER;
 		$userId = $USER->GetID();
 		$recipes = RecipesTable::query()
 			->setSelect(['*'])
-			->setOffset(3 * ($page - 1))
-			->setLimit(4)
+			->setOffset(7 * ($page - 1))
+			->setLimit(8)
 			->setOrder([
 				'ID' => 'DESC'
 			]);

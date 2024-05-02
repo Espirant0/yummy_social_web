@@ -143,18 +143,20 @@ export class Detail
 		const likesNumber = Tag.render`<p>${this.likesCount} ❤️</p>`;
 		counter.appendChild(likesNumber);
 		if(this.isLiked === true){
-			this.likeBtn.className = `ui-btn ui-btn-danger`;
+			this.likeBtn.className = `ui-btn ui-btn-lg ui-btn-danger`;
+			likesNumber.style.color = 'white';
 		}
 		else if (this.isLiked === false){
-			this.likeBtn.className = `ui-btn ui-btn-success`;
+			this.likeBtn.className = `ui-btn ui-btn-lg ui-btn-success`;
+			likesNumber.style.color = 'black';
 		}
 
 		if(this.isFeatured === true){
-			this.featuredBtn.className = `ui-btn ui-btn-danger`;
+			this.featuredBtn.className = `ui-btn ui-btn-lg ui-btn-danger ui-btn-icon-remove`;
 			this.featuredBtn.textContent = `Убрать из избранного`;
 		}
 		else if (this.isFeatured === false){
-			this.featuredBtn.className = `ui-btn ui-btn-success`;
+			this.featuredBtn.className = `ui-btn ui-btn-lg ui-btn-success ui-btn-icon-add`;
 			this.featuredBtn.textContent = `В избранное`;
 		}
 	}

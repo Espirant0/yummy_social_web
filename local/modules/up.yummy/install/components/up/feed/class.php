@@ -78,6 +78,7 @@ class FeedComponent extends CBitrixComponent
 
 	protected function prepareTemplateParams(): void
 	{
+		$this->arParams['CLOCK_ICON'] = $this->getPath() . '/images/clock-regular.svg';
 		$imagePath = $this->getPath() . '/images/default_image.jpg';
 		$this->arParams['IMAGE'] = $imagePath;
 	}
