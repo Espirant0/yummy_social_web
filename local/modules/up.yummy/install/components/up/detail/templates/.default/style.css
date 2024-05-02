@@ -60,7 +60,8 @@ html{
 	align-items: center;
 }
 .upper_buttons{
-	margin-right: 20%;
+	margin-right: 10%;
+	gap: 20px;
 	justify-content: space-between;
 }
 .products {
@@ -75,9 +76,8 @@ html{
 }
 .author_name{
 	max-width: 100%;
-	padding: 15px;
-	margin-right: 15px;
-	font-size: 14px;
+	padding: 10px;
+	font-size: 12px;
 	text-align:center;
 }
 .author_image{

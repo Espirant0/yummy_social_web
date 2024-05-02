@@ -15,7 +15,9 @@
 .search_line{
 	display:flex;
 	justify-content: space-between;
-	padding: 30px 0;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-right: 10%;
 }
 .main-ui-filter-compact-state{
 	margin-left: 20%;
@@ -53,6 +55,7 @@
 }
 .main-ui-filter-search{
 	width: 500px;
+	margin-right: 20px;
 }
 .right_col{
 	display:flex;
@@ -65,11 +68,12 @@
 .create_btn{
 	text-align: center;
 }
+
 .header_buttons{
 	align-items: center;
 	display: flex;
 	justify-content: space-between;
-	margin-right: 5%;
+	padding-right: 20%;
 	gap: 40px;
 }
 
