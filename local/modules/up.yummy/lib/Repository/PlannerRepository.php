@@ -5,10 +5,12 @@ namespace Up\Yummy\Repository;
 use DateTime;
 use Bitrix\Main\Type\Date;
 use Up\Yummy\Model\CourseTable;
+use Up\Yummy\Model\FeaturedTable;
 use Up\Yummy\Model\MeasuresTable;
 use Up\Yummy\Model\PlannerTable;
 use Up\Yummy\Model\RecipeProductTable;
 use Up\Yummy\Model\RecipesTable;
+use Up\Yummy\Service\ValidationService;
 
 
 class PlannerRepository
@@ -55,13 +57,11 @@ class PlannerRepository
 		}
 		return false;
 	}
-	public static function getRecipeList(): array
+	public static function getRecipeList($userId=1): array
 	{
-		return RecipesTable::getList([
-			'select' => [
-				'ID', 'TITLE',
-			],
-		])->fetchAll();
+		$recipeIds = FeaturedTable::query()->setSelect(['RECIPE_ID'])->setFilter(['=USER_ID' => $userId]);
+		$recipes=RecipesTable::query()->setSelect(['ID','TITLE'])->whereIn('ID', $recipeIds)->fetchAll();;
+		return($recipes);
 	}
 
 	public static function getCourses(): array
@@ -77,7 +77,7 @@ class PlannerRepository
 	{
 		$date = new DateTime($date);
 		$date = \Bitrix\Main\Type\Date::createFromPhp($date);
-		return PlannerTable::getList([
+		return ValidationService::protectPlannerRecipeOutput(PlannerTable::getList([
 			'select' => [
 				'RECIPE_ID',
 				'RECIPE_NAME' => 'RECIPE.TITLE',
@@ -88,11 +88,10 @@ class PlannerRepository
 			'filter' => [
 				'=DATE_OF_PLAN' => new Date($date),
 				'=USER_ID' => $userId,
-			],
-			'order' => [
+			],'order' => [
 				'COURSE_ID' => 'ASC'
 			],
-		])->fetchAll();
+		])->fetchAll(),'RECIPE_NAME');
 	}
 
 	public static function getProducts(array $recipes): array
@@ -138,6 +137,6 @@ class PlannerRepository
 				"=OWNER_ID" => $user,
 			],
 		]);
-		return $plan->fetchAll();
+		return ValidationService::protectPlannerRecipeOutput($plan->fetchAll(),'RECIPE_NAME');
 	}
 }

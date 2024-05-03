@@ -86,4 +86,12 @@ class ValidationService
 		}
 		return true;
 	}
+	public static function protectPlannerRecipeOutput($recipes,$title='TITLE')
+	{
+		foreach ($recipes as &$recipe)
+		{
+			$recipe[$title]=htmlspecialcharsEx($recipe[$title]);
+		}
+		return $recipes;
+	}
 }
