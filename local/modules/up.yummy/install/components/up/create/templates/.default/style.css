@@ -7,9 +7,6 @@
 .product_btn{
 	margin-top: 5px;
 }
-.add_form{
-	margin-top: 50px;
-}
 .input::placeholder, .textarea::placeholder{
 	text-align: center;
 }
@@ -40,17 +37,41 @@
 	margin-bottom: 10px;
 }
 .product_input{
-	max-width: 100px;
+	max-width: 60px;
 }
-textarea {
+.measure_select, .ui-ctl-icon-angle{
+	max-width: 75px;
+}
+#delete_photo{
+	margin-bottom: 15px;
+}
+.add_btn{
+	margin-top: 30px;
+}
+.buttons{
+	display:flex;
+	justify-content: space-between;
+}
+#img_pre{
+	max-height: 350px;
+}
+.ui-ctl-textarea{
 	max-height: 200px;
-	max-width: 700px;
+	min-width: 640px;
+}
+.step_div{
+	margin-bottom: 15px;
+}
+.main_input{
+	min-width: 640px;
+}
+#step_container{
+	row-gap:20px;
 }
 html{
 	max-width: 100%;
 	overflow-y: hidden;
 }
-/*
 .workarea-content{
-	background-color: transparent !important;
-}*/
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}

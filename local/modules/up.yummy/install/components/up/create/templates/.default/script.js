@@ -62,29 +62,31 @@ class CreateRecipe {
 			const input = document.createElement("input");
 			const div = document.createElement("div");
 			const div2 = document.createElement("div");
+			const div3 = document.createElement("div");
 			const container = document.createElement("div");
 			select.id = `create_product_${this.selectCount}`;
 			select.name = `PRODUCTS[]`;
 			measure_select.id = `create_measure_${this.selectCount}`;
 			measure_select.name = `MEASURES[]`;
+			measure_select.className = `ui-ctl-element measure_select`;
 
-			input.id = `create_product_quantity_${this.selectCount}`;
+			//input.id = `create_product_quantity_${this.selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 			input.type = `number`;
 			input.min = 1;
 
 
-			select.className = `product_select`;
-			input.className = `input product_input`;
+			select.className = `ui-ctl-element`;
+			input.className = `ui-ctl-element product_input`;
 			container.className = `select_container`;
 			container.id = `container_${this.selectCount}`;
-			div.className = `select select_div`;
-			div2.className = `select select_div`;
+			div.className = `ui-ctl ui-ctl-after-icon ui-ctl-dropdown select_div`;
+			div2.className = `ui-ctl ui-ctl-after-icon ui-ctl-dropdown select_div`;
+			div3.className = `ui-ctl ui-ctl-textbox product_input`
+			div3.id = `create_product_quantity_${this.selectCount}`;
 			div2.id = `select_div_${this.selectCount}`;
-
 			div.appendChild(select);
-
 			container.appendChild(div);
 			this.body.appendChild(container);
 			let placeholder = document.createElement("option");
@@ -105,12 +107,12 @@ class CreateRecipe {
 					measure_select.innerHTML = "";
 					if (selectedText === placeholder.text) {
 						div2.remove();
-						input.remove();
-
+						div3.remove();
 						this.buttonCheck();
 					} else {
 						input.value = ``;
-						container.appendChild(input);
+						div3.appendChild(input);
+						container.appendChild(div3);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
 
@@ -153,12 +155,16 @@ class CreateRecipe {
 		if (this.textareaCount < 10) {
 			this.textareaCount++;
 			const textarea = document.createElement("textarea");
+			const textareaDiv = document.createElement("div");
+			textareaDiv.className = `ui-ctl-textarea step_div`
 			textarea.required = true;
+			textarea.placeholder = `Описание шага`;
 			textarea.maxLength = 150;
 			textarea.name = `STEPS[]`;
-			textarea.id = `create_step_description_${this.textareaCount}`;
-			textarea.className = `textarea`;
-			this.stepContainer.appendChild(textarea);
+			textareaDiv.id = `create_step_description_${this.textareaCount}`;
+			textarea.className = `ui-ctl-element`;
+			textareaDiv.appendChild(textarea);
+			this.stepContainer.appendChild(textareaDiv);
 			this.buttonCheck();
 		}
 	}

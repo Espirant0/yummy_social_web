@@ -6,8 +6,8 @@
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
-<form action="/" method="get" class="create_btn" id="test">
-	<button class="button is-success" id="comeback_btn">Назад</button>
+<form action="/" method="get" class="create_btn">
+	<button class="ui-btn ui-btn-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
 	<div class="column is-half is-offset-one-quarter add_form">
@@ -16,8 +16,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
-						<p class="control">
-							<input class="input" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" maxlength="50" required>
+						<p class="ui-ctl ui-ctl-textbox main_input">
+							<input class="ui-ctl-element" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" maxlength="50" required>
 						</p>
 					</div>
 				</div>
@@ -25,8 +25,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<div class="control">
-							<textarea class="textarea" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
+						<div class="ui-ctl ui-ctl-textarea">
+							<textarea class="ui-ctl-element" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
 						</div>
 					</div>
 				</div>
@@ -34,8 +34,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<p class="control">
-							<input class="input" name="TIME" type="number" id="create_time_input" pattern="[0-9]{,3}"
+						<p class="ui-ctl ui-ctl-textbox main_input">
+							<input class="ui-ctl-element" name="TIME" type="number" id="create_time_input" pattern="[0-9]{,3}"
 								   placeholder="Время приготовления" min="1" required >
 						</p>
 					</div>
@@ -52,32 +52,35 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 						</p>
 					</div>
 				</div>
-                <button class="button is-primary" id="delete_photo" type="button" disabled>
-                    Удалить фотографию
-                </button>
 			</div>
+			<button class="ui-btn ui-btn-success" id="delete_photo" type="button" disabled>
+				Удалить фотографию
+			</button>
 			<div class="product_container">
 				<div id="container" class="products_selects">
-
 				</div>
-				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" id="add_product_btn" onclick="createRecipe.createSelect()">Добавить
-						продукт
-					</button>
-				</div>
-				<div class="product_btn">
-					<button class="button is-primary is-expanded" type="button" id="remove_product_btn" onclick="createRecipe.deleteSelect()">Удалить
-						продукт
-					</button>
+				<div class="buttons">
+					<div class="product_btn">
+						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn" onclick="createRecipe.createSelect()">Добавить
+							продукт
+						</button>
+					</div>
+					<div class="product_btn">
+						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn" onclick="createRecipe.deleteSelect()">Удалить
+							продукт
+						</button>
+					</div>
 				</div>
 			</div>
 			<div id="step_container">
+			</div>
+			<div class="buttons">
 				<div class="step_btn">
-					<button class="button is-primary is-expanded" type="button" id="add_step_btn"  onclick="createRecipe.createStep()">Добавить шаг
+					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn"  onclick="createRecipe.createStep()">Добавить шаг
 					</button>
 				</div>
 				<div class="step_btn">
-					<button class="button is-primary is-expanded" type="button" id="remove_step_btn" onclick="createRecipe.deleteStep()">Удалить шаг
+					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn" onclick="createRecipe.deleteStep()">Удалить шаг
 					</button>
 				</div>
 			</div>
@@ -85,7 +88,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary" type="button" id="create_recipe_btn">
+							<button class="ui-btn ui-btn-success" type="button" id="create_recipe_btn">
 								Добавить рецепт
 							</button>
 						</div>
