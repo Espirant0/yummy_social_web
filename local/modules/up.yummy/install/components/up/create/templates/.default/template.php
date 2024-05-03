@@ -10,8 +10,8 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 	<button class="ui-btn ui-btn-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
-	<div class="column is-half is-offset-one-quarter add_form">
-		<p class="title has-text-centered">Добавить рецепт</p>
+	<p class="title has-text-centered">Добавить рецепт</p>
+	<div class="column add_form">
 		<form action="/add/" method="post" enctype="multipart/form-data" id="form">
 			<div class="field is-horizontal ">
 				<div class="field-body">
