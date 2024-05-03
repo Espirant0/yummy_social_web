@@ -1,34 +1,51 @@
-class UpdateRecipe {
-	constructor(products, measures, stepsSize, productsSize) {
-		this.products = products;
-		this.measures = measures;
+export class EditForm
+{
+	constructor(options = {})
+	{
+		this.products = options.products;
+		this.measures = options.measures;
+		this.textareaCount = options.stepsSize;
+		this.selectCount = options.productsSize;
+
+		this.photoStatus = document.getElementById("photo_status");
 		this.body = document.getElementById("container");
-		this.imgInp = document.getElementById("img_input");
-		this.imgPre = document.getElementById("img_pre");
-		this.deletePhoto = document.getElementById("delete_photo");
-		this.photoStatus = document.getElementById("photoStatus");
-		this.textareaCount = stepsSize;
-		this.selectCount = productsSize;
 		this.stepContainer = document.getElementById("step_container");
-		this.update_recipe_btn = document.getElementById("update_recipe_btn");
-		this.createSelect = this.createSelect.bind(this);
-		this.deleteSelect = this.deleteSelect.bind(this);
-		this.createStep = this.createStep.bind(this);
-		this.deleteStep = this.deleteStep.bind(this);
-		this.buttonCheck = this.buttonCheck.bind(this);
-		this.Filevalidation = this.Filevalidation.bind(this);
+		this.imgInput = document.getElementById("img_input");
+		this.imgPrevImage = document.getElementById("img_prev");
+		this.confirmRecipeBtn = document.getElementById("confirm_recipe_btn");
+		this.deletePhotoBtn = document.getElementById("delete_photo");
 		this.form = document.getElementById("form");
 	}
 
-	init() {
+	initCreate() {
+		this.confirmRecipeBtn.disabled = true;
+		this.imgInput.onchange = (evt) => {
+			this.validateFiles();
+			const [file] = this.imgInput.files;
+			if (file) {
+				this.imgPrevImage.src = URL.createObjectURL(file);
+
+			}
+		};
+		this.deletePhotoBtn.onclick = (evt) => {
+			this.imgPrevImage.src = "#";
+			this.imgInput.value = "";
+			this.deletePhotoBtn.disabled = true;
+		}
+		this.confirmRecipeBtn.addEventListener("click", () => {
+			this.disableButton();
+		});
+	}
+
+	initUpdate() {
 		for (let i = 1; i <= this.selectCount; i++) {
-			let startSelect = document.getElementById(`update_product_${i}`);
-			let input = document.getElementById(`update_product_quantity_${i}`);
-			let measure_select = document.getElementById(`update_measure_${i}`);
+			let startSelect = document.getElementById(`product_${i}`);
+			let input = document.getElementById(`product_quantity_${i}`);
+			let measure_select = document.getElementById(`measure_${i}`);
 			let div2 = document.getElementById(`select_div_${i}`);
-			measure_select.id = `update_measure_${i}`;
+			measure_select.id = `measure_${i}`;
 			measure_select.name = `MEASURES[]`;
-			div2.className = `select select_div`;
+			div2.className = `ui-ctl ui-ctl-after-icon ui-ctl-dropdown measure_select_div`;
 			div2.id = `select_div_${i}`;
 
 			startSelect.addEventListener("change", () => {
@@ -37,8 +54,8 @@ class UpdateRecipe {
 				measure_select.innerHTML = "";
 				this.buttonCheck();
 				if (selectedText === "Выберите продукт") {
-					document.getElementById(`update_product_quantity_${i}`).remove();
-					document.getElementById(`update_measure_${i}`).remove();
+					document.getElementById(`product_quantity_${i}`).remove();
+					document.getElementById(`measure_${i}`).remove();
 					measure_select.remove();
 					document.getElementById(`select_div_${i}`).remove();
 					this.buttonCheck();
@@ -58,29 +75,28 @@ class UpdateRecipe {
 				this.buttonCheck();
 			});
 		}
-
-		if (this.imgPre.src[this.imgPre.src.length - 1] === "#") {
+		this.deletePhotoBtn.disabled = false;
+		if (this.imgPrevImage.src[this.imgPrevImage.src.length - 1] === "#") {
 			this.photoStatus.value = '1'
-			this.deletePhoto.disabled = true;
+			this.deletePhotoBtn.disabled = true;
 		}
 
-
-		this.imgInp.onchange = (evt) => {
-			this.Filevalidation();
-			const [file] = this.imgInp.files;
+		this.imgInput.onchange = (evt) => {
+			this.validateFiles();
+			const [file] = this.imgInput.files;
 			if (file) {
-				this.imgPre.src = URL.createObjectURL(file);
+				this.imgPrevImage.src = URL.createObjectURL(file);
 				this.photoStatus.value = 0
 			}
 		};
-		this.deletePhoto.onclick = (evt) => {
+		this.deletePhotoBtn.onclick = (evt) => {
 			this.photoStatus.value = 1
-			this.imgPre.src = "#"
-			this.deletePhoto.disabled = true;
+			this.imgPrevImage.src = "#"
+			this.deletePhotoBtn.disabled = true;
 		}
 
 		this.buttonCheck();
-		this.update_recipe_btn.addEventListener("click", () => {
+		this.confirmRecipeBtn.addEventListener("click", () => {
 			this.disableButton();
 		});
 	}
@@ -91,21 +107,9 @@ class UpdateRecipe {
 			&& this.validateStepCount() === true
 			&& this.validateName() === true
 			&& this.validateDescription() === true) {
-			this.update_recipe_btn.disabled = true;
+			this.confirmRecipeBtn.disabled = true;
 			this.form.submit();
 		}
-	}
-
-	checkArray() {
-		for (let i = 1; i <= this.selectCount; i++) {
-			let productField = document.getElementById(`update_product_${i}`);
-			let selectedText = productField.options[productField.selectedIndex].text;
-			if (selectedText === "Выберите продукт") {
-				alert("Есть невыбранные продукты");
-				return false;
-			}
-		}
-		return true;
 	}
 
 	createSelect() {
@@ -117,28 +121,36 @@ class UpdateRecipe {
 			const input = document.createElement("input");
 			const div = document.createElement("div");
 			const div2 = document.createElement("div");
+			const div3 = document.createElement("div");
+			const angleDiv = document.createElement("div");
+			const angleDivMain = document.createElement("div");
 			const container = document.createElement("div");
-			select.id = `update_product_${this.selectCount}`;
+			angleDiv.className = `ui-ctl-after ui-ctl-icon-angle`;
+			angleDivMain.className = `ui-ctl-after ui-ctl-icon-angle`;
+			select.id = `product_${this.selectCount}`;
 			select.name = `PRODUCTS[]`;
-			measure_select.id = `update_measure_${this.selectCount}`;
+			measure_select.id = `measure_${this.selectCount}`;
 			measure_select.name = `MEASURES[]`;
+			measure_select.className = `ui-ctl-element measure_select`;
 
-			input.id = `update_product_quantity_${this.selectCount}`;
+			//input.id = `create_product_quantity_${this.selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 			input.type = `number`;
 			input.min = 1;
 
-			select.className = `product_select`;
-			input.className = `input product_input`;
+
+			select.className = `ui-ctl-element`;
+			input.className = `ui-ctl-element product_input`;
 			container.className = `select_container`;
 			container.id = `container_${this.selectCount}`;
-			div.className = `select select_div`;
-			div2.className = `select select_div`;
+			div.className = `ui-ctl ui-ctl-after-icon ui-ctl-dropdown select_div`;
+			div2.className = `ui-ctl ui-ctl-after-icon ui-ctl-dropdown measure_select_div`;
+			div3.className = `ui-ctl ui-ctl-textbox product_input`
+			div3.id = `product_quantity_${this.selectCount}`;
 			div2.id = `select_div_${this.selectCount}`;
-
+			div.appendChild(angleDivMain);
 			div.appendChild(select);
-
 			container.appendChild(div);
 			this.body.appendChild(container);
 			let placeholder = document.createElement("option");
@@ -151,6 +163,7 @@ class UpdateRecipe {
 				select.appendChild(firstOption);
 			});
 			for (let i = 1; i <= this.selectCount; i++) {
+
 				this.buttonCheck();
 				select.addEventListener("change", () => {
 					var selectedValue = select.value;
@@ -158,12 +171,16 @@ class UpdateRecipe {
 					measure_select.innerHTML = "";
 					if (selectedText === placeholder.text) {
 						div2.remove();
-						input.remove();
+						div3.remove();
 						this.buttonCheck();
 					} else {
-						container.appendChild(input);
+						input.value = ``;
+						div3.appendChild(input);
+						container.appendChild(div3);
+						div2.appendChild(angleDiv);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
+
 						this.buttonCheck();
 					}
 					this.measures[selectedValue].forEach(function (option) {
@@ -172,6 +189,7 @@ class UpdateRecipe {
 						secondOption.text = option.MEASURE_NAME;
 						measure_select.appendChild(secondOption);
 					});
+
 					this.buttonCheck();
 				});
 			}
@@ -186,51 +204,65 @@ class UpdateRecipe {
 		this.buttonCheck();
 	}
 
+	checkArray() {
+		for (let i = 1; i <= this.selectCount; i++) {
+			let productField = document.getElementById(`product_${i}`);
+			let selectedText = productField.options[productField.selectedIndex].text;
+			if (selectedText === "Выберите продукт") {
+				alert("Есть невыбранные продукты");
+				return false;
+			}
+		}
+		return true;
+	}
+
 	createStep() {
 		if (this.textareaCount < 10) {
 			this.textareaCount++;
 			const textarea = document.createElement("textarea");
+			const textareaDiv = document.createElement("div");
+			textareaDiv.className = `ui-ctl-textarea step_div`
 			textarea.required = true;
-			textarea.name = `STEPS[]`;
-			textarea.className = `textarea`;
-			textarea.id = `update_step_description_${this.textareaCount}`;
+			textarea.placeholder = `Описание шага`;
 			textarea.maxLength = 150;
-			this.stepContainer.appendChild(textarea);
+			textarea.name = `STEPS[]`;
+			textareaDiv.id = `step_description_${this.textareaCount}`;
+			textarea.className = `ui-ctl-element`;
+			textareaDiv.appendChild(textarea);
+			this.stepContainer.appendChild(textareaDiv);
 			this.buttonCheck();
 		}
 	}
 
 	deleteStep() {
-		const element = document.getElementById(`update_step_description_${this.textareaCount}`);
+		const element = document.getElementById(`step_description_${this.textareaCount}`);
 		element.remove();
 		this.textareaCount--;
 		this.buttonCheck();
 	}
 
-	Filevalidation() {
-		const fi = document.getElementById("img_input");
-		// Check if any file is selected.
-		if (fi.files.length > 0) {
-			for (let i = 0; i <= fi.files.length - 1; i++) {
-				const fsize = fi.files.item(i).size;
-				const file = Math.round(fsize / 1024);
-				this.deletePhoto.disabled = false;
-				// The size of the file.
+	buttonCheck() {
+		this.confirmRecipeBtn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
+	}
+
+	validateFiles() {
+		const fileInput = document.getElementById("img_input");
+		if (fileInput.files.length > 0) {
+			for (let i = 0; i <= fileInput.files.length - 1; i++) {
+				const fileSize = fileInput.files.item(i).size;
+				const file = Math.round(fileSize / 1024);
+				this.deletePhotoBtn.disabled = false;
 				if (file >= 2048) {
 					alert("ФАЙЛ ДОЛЖЕН БЫТЬ МЕНЬШЕ 2 мб");
-					fi.value = "";
-					this.deletePhoto.disabled = true;
+					fileInput.value = "";
+					this.deletePhotoBtn.disabled = true;
 				}
 			}
 		}
 	}
 
-	buttonCheck() {
-		this.update_recipe_btn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
-	}
-
 	validateTime() {
-		let timeInput = document.getElementById("update_time_input");
+		let timeInput = document.getElementById("time_input");
 		if (!(parseInt(timeInput.value) == timeInput.value)) {
 			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
 			this.form.preventDefault();
@@ -253,7 +285,7 @@ class UpdateRecipe {
 			return false;
 		} else {
 			for (let i = 1; i <= this.selectCount; i++) {
-				const input = document.getElementById(`update_product_quantity_${i}`);
+				const input = document.getElementById(`product_quantity_${i}`);
 				if (input.value === '' || input.value < 1) {
 					alert("Неправильно переданы продукты");
 					this.form.preventDefault();
@@ -271,7 +303,7 @@ class UpdateRecipe {
 			return false;
 		} else {
 			for (let i = 1; i <= this.textareaCount; i++) {
-				const input = document.getElementById(`update_step_description_${i}`);
+				const input = document.getElementById(`step_description_${i}`);
 				if (input.value === '') {
 					alert("Пустое описание шага");
 					this.form.preventDefault();
@@ -283,7 +315,7 @@ class UpdateRecipe {
 	}
 
 	validateName() {
-		let title = document.getElementById("update_title_input");
+		let title = document.getElementById("title_input");
 		if (title.value.length < 1) {
 			alert("Введите название");
 			this.form.preventDefault();
@@ -295,11 +327,10 @@ class UpdateRecipe {
 		} else {
 			return true
 		}
-
 	}
 
 	validateDescription() {
-		let description = document.getElementById("update_description_input");
+		let description = document.getElementById("description_input");
 		if (description.value.length < 1) {
 			alert("Введите описание");
 			return false

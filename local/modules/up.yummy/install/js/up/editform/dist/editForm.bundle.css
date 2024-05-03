@@ -5,10 +5,8 @@
 	justify-content: center;
 }
 .add_form{
-	margin-top: 50px;
-}
-.input::placeholder, .textarea::placeholder{
-	text-align: center;
+	display: flex;
+	justify-content: center;
 }
 .product_btn{
 	margin-top: 5px;
@@ -36,16 +34,64 @@
 	align-content: center;
 	font-size: 16px;
 }
+
+.measure_select_div{
+	display:flex;
+	margin: 0;
+	align-content: center;
+	font-size: 16px;
+	max-width: 100px;
+}
 .select_container{
 	display: flex;
 	align-content: center;
 	gap: 10px;
 	margin-bottom: 10px;
+	max-width: 640px;
 }
 .product_input{
+	max-width: 80px;
+}
+.measure_select{
 	max-width: 100px;
+}
+.measure_angle{
+	max-width: 100px !important;
+}
+#delete_photo{
+	margin-bottom: 15px;
+}
+.add_btn{
+	margin-top: 30px;
+}
+.buttons{
+	display:flex;
+	justify-content: space-between;
+	max-width: 640px;
+}
+#img_prev{
+	max-height: 350px;
+}
+.ui-ctl-textarea{
+	max-height: 200px;
+	max-width: 640px;
+}
+.step_div{
+	margin-bottom: 15px;
+}
+.main_input{
+	min-width: 640px;
+}
+#step_container{
+	row-gap:20px;
 }
 html{
 	max-width: 100%;
 	overflow-y: hidden;
+}
+.workarea-content{
+	background-color: rgba(255, 255, 255, 0.7) !important;
+}
+.bx-layout-inner-inner-top-row{
+	display: none;
 }

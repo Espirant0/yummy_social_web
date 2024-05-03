@@ -1,8 +1,10 @@
 <?php
-
 /**
  * @var $arResult
  */
+
+\Bitrix\Main\UI\Extension::load('up.editForm');
+\Bitrix\Main\UI\Extension::load("ui.forms");
 
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
@@ -11,19 +13,19 @@ $stepsSize = $arResult['STEPS_SIZE'];
 $productsSize = $arResult['PRODUCTS_SIZE'];
 $recipe = $arResult['RECIPE'];
 ?>
-<form action="/detail/<?= $recipe['ID'] ?>/" method="get" class="create_btn">
-	<button class="button is-success" id="comeback_btn">Назад</button>
+<form action="/" method="get" class="create_btn">
+	<button class="ui-btn ui-btn-success" id="comeback_btn">Назад</button>
 </form>
 <div class="content">
-	<div class="column is-half is-offset-one-quarter add_form">
-		<p class="title has-text-centered">ИЗМЕНИТЬ РЕЦЕПТ</p>
+	<p class="title has-text-centered">Изменить рецепт</p>
+	<div class="column add_form">
 		<form action="/update/<?= $recipe['ID'] ?>/" method="post" enctype="multipart/form-data" id="form">
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
-						<p class="control">
-							<input class="input" name="NAME" type="text" placeholder="Название рецепта"
-								   value="<?= $recipe['TITLE'] ?>" id="update_title_input" required>
+						<p class="ui-ctl ui-ctl-textbox main_input">
+							<input class="ui-ctl-element" name="NAME" type="text" placeholder="Название рецепта"
+								   value="<?= $recipe['TITLE'] ?>" id="title_input" required>
 						</p>
 					</div>
 				</div>
@@ -31,9 +33,9 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<div class="control">
-							<textarea class="textarea" required
-									  name="DESCRIPTION" maxlength="250" id="update_description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
+						<div class="ui-ctl ui-ctl-textarea">
+							<textarea class="ui-ctl-element" required
+									  name="DESCRIPTION" maxlength="250" id="description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -41,19 +43,36 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<p class="control">
-							<input class="input" name="TIME" type="number" min="1" value="<?= $recipe['TIME'] ?>"
-								   placeholder="Время приготовления" id="update_time_input" required>
+						<p class="ui-ctl ui-ctl-textbox main_input">
+							<input class="ui-ctl-element" name="TIME" type="number" min="1" value="<?= $recipe['TIME'] ?>"
+								   placeholder="Время приготовления" id="time_input" required>
 						</p>
 					</div>
 				</div>
 			</div>
+			<label for="IMAGES">Фото рецепта</label>
+			<div class="field is-horizontal">
+				<div class="field-body">
+					<div class="field">
+						<p class="control">
+							<?php echo bitrix_sessid_post(); ?>
+							<input type="file" name="IMAGES" id="img_input" accept="image/*">
+							<img id="img_prev" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
+						</p>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" value="0" name="photoStatus" id="photo_status">
+			<button class="ui-btn ui-btn-success" id="delete_photo" type="button" disabled>
+				Удалить фотографию
+			</button>
 			<div class="product_container">
 				<div id="container" class="products_selects">
 					<?php foreach ($arResult['USED_PRODUCTS'] as $productSelect): ?>
 						<div class="select_container" id="container_<?= $productsCount ?>">
-							<div class="select select_div">
-								<select name="PRODUCTS[]" id="update_product_<?= $productsCount ?>" class="product_select">
+							<div class="ui-ctl ui-ctl-after-icon ui-ctl-dropdown select_div">
+								<div class="ui-ctl-after ui-ctl-icon-angle"></div>
+								<select name="PRODUCTS[]" id="product_<?= $productsCount ?>" class="ui-ctl-element product_select">
 									<option>Выберите продукт</option>
 									<?php foreach ($arResult['PRODUCTS'] as $product): ?>
 										<option <?= ($product['ID'] === $productSelect['PRODUCT_ID']) ? 'selected' : '' ?>
@@ -64,17 +83,19 @@ $recipe = $arResult['RECIPE'];
 									<?php endforeach; ?>
 								</select>
 							</div>
-							<input
-								id="update_product_quantity_<?= $productsCount ?>"
-								type="number"
-								min="1"
-								class="input product_input"
-								required
-								name="PRODUCTS_QUANTITY[]"
-								<?= isset($productSelect['VALUE']) ? "value='" . $productSelect['VALUE'] . "'" : '' ?>
-							>
-							<div class="select select_div" id="select_div_<?= $productsCount ?>">
-								<select name="MEASURES[]" id="update_measure_<?= $productsCount ?>">
+							<div class="ui-ctl ui-ctl-textbox product_input" id="product_quantity_<?= $productsCount ?>">
+								<input
+									type="number"
+									min="1"
+									class="input product_input"
+									required
+									name="PRODUCTS_QUANTITY[]"
+									<?= isset($productSelect['VALUE']) ? "value='" . $productSelect['VALUE'] . "'" : '' ?>
+								>
+							</div>
+							<div class="ui-ctl ui-ctl-after-icon ui-ctl-dropdown measure_select_div" id="select_div_<?= $productsCount ?>">
+								<div class="ui-ctl-after ui-ctl-icon-angle"></div>
+								<select name="MEASURES[]" class="ui-ctl-element measure_angle" id="measure_<?= $productsCount ?>">
 									<?php foreach ($arResult['PRODUCT_MEASURES'][$productSelect['PRODUCT_ID']] as $product): ?>
 											<option <?= ($productSelect['MEASURE_ID'] === $product['ID']) ? 'selected' : '' ?>
 												value="<?= $product['ID'] ?>"
@@ -88,58 +109,46 @@ $recipe = $arResult['RECIPE'];
 						<?php $productsCount++ ?>
 					<?php endforeach; ?>
 				</div>
-				<div class="product_btn">
-					<button class="button is-primary is-expanded" id="add_product_btn" type="button"
-							onclick="updateRecipe.createSelect()"
-					>Добавить продукт
-					</button>
-				</div>
-				<div class="product_btn">
-					<button class="button is-primary is-expanded" id="remove_product_btn" type="button" onclick="updateRecipe.deleteSelect()">Удалить
-						продукт
-					</button>
+				<div class="buttons">
+					<div class="product_btn">
+						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn" onclick="YummyEditForm.createSelect()">Добавить
+							продукт
+						</button>
+					</div>
+					<div class="product_btn">
+						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn" onclick="YummyEditForm.deleteSelect()">Удалить
+							продукт
+						</button>
+					</div>
 				</div>
 			</div>
 			<div id="step_container">
 				<?php foreach ($arResult['STEPS'] as $step): ?>
-					<textarea class="textarea"
+				<div class="ui-ctl-textarea step_div" id="step_description_<?= $step['STEP'] ?>">
+					<textarea class="ui-ctl-element"
 							  name="STEPS[]"
-							  id="update_step_description_<?= $step['STEP'] ?>"
 							  placeholder="Описание шага"
 							  required
 							  maxlength="150"
 					><?= $step['DESCRIPTION'] ?></textarea>
+				</div>
 				<?php endforeach; ?>
 			</div>
-            <button class="button is-primary" id="delete_photo" type="button">
-                Удалить фотографию
-            </button>
-            <input type="hidden" value="0" name="photoStatus" id="photoStatus">
-			<div class="step_btn">
-				<button class="button is-primary is-expanded" id="add_step_btn" type="button" onclick="updateRecipe.createStep()">Добавить шаг</button>
-			</div>
-			<div class="step_btn">
-				<button class="button is-primary is-expanded" id="remove_step_btn" type="button" onclick="updateRecipe.deleteStep()">Удалить шаг</button>
-			</div>
-			<label for="IMAGES">Фото рецепта</label>
-			<div class="field is-horizontal">
-				<div class="field-body">
-					<div class="field">
-						<p class="control">
-							<?php
-							echo bitrix_sessid_post();
-							?>
-                            <input type="file" name="IMAGES" id="img_input" accept="image/*">
-							<img id="img_pre" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
-						</p>
-					</div>
+			<div class="buttons">
+				<div class="step_btn">
+					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn"  onclick="YummyEditForm.createStep()">Добавить шаг
+					</button>
+				</div>
+				<div class="step_btn">
+					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn" onclick="YummyEditForm.deleteStep()">Удалить шаг
+					</button>
 				</div>
 			</div>
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="button is-primary" id="update_recipe_btn" type="button">
+							<button class="ui-btn ui-btn-success" id="confirm_recipe_btn" type="button">
 								Изменить рецепт
 							</button>
 						</div>
@@ -147,10 +156,17 @@ $recipe = $arResult['RECIPE'];
 				</div>
 			</div>
 		</form>
-
 	</div>
 </div>
+
 <script>
-	const updateRecipe = new UpdateRecipe(<?=$products?> , <?=$productMeasures?>, <?=$stepsSize?>, <?=$productsSize?>);
-	updateRecipe.init();
+	BX.ready(function (){
+		window.YummyEditForm = new BX.Up.Yummy.EditForm({
+			products: <?=$products?>,
+			measures: <?=$productMeasures?>,
+			stepsSize: <?=$stepsSize?>,
+			productsSize: <?=$productsSize?>
+		});
+		YummyEditForm.initUpdate();
+	});
 </script>

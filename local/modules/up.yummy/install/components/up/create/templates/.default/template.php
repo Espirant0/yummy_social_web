@@ -3,6 +3,10 @@
  * @var array $arParams ;
  * @var array $arResult
  */
+
+\Bitrix\Main\UI\Extension::load('up.editForm');
+\Bitrix\Main\UI\Extension::load("ui.forms");
+
 $products = json_encode($arResult['PRODUCTS']);
 $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 ?>
@@ -17,7 +21,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field ">
 						<p class="ui-ctl ui-ctl-textbox main_input">
-							<input class="ui-ctl-element" name="NAME" type="text" id="create_title_input" placeholder="Название рецепта" maxlength="50" required>
+							<input class="ui-ctl-element" name="NAME" type="text" id="title_input" placeholder="Название рецепта" maxlength="50" required>
 						</p>
 					</div>
 				</div>
@@ -26,7 +30,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="ui-ctl ui-ctl-textarea">
-							<textarea class="ui-ctl-element" name="DESCRIPTION" id="create_description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
+							<textarea class="ui-ctl-element" name="DESCRIPTION" id="description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
 						</div>
 					</div>
 				</div>
@@ -35,7 +39,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<p class="ui-ctl ui-ctl-textbox main_input">
-							<input class="ui-ctl-element" name="TIME" type="number" id="create_time_input" pattern="[0-9]{,3}"
+							<input class="ui-ctl-element" name="TIME" type="number" id="time_input" pattern="[0-9]{,3}"
 								   placeholder="Время приготовления" min="1" required >
 						</p>
 					</div>
@@ -48,7 +52,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
                             <input type="file" name="IMAGES" id="img_input" accept="image/*">
-                            <img id="img_pre" src="#" alt=""/>
+                            <img id="img_prev" src="#" alt=""/>
 						</p>
 					</div>
 				</div>
@@ -61,12 +65,12 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				</div>
 				<div class="buttons">
 					<div class="product_btn">
-						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn" onclick="createRecipe.createSelect()">Добавить
+						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn" onclick="YummyEditForm.createSelect()">Добавить
 							продукт
 						</button>
 					</div>
 					<div class="product_btn">
-						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn" onclick="createRecipe.deleteSelect()">Удалить
+						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn" onclick="YummyEditForm.deleteSelect()">Удалить
 							продукт
 						</button>
 					</div>
@@ -76,11 +80,11 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			</div>
 			<div class="buttons">
 				<div class="step_btn">
-					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn"  onclick="createRecipe.createStep()">Добавить шаг
+					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn"  onclick="YummyEditForm.createStep()">Добавить шаг
 					</button>
 				</div>
 				<div class="step_btn">
-					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn" onclick="createRecipe.deleteStep()">Удалить шаг
+					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn" onclick="YummyEditForm.deleteStep()">Удалить шаг
 					</button>
 				</div>
 			</div>
@@ -88,7 +92,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				<div class="field-body">
 					<div class="field">
 						<div class="control add_btn">
-							<button class="ui-btn ui-btn-success" type="button" id="create_recipe_btn">
+							<button class="ui-btn ui-btn-success" type="button" id="confirm_recipe_btn">
 								Добавить рецепт
 							</button>
 						</div>
@@ -100,6 +104,13 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 </div>
 
 <script>
-	const createRecipe = new CreateRecipe(<?=$products?> , <?=$productMeasures?>);
-	createRecipe.init();
+	BX.ready(function (){
+		window.YummyEditForm = new BX.Up.Yummy.EditForm({
+			products: <?=$products?>,
+			measures: <?=$productMeasures?>,
+			stepsSize: 0,
+			productsSize: 0
+		});
+		YummyEditForm.initCreate();
+	});
 </script>
