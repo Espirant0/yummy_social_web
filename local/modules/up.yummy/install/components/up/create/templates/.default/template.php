@@ -49,10 +49,10 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
+						<img id="img_prev" src="#" alt=""/>
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
                             <input type="file" name="IMAGES" id="img_input" accept="image/*">
-                            <img id="img_prev" src="#" alt=""/>
 						</p>
 					</div>
 				</div>

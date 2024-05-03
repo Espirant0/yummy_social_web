@@ -54,10 +54,10 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
+						<img id="img_prev" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
 							<input type="file" name="IMAGES" id="img_input" accept="image/*">
-							<img id="img_prev" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
 						</p>
 					</div>
 				</div>
