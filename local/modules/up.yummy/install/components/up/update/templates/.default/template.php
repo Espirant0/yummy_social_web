@@ -23,8 +23,9 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
+						<p>Название рецепта</p>
 						<p class="ui-ctl ui-ctl-textbox main_input">
-							<input class="ui-ctl-element" name="NAME" type="text" placeholder="Название рецепта"
+							<input class="ui-ctl-element" name="NAME" type="text"
 								   value="<?= $recipe['TITLE'] ?>" id="title_input" required>
 						</p>
 					</div>
@@ -33,7 +34,8 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<div class="ui-ctl ui-ctl-textarea">
+						<p>Описание рецепта</p>
+						<div class="ui-ctl ui-ctl-textarea ui-ctl-no-resize">
 							<textarea class="ui-ctl-element" required
 									  name="DESCRIPTION" maxlength="250" id="description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
 						</div>
@@ -43,9 +45,10 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
+						<p>Время приготовления (в минутах)</p>
 						<p class="ui-ctl ui-ctl-textbox main_input">
 							<input class="ui-ctl-element" name="TIME" type="number" min="1" value="<?= $recipe['TIME'] ?>"
-								   placeholder="Время приготовления" id="time_input" required>
+								 id="time_input" required>
 						</p>
 					</div>
 				</div>
@@ -67,6 +70,7 @@ $recipe = $arResult['RECIPE'];
 				Удалить фотографию
 			</button>
 			<div class="product_container">
+				<p>Продукты</p>
 				<div id="container" class="products_selects">
 					<?php foreach ($arResult['USED_PRODUCTS'] as $productSelect): ?>
 						<div class="select_container" id="container_<?= $productsCount ?>">
@@ -88,6 +92,7 @@ $recipe = $arResult['RECIPE'];
 									type="number"
 									min="1"
 									class="input product_input"
+									id="product_quantity_input_<?= $productsCount ?>"
 									required
 									name="PRODUCTS_QUANTITY[]"
 									<?= isset($productSelect['VALUE']) ? "value='" . $productSelect['VALUE'] . "'" : '' ?>
@@ -122,13 +127,16 @@ $recipe = $arResult['RECIPE'];
 					</div>
 				</div>
 			</div>
+			<p>Пошаговая инструкция</p>
 			<div id="step_container">
 				<?php foreach ($arResult['STEPS'] as $step): ?>
-				<div class="ui-ctl-textarea step_div" id="step_description_<?= $step['STEP'] ?>">
+				<p class="title is-5" id="step_<?= $step['STEP'] ?>">Шаг <?= $step['STEP'] ?></p>
+				<div class="ui-ctl-textarea ui-ctl-no-resize step_div" id="step_description_<?= $step['STEP'] ?>">
 					<textarea class="ui-ctl-element"
 							  name="STEPS[]"
 							  placeholder="Описание шага"
 							  required
+							  id="step_textarea_<?= $step['STEP'] ?>"
 							  maxlength="150"
 					><?= $step['DESCRIPTION'] ?></textarea>
 				</div>

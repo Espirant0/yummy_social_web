@@ -75,6 +75,7 @@
 .ui-ctl-textarea{
 	max-height: 200px;
 	max-width: 640px;
+	min-width: 320px;
 }
 .step_div{
 	margin-bottom: 15px;

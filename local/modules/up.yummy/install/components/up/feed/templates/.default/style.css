@@ -19,6 +19,13 @@
 	padding-bottom: 30px;
 	padding-right: 10%;
 }
+.stat{
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
 .main-ui-filter-compact-state{
 	margin-left: 20%;
 }
@@ -38,7 +45,7 @@
 	border-radius: 10px;
 }
 .clock_icon{
-	width: 30px;
+	width: 40px;
 }
 .title_line{
 	display:flex;

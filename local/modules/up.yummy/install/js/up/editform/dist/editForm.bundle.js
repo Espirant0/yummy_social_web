@@ -141,8 +141,7 @@ this.BX.Up = this.BX.Up || {};
 	        measure_select.id = "measure_".concat(this.selectCount);
 	        measure_select.name = "MEASURES[]";
 	        measure_select.className = "ui-ctl-element measure_select";
-
-	        //input.id = `create_product_quantity_${this.selectCount}`;
+	        input.id = "product_quantity_input_".concat(this.selectCount);
 	        input.required = true;
 	        input.name = "PRODUCTS_QUANTITY[]";
 	        input.type = "number";
@@ -228,14 +227,20 @@ this.BX.Up = this.BX.Up || {};
 	        this.textareaCount++;
 	        var textarea = document.createElement("textarea");
 	        var textareaDiv = document.createElement("div");
-	        textareaDiv.className = "ui-ctl-textarea step_div";
+	        var stepNumber = document.createElement("p");
+	        stepNumber.className = "title is-5";
+	        stepNumber.textContent = "\u0428\u0430\u0433 ".concat(this.textareaCount);
+	        stepNumber.id = "step_".concat(this.textareaCount);
+	        textareaDiv.className = "ui-ctl-textarea ui-ctl-no-resize step_div";
 	        textarea.required = true;
 	        textarea.placeholder = "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u0448\u0430\u0433\u0430";
 	        textarea.maxLength = 150;
 	        textarea.name = "STEPS[]";
 	        textareaDiv.id = "step_description_".concat(this.textareaCount);
 	        textarea.className = "ui-ctl-element";
+	        textarea.id = "step_textarea_".concat(this.textareaCount);
 	        textareaDiv.appendChild(textarea);
+	        this.stepContainer.appendChild(stepNumber);
 	        this.stepContainer.appendChild(textareaDiv);
 	        this.buttonCheck();
 	      }
@@ -243,8 +248,10 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "deleteStep",
 	    value: function deleteStep() {
-	      var element = document.getElementById("step_description_".concat(this.textareaCount));
-	      element.remove();
+	      var element1 = document.getElementById("step_description_".concat(this.textareaCount));
+	      var element2 = document.getElementById("step_".concat(this.textareaCount));
+	      element1.remove();
+	      element2.remove();
 	      this.textareaCount--;
 	      this.buttonCheck();
 	    }
@@ -275,16 +282,21 @@ this.BX.Up = this.BX.Up || {};
 	    value: function validateTime() {
 	      var timeInput = document.getElementById("time_input");
 	      if (!(parseInt(timeInput.value) == timeInput.value)) {
-	        alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
+	        alert("Неправильный формат времени");
 	        this.form.preventDefault();
 	        return false;
-	      } else if (timeInput.value < 1) {
-	        alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
-	        this.form.preventDefault();
-	        return false;
-	      } else {
-	        return true;
 	      }
+	      if (timeInput.value < 1) {
+	        alert("Неправильное время (Введите число больше чем 1)");
+	        this.form.preventDefault();
+	        return false;
+	      }
+	      if (timeInput.value > 500) {
+	        alert("Неправильное время (Введите число меньше чем 500)");
+	        this.form.preventDefault();
+	        return false;
+	      }
+	      return true;
 	    }
 	  }, {
 	    key: "validateProductCount",
@@ -297,9 +309,19 @@ this.BX.Up = this.BX.Up || {};
 	        return false;
 	      } else {
 	        for (var i = 1; i <= this.selectCount; i++) {
-	          var input = document.getElementById("product_quantity_".concat(i));
-	          if (input.value === '' || input.value < 1) {
-	            alert("Неправильно переданы продукты");
+	          var input = document.getElementById("product_quantity_input_".concat(i));
+	          if (input.value === '') {
+	            alert("Не все продукты заполнены");
+	            this.form.preventDefault();
+	            return false;
+	          }
+	          if (input.value < 0) {
+	            alert("Количество продукта должно быть больше 0");
+	            this.form.preventDefault();
+	            return false;
+	          }
+	          if (input.value > 5000) {
+	            alert("Слишком большое число в количестве продуктов");
 	            this.form.preventDefault();
 	            return false;
 	          }
@@ -316,7 +338,7 @@ this.BX.Up = this.BX.Up || {};
 	        return false;
 	      } else {
 	        for (var i = 1; i <= this.textareaCount; i++) {
-	          var input = document.getElementById("step_description_".concat(i));
+	          var input = document.getElementById("step_textarea_".concat(i));
 	          if (input.value === '') {
 	            alert("Пустое описание шага");
 	            this.form.preventDefault();

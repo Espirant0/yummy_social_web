@@ -20,8 +20,9 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal ">
 				<div class="field-body">
 					<div class="field ">
+						<p>Название рецепта</p>
 						<p class="ui-ctl ui-ctl-textbox main_input">
-							<input class="ui-ctl-element" name="NAME" type="text" id="title_input" placeholder="Название рецепта" maxlength="50" required>
+							<input class="ui-ctl-element" name="NAME" type="text" id="title_input" maxlength="50" required>
 						</p>
 					</div>
 				</div>
@@ -29,8 +30,9 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<div class="ui-ctl ui-ctl-textarea">
-							<textarea class="ui-ctl-element" name="DESCRIPTION" id="description_input" placeholder="Описание рецепта" maxlength="250" required></textarea>
+						<p>Описание рецепта</p>
+						<div class="ui-ctl ui-ctl-textarea ui-ctl-no-resize">
+							<textarea class="ui-ctl-element" name="DESCRIPTION" id="description_input" maxlength="250" required></textarea>
 						</div>
 					</div>
 				</div>
@@ -38,9 +40,10 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
+						<p>Время приготовления (в минутах)</p>
 						<p class="ui-ctl ui-ctl-textbox main_input">
 							<input class="ui-ctl-element" name="TIME" type="number" id="time_input" pattern="[0-9]{,3}"
-								   placeholder="Время приготовления" min="1" required >
+								   min="1" required >
 						</p>
 					</div>
 				</div>
@@ -61,6 +64,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 				Удалить фотографию
 			</button>
 			<div class="product_container">
+				<p>Продукты</p>
 				<div id="container" class="products_selects">
 				</div>
 				<div class="buttons">
@@ -76,6 +80,7 @@ $productMeasures = json_encode($arResult['PRODUCT_MEASURES']);
 					</div>
 				</div>
 			</div>
+			<p>Пошаговая инструкция</p>
 			<div id="step_container">
 			</div>
 			<div class="buttons">

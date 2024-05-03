@@ -133,7 +133,7 @@ export class EditForm
 			measure_select.name = `MEASURES[]`;
 			measure_select.className = `ui-ctl-element measure_select`;
 
-			//input.id = `create_product_quantity_${this.selectCount}`;
+			input.id = `product_quantity_input_${this.selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 			input.type = `number`;
@@ -221,22 +221,30 @@ export class EditForm
 			this.textareaCount++;
 			const textarea = document.createElement("textarea");
 			const textareaDiv = document.createElement("div");
-			textareaDiv.className = `ui-ctl-textarea step_div`
+			const stepNumber = document.createElement("p");
+			stepNumber.className = `title is-5`;
+			stepNumber.textContent = `Шаг ${this.textareaCount}`;
+			stepNumber.id = `step_${this.textareaCount}`
+			textareaDiv.className = `ui-ctl-textarea ui-ctl-no-resize step_div`
 			textarea.required = true;
 			textarea.placeholder = `Описание шага`;
 			textarea.maxLength = 150;
 			textarea.name = `STEPS[]`;
 			textareaDiv.id = `step_description_${this.textareaCount}`;
 			textarea.className = `ui-ctl-element`;
+			textarea.id = `step_textarea_${this.textareaCount}`
 			textareaDiv.appendChild(textarea);
+			this.stepContainer.appendChild(stepNumber);
 			this.stepContainer.appendChild(textareaDiv);
 			this.buttonCheck();
 		}
 	}
 
 	deleteStep() {
-		const element = document.getElementById(`step_description_${this.textareaCount}`);
-		element.remove();
+		const element1 = document.getElementById(`step_description_${this.textareaCount}`);
+		const element2 = document.getElementById(`step_${this.textareaCount}`);
+		element1.remove();
+		element2.remove();
 		this.textareaCount--;
 		this.buttonCheck();
 	}
@@ -264,16 +272,21 @@ export class EditForm
 	validateTime() {
 		let timeInput = document.getElementById("time_input");
 		if (!(parseInt(timeInput.value) == timeInput.value)) {
-			alert("НЕПРАВИЛЬНЫЙ ФОРМАТ ВРЕМЕНИ");
+			alert("Неправильный формат времени");
 			this.form.preventDefault();
 			return false;
-		} else if (timeInput.value < 1) {
-			alert("НЕПРАВИЛЬНОЕ ВРЕМЯ(Введите число больше чем 1)");
-			this.form.preventDefault();
-			return false;
-		} else {
-			return true;
 		}
+		if (timeInput.value < 1) {
+			alert("Неправильное время (Введите число больше чем 1)");
+			this.form.preventDefault();
+			return false;
+		}
+		if (timeInput.value > 500) {
+			alert("Неправильное время (Введите число меньше чем 500)");
+			this.form.preventDefault();
+			return false;
+		}
+		return true;
 	}
 
 	validateProductCount() {
@@ -285,9 +298,19 @@ export class EditForm
 			return false;
 		} else {
 			for (let i = 1; i <= this.selectCount; i++) {
-				const input = document.getElementById(`product_quantity_${i}`);
-				if (input.value === '' || input.value < 1) {
-					alert("Неправильно переданы продукты");
+				const input = document.getElementById(`product_quantity_input_${i}`);
+				if (input.value === '') {
+					alert("Не все продукты заполнены");
+					this.form.preventDefault();
+					return false;
+				}
+				if(input.value < 0){
+					alert("Количество продукта должно быть больше 0");
+					this.form.preventDefault();
+					return false;
+				}
+				if(input.value > 5000){
+					alert("Слишком большое число в количестве продуктов");
 					this.form.preventDefault();
 					return false;
 				}
@@ -303,7 +326,7 @@ export class EditForm
 			return false;
 		} else {
 			for (let i = 1; i <= this.textareaCount; i++) {
-				const input = document.getElementById(`step_description_${i}`);
+				const input = document.getElementById(`step_textarea_${i}`);
 				if (input.value === '') {
 					alert("Пустое описание шага");
 					this.form.preventDefault();

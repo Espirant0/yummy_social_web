@@ -58,14 +58,18 @@ $dailyRecipe = $arResult['DAILY_RECIPE'];
 						</div>
 						<div class="notification recipe_stats">
 							<div class="columns recipe_stats_header">
-								<div class="column has-text-weight-bold">Калории</div>
-								<div class="column has-text-weight-bold">Белки | Жиры | Углеводы</div>
-								<div class="column has-text-weight-bold"><img src="<?=$arParams['CLOCK_ICON'];?>" class="clock_icon"></div>
-							</div>
-							<div class="columns">
-								<div class="column"><?=$recipe['CALORIES']?> </div>
-								<div class="column"><?=$recipe['PROTEINS']?> | <?=$recipe['FATS']?> | <?=$recipe['CARBS']?></div>
-								<div class="column"><?=$recipe['TIME']?> мин</div>
+								<div class="column stat">
+									<div class="has-text-weight-bold">Калории</div>
+									<div class="bottom_stat"><?=$recipe['CALORIES']?></div>
+								</div>
+								<div class="column stat">
+									<div class="has-text-weight-bold">Белки Жиры Углеводы</div>
+									<div class="bottom_stat"><?=$recipe['PROTEINS']?> | <?=$recipe['FATS']?> | <?=$recipe['CARBS']?></div>
+								</div>
+								<div class="column">
+									<img src="<?=$arParams['CLOCK_ICON'];?>" class="clock_icon">
+									<div class="bottom_stat"><?=$recipe['TIME']?> мин</div>
+								</div>
 							</div>
 						</div>
 					</div>
