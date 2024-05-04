@@ -1,7 +1,7 @@
 /* eslint-disable */
 this.BX = this.BX || {};
 this.BX.Up = this.BX.Up || {};
-(function (exports,main_core,main_popup) {
+(function (exports,main_core) {
 	'use strict';
 
 	var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8;
@@ -9,15 +9,8 @@ this.BX.Up = this.BX.Up || {};
 	  function Planner() {
 	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    babelHelpers.classCallCheck(this, Planner);
-	    if (main_core.Type.isStringFilled(options.rootNodeId)) {
-	      this.rootNodeId = options.rootNodeId;
-	    } else {
-	      throw new Error('Planner: options.rootNodeId required');
-	    }
+	    this.rootNodeId = options.rootNodeId;
 	    this.rootNode = document.getElementById(this.rootNodeId);
-	    if (!this.rootNode) {
-	      throw new Error("Planner: element with id \"".concat(this.rootNodeId, "\" not found"));
-	    }
 	    this.title = options.title;
 	    this.currentDate = options.currentDate;
 	    this.start = options.start;
@@ -54,7 +47,7 @@ this.BX.Up = this.BX.Up || {};
 	    key: "loadList",
 	    value: function loadList(start) {
 	      var _this2 = this;
-	      return new Promise(function (resolve, reject) {
+	      return new Promise(function (resolve) {
 	        BX.ajax.runAction('up:yummy.planner.getList', {
 	          data: {
 	            start: start,
@@ -71,7 +64,7 @@ this.BX.Up = this.BX.Up || {};
 	    key: "loadProductList",
 	    value: function loadProductList(start) {
 	      var _this3 = this;
-	      return new Promise(function (resolve, reject) {
+	      return new Promise(function (resolve) {
 	        BX.ajax.runAction('up:yummy.planner.getProducts', {
 	          data: {
 	            start: start,
@@ -88,7 +81,7 @@ this.BX.Up = this.BX.Up || {};
 	    key: "loadDailyProductList",
 	    value: function loadDailyProductList(date) {
 	      var _this4 = this;
-	      return new Promise(function (resolve, reject) {
+	      return new Promise(function (resolve) {
 	        BX.ajax.runAction('up:yummy.planner.getDailyProducts', {
 	          data: {
 	            date: date,
@@ -104,7 +97,7 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "loadCourses",
 	    value: function loadCourses() {
-	      return new Promise(function (resolve, reject) {
+	      return new Promise(function (resolve) {
 	        BX.ajax.runAction('up:yummy.planner.getCourses', {
 	          data: {
 	            apiKey: 'very_secret_key'
@@ -119,7 +112,7 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "loadRecipeList",
 	    value: function loadRecipeList() {
-	      return new Promise(function (resolve, reject) {
+	      return new Promise(function (resolve) {
 	        BX.ajax.runAction('up:yummy.planner.getRecipeList', {
 	          data: {
 	            apiKey: 'very_secret_key'
@@ -204,8 +197,6 @@ this.BX.Up = this.BX.Up || {};
 	      var day = date.getDate();
 	      var month = date.getMonth() + 1;
 	      var year = date.getFullYear();
-
-	      // Добавляем ведущий ноль, если день или месяц состоят из одной цифры
 	      if (day < 10) {
 	        day = "0" + day;
 	      }
@@ -341,8 +332,7 @@ this.BX.Up = this.BX.Up || {};
 	            recipe: recipeSelect.value,
 	            user: _this6.user
 	          }
-	        }).then(function (response) {
-	          console.log("success");
+	        }).then(function () {
 	          _this6.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
@@ -357,8 +347,7 @@ this.BX.Up = this.BX.Up || {};
 	            course: courseId,
 	            user: _this6.user
 	          }
-	        }).then(function (response) {
-	          console.log("success");
+	        }).then(function () {
 	          _this6.reload();
 	        })["catch"](function (error) {
 	          console.error(error);
@@ -373,4 +362,4 @@ this.BX.Up = this.BX.Up || {};
 
 	exports.Planner = Planner;
 
-}((this.BX.Up.Yummy = this.BX.Up.Yummy || {}),BX,BX.Main));
+}((this.BX.Up.Yummy = this.BX.Up.Yummy || {}),BX));

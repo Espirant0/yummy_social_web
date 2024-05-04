@@ -1,4 +1,4 @@
-import {Type, Tag} from 'main.core';
+import {Tag} from 'main.core';
 
 export class Detail
 {

@@ -6,7 +6,7 @@ class PaginationService
 	public static int $displayArraySize = 3;
 	public static int $selectArraySize = 4;
 
-	public static function getPages(int $page, array $array )
+	public static function getPages(int $page, array $array)
 	{
 		$pages = [];
 		if ($page > 1)
@@ -15,7 +15,7 @@ class PaginationService
 		}
 		else
 		{
-			$pages[] = $page ;
+			$pages[] = $page;
 		}
 		if (count($array) < self::$selectArraySize)
 		{
@@ -27,6 +27,7 @@ class PaginationService
 		}
 		return $pages;
 	}
+
 	public static function validateOffset($offset)
 	{
 		if (is_string($offset) && (int)$offset == $offset && $offset > 0)

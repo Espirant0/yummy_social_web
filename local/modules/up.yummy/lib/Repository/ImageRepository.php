@@ -2,12 +2,12 @@
 
 namespace Up\Yummy\Repository;
 
-use CFile;
-use Up\Yummy\Model\ImagesTable;
+use CFile,
+	Up\Yummy\Model\ImagesTable;
 
 class ImageRepository
 {
-	public static function validateImage()
+	public static function validateImage(): false|int|string
 	{
 		$file = $_FILES['IMAGES'];
 
@@ -16,47 +16,48 @@ class ImageRepository
 
 		if ($error != '')
 		{
-			die('uploading error: ' . $error);
+			die('Ошибка загрузки файла: ' . $error);
 		}
 
 		return CFile::SaveFile($file, 'RecipeImages', true);
 	}
 
-	public static function getRecipeCover($recipeID)
+	public static function getRecipeCover($recipeID): ?string
 	{
 		$image = ImagesTable::query()->setSelect(['PATH'])->setFilter(['RECIPE_ID' => $recipeID])->fetch();
 		if ($image !== null)
 		{
-			$path = CFile::GetPath($image['PATH']);
-			return $path;
+			return CFile::GetPath($image['PATH']);
 		}
 		return null;
 	}
-	public static function updateRecipeImage($recipeID,$photoStatus):void
+
+	public static function updateRecipeImage($recipeId, $photoStatus): void
 	{
-		if($photoStatus==0)
+		if ($photoStatus == 0)
 		{
 			if ($_FILES['IMAGES']['name'] !== "")
 			{
-				$imageID = self::validateImage();
-				$id = ImagesTable::query()->setSelect(['ID'])->setFilter(['IS_COVER' => 1, 'RECIPE_ID' => $recipeID])->fetch()['ID'];
+				$imageId = self::validateImage();
+				$id = ImagesTable::query()->setSelect(['ID'])->setFilter(['IS_COVER' => 1, 'RECIPE_ID' => $recipeId])->fetch()['ID'];
 				if (isset($id))
 				{
-					ImagesTable::update($id, ['PATH' => $imageID]);
+					ImagesTable::update($id, ['PATH' => $imageId]);
 				}
 				else
 				{
-					ImagesTable::add(['PATH' => $imageID, 'RECIPE_ID' => $recipeID, 'IS_COVER' => 1]);
+					ImagesTable::add(['PATH' => $imageId, 'RECIPE_ID' => $recipeId, 'IS_COVER' => 1]);
 				}
 			}
 		}
-		else if($photoStatus==1)
+		else if ($photoStatus == 1)
 		{
-			ImageRepository::deleteImageRecipe($recipeID);
+			ImageRepository::deleteImageRecipe($recipeId);
 		}
 	}
-	public static function deleteImageRecipe($recipeID):void
+
+	public static function deleteImageRecipe($recipeId): void
 	{
-		ImagesTable::deleteByFilter(['RECIPE_ID'=>$recipeID]);
+		ImagesTable::deleteByFilter(['RECIPE_ID' => $recipeId]);
 	}
 }

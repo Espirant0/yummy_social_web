@@ -1,12 +1,13 @@
 <?php
+
 namespace Up\Yummy\Model;
 
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
-	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
-use Bitrix\Main\ORM\Fields\FloatField;
+	Bitrix\Main\ORM\Fields\Validators\LengthValidator,
+	Bitrix\Main\ORM\Fields\FloatField;
 
 Loc::loadMessages(__FILE__);
 
@@ -21,7 +22,6 @@ Loc::loadMessages(__FILE__);
  *
  * @package Up\Yummy\Model
  **/
-
 class MeasuresTable extends DataManager
 {
 	/**

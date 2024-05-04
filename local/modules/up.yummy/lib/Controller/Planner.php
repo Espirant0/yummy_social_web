@@ -2,7 +2,6 @@
 
 namespace Up\Yummy\Controller;
 
-use Bitrix\Bizproc\Error;
 use Up\Yummy\Repository\PlannerRepository;
 
 class Planner extends \Bitrix\Main\Engine\Controller
@@ -11,6 +10,7 @@ class Planner extends \Bitrix\Main\Engine\Controller
 	{
 		return PlannerRepository::getPlanForWeek($user, $start);
 	}
+
 	public function getCoursesAction(): ?array
 	{
 		return PlannerRepository::getCourses();
@@ -28,24 +28,24 @@ class Planner extends \Bitrix\Main\Engine\Controller
 		return PlannerRepository::getProducts($recipes);
 	}
 
-	public function editPlanAction($date, $course, $recipe, $user):void
+	public function editPlanAction($date, $course, $recipe, $user): void
 	{
-		if(PlannerRepository::isPlanExists($date, $course, $user))
+		if (PlannerRepository::isPlanExists($date, $course, $user))
 		{
 			PlannerRepository::deletePlan($date, $course, $user);
 		}
 		PlannerRepository::addPlan($date, $course, $recipe, $user);
 	}
 
-	public function deletePlanAction($date, $course, $user):void
+	public function deletePlanAction($date, $course, $user): void
 	{
-		if(PlannerRepository::isPlanExists($date, $course, $user))
+		if (PlannerRepository::isPlanExists($date, $course, $user))
 		{
 			PlannerRepository::deletePlan($date, $course, $user);
 		}
 	}
 
-	public function getRecipeListAction():?array
+	public function getRecipeListAction(): ?array
 	{
 		return PlannerRepository::getRecipeList();
 	}

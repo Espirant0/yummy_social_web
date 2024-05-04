@@ -1,16 +1,17 @@
 <?php
+
 namespace Up\Yummy\Model;
 
-use Bitrix\Main\Entity\ReferenceField;
-use Bitrix\Main\Localization\Loc,
+use Bitrix\Main\Entity\ReferenceField,
+	Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\FloatField,
 	Bitrix\Main\ORM\Fields\IntegerField,
-	Bitrix\Main\ORM\Fields\TextField;
-use Bitrix\Main\ORM\Fields\StringField;
-use Bitrix\Main\ORM\Fields\Validators\LengthValidator;
-use Bitrix\Main\ORM\Query\Join;
-use Bitrix\Main\UserTable;
+	Bitrix\Main\ORM\Fields\TextField,
+	Bitrix\Main\ORM\Fields\StringField,
+	Bitrix\Main\ORM\Fields\Validators\LengthValidator,
+	Bitrix\Main\ORM\Query\Join,
+	Bitrix\Main\UserTable;
 
 Loc::loadMessages(__FILE__);
 
@@ -32,7 +33,6 @@ Loc::loadMessages(__FILE__);
  *
  * @package Up\Yummy\Model
  **/
-
 class RecipesTable extends DataManager
 {
 	/**

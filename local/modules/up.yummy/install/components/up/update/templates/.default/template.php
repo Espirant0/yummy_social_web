@@ -37,7 +37,8 @@ $recipe = $arResult['RECIPE'];
 						<p>Описание рецепта</p>
 						<div class="ui-ctl ui-ctl-textarea ui-ctl-no-resize">
 							<textarea class="ui-ctl-element" required
-									  name="DESCRIPTION" maxlength="250" id="description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
+									  name="DESCRIPTION" maxlength="250"
+									  id="description_input"><?= $recipe['DESCRIPTION'] ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -47,8 +48,9 @@ $recipe = $arResult['RECIPE'];
 					<div class="field">
 						<p>Время приготовления (в минутах)</p>
 						<p class="ui-ctl ui-ctl-textbox main_input">
-							<input class="ui-ctl-element" name="TIME" type="number" min="1" value="<?= $recipe['TIME'] ?>"
-								 id="time_input" required>
+							<input class="ui-ctl-element" name="TIME" type="number" min="1"
+								   value="<?= $recipe['TIME'] ?>"
+								   id="time_input" required>
 						</p>
 					</div>
 				</div>
@@ -57,7 +59,7 @@ $recipe = $arResult['RECIPE'];
 			<div class="field is-horizontal">
 				<div class="field-body">
 					<div class="field">
-						<img id="img_prev" src="<?= ($arResult['IMAGE'])??'#' ?>" alt=""/>
+						<img id="img_prev" src="<?= ($arResult['IMAGE']) ?? '#' ?>" alt=""/>
 						<p class="control">
 							<?php echo bitrix_sessid_post(); ?>
 							<input type="file" name="IMAGES" id="img_input" accept="image/*">
@@ -76,7 +78,8 @@ $recipe = $arResult['RECIPE'];
 						<div class="select_container" id="container_<?= $productsCount ?>">
 							<div class="ui-ctl ui-ctl-after-icon ui-ctl-dropdown select_div">
 								<div class="ui-ctl-after ui-ctl-icon-angle"></div>
-								<select name="PRODUCTS[]" id="product_<?= $productsCount ?>" class="ui-ctl-element product_select">
+								<select name="PRODUCTS[]" id="product_<?= $productsCount ?>"
+										class="ui-ctl-element product_select">
 									<option>Выберите продукт</option>
 									<?php foreach ($arResult['PRODUCTS'] as $product): ?>
 										<option <?= ($product['ID'] === $productSelect['PRODUCT_ID']) ? 'selected' : '' ?>
@@ -87,7 +90,8 @@ $recipe = $arResult['RECIPE'];
 									<?php endforeach; ?>
 								</select>
 							</div>
-							<div class="ui-ctl ui-ctl-textbox product_input" id="product_quantity_<?= $productsCount ?>">
+							<div class="ui-ctl ui-ctl-textbox product_input"
+								 id="product_quantity_<?= $productsCount ?>">
 								<input
 									type="number"
 									min="1"
@@ -98,15 +102,17 @@ $recipe = $arResult['RECIPE'];
 									<?= isset($productSelect['VALUE']) ? "value='" . $productSelect['VALUE'] . "'" : '' ?>
 								>
 							</div>
-							<div class="ui-ctl ui-ctl-after-icon ui-ctl-dropdown measure_select_div" id="select_div_<?= $productsCount ?>">
+							<div class="ui-ctl ui-ctl-after-icon ui-ctl-dropdown measure_select_div"
+								 id="select_div_<?= $productsCount ?>">
 								<div class="ui-ctl-after ui-ctl-icon-angle"></div>
-								<select name="MEASURES[]" class="ui-ctl-element measure_angle" id="measure_<?= $productsCount ?>">
+								<select name="MEASURES[]" class="ui-ctl-element measure_angle"
+										id="measure_<?= $productsCount ?>">
 									<?php foreach ($arResult['PRODUCT_MEASURES'][$productSelect['PRODUCT_ID']] as $product): ?>
-											<option <?= ($productSelect['MEASURE_ID'] === $product['ID']) ? 'selected' : '' ?>
-												value="<?= $product['ID'] ?>"
-											>
-												<?= $product['MEASURE_NAME'] ?>
-											</option>
+										<option <?= ($productSelect['MEASURE_ID'] === $product['ID']) ? 'selected' : '' ?>
+											value="<?= $product['ID'] ?>"
+										>
+											<?= $product['MEASURE_NAME'] ?>
+										</option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -116,13 +122,13 @@ $recipe = $arResult['RECIPE'];
 				</div>
 				<div class="buttons">
 					<div class="product_btn">
-						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn" onclick="YummyEditForm.createSelect()">Добавить
-							продукт
+						<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_product_btn">
+							Добавить продукт
 						</button>
 					</div>
 					<div class="product_btn">
-						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn" onclick="YummyEditForm.deleteSelect()">Удалить
-							продукт
+						<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_product_btn">
+							Удалить продукт
 						</button>
 					</div>
 				</div>
@@ -130,8 +136,8 @@ $recipe = $arResult['RECIPE'];
 			<p>Пошаговая инструкция</p>
 			<div id="step_container">
 				<?php foreach ($arResult['STEPS'] as $step): ?>
-				<p class="title is-5" id="step_<?= $step['STEP'] ?>">Шаг <?= $step['STEP'] ?></p>
-				<div class="ui-ctl-textarea ui-ctl-no-resize step_div" id="step_description_<?= $step['STEP'] ?>">
+					<p class="title is-5" id="step_<?= $step['STEP'] ?>">Шаг <?= $step['STEP'] ?></p>
+					<div class="ui-ctl-textarea ui-ctl-no-resize step_div" id="step_description_<?= $step['STEP'] ?>">
 					<textarea class="ui-ctl-element"
 							  name="STEPS[]"
 							  placeholder="Описание шага"
@@ -139,16 +145,18 @@ $recipe = $arResult['RECIPE'];
 							  id="step_textarea_<?= $step['STEP'] ?>"
 							  maxlength="150"
 					><?= $step['DESCRIPTION'] ?></textarea>
-				</div>
+					</div>
 				<?php endforeach; ?>
 			</div>
 			<div class="buttons">
 				<div class="step_btn">
-					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn"  onclick="YummyEditForm.createStep()">Добавить шаг
+					<button class="ui-btn ui-btn-success ui-btn-icon-add" type="button" id="add_step_btn">
+						Добавить шаг
 					</button>
 				</div>
 				<div class="step_btn">
-					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn" onclick="YummyEditForm.deleteStep()">Удалить шаг
+					<button class="ui-btn ui-btn-danger ui-btn-icon-remove" type="button" id="remove_step_btn">
+						Удалить шаг
 					</button>
 				</div>
 			</div>
@@ -168,7 +176,7 @@ $recipe = $arResult['RECIPE'];
 </div>
 
 <script>
-	BX.ready(function (){
+	BX.ready(function () {
 		window.YummyEditForm = new BX.Up.Yummy.EditForm({
 			products: <?=$products?>,
 			measures: <?=$productMeasures?>,

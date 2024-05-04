@@ -1,7 +1,7 @@
 <?php global $APPLICATION;
 /**
  * @var array $arResult
- * @var array $arParams ;
+ * @var array $arParams
  */
 
 \Bitrix\Main\UI\Extension::load('up.detail');
@@ -24,24 +24,26 @@ $recipe = $arResult['RECIPE'];
 		</div>
 		<div class="column right_col">
 			<div class="buttons upper_buttons">
-					<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>"
-					   id="author_link"
-					>
-						<div class="author_link">
-							<div class="ui-icon ui-icon-common-user author_image"><i></i></div>
-							<div class="author_name">
-								<?=$recipe['AUTHOR_NAME']?> <?=$recipe['AUTHOR_SURNAME']?>
-							</div>
+				<a href="/?apply_filter=Y&AUTHOR_ID=<?= $recipe['AUTHOR_ID'] ?>"
+				   id="author_link"
+				>
+					<div class="author_link">
+						<div class="ui-icon ui-icon-common-user author_image"><i></i></div>
+						<div class="author_name">
+							<?= $recipe['AUTHOR_NAME'] ?> <?= $recipe['AUTHOR_SURNAME'] ?>
 						</div>
-					</a>
-					<form class="featured" method="post">
-						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button type="button" id="add_to_featured_btn" class="ui-btn ui-btn-lg ui-btn-wait">В избранное</button>
-					</form>
-					<form class="like" method="post">
-						<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
-						<button class="ui-btn ui-btn-lg ui-btn-wait" id="like_btn" type="button">Мне нравится<i id="likes_counter" class="ui-btn-counter"></i></button>
-					</form>
+					</div>
+				</a>
+				<form class="featured" method="post">
+					<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
+					<button type="button" id="add_to_featured_btn" class="ui-btn ui-btn-lg ui-btn-wait">В избранное
+					</button>
+				</form>
+				<form class="like" method="post">
+					<input type="hidden" name="recipeId" value="<?= $recipe['ID'] ?>">
+					<button class="ui-btn ui-btn-lg ui-btn-wait" id="like_btn" type="button">Мне нравится<i
+							id="likes_counter" class="ui-btn-counter"></i></button>
+				</form>
 			</div>
 			<div class="column products">
 				<div class="products_table_inner">
@@ -106,7 +108,8 @@ $recipe = $arResult['RECIPE'];
 				</div>
 				<?php if ($recipe['AUTHOR_ID'] == $arResult['AUTHOR_ID']): ?>
 					<form action="/update/<?= $recipe['ID'] ?>/" method="get">
-						<button class="ui-btn ui-btn-icon-edit ui-btn-primary" id="edit_recipe_btn">Изменить рецепт</button>
+						<button class="ui-btn ui-btn-icon-edit ui-btn-primary" id="edit_recipe_btn">Изменить рецепт
+						</button>
 					</form>
 				<?php endif; ?>
 			</div>
@@ -119,12 +122,12 @@ $recipe = $arResult['RECIPE'];
 		</div>
 		<h1>Пошаговая инструкция</h1>
 		<div class="step_container container instruction">
-			<?php foreach($arResult['STEPS'] as $step):?>
-			<div class="notification step">
-                <p class="title is-5 step_title">Шаг <?=$step['STEP']?></p>
-				<?=$step['DESCRIPTION']?>
-			</div>
-            <?php endforeach;?>
+			<?php foreach ($arResult['STEPS'] as $step): ?>
+				<div class="notification step">
+					<p class="title is-5 step_title">Шаг <?= $step['STEP'] ?></p>
+					<?= $step['DESCRIPTION'] ?>
+				</div>
+			<?php endforeach; ?>
 		</div>
 		<div class="container notification comments">
 			<p class="title is-4 step_title">Комментарии</p>
@@ -164,7 +167,7 @@ $recipe = $arResult['RECIPE'];
 </div>
 
 <script>
-	BX.ready(function (){
+	BX.ready(function () {
 		window.YummyDetail = new BX.Up.Yummy.Detail({
 			user: <?=$arResult['AUTHOR_ID']?>,
 			recipe: <?= $recipe['ID'] ?>

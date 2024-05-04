@@ -1,4 +1,5 @@
 <?php
+
 namespace Up\Yummy\Model;
 
 use Bitrix\Main\Localization\Loc,
@@ -20,7 +21,6 @@ Loc::loadMessages(__FILE__);
  *
  * @package Up\Yummy\Model
  **/
-
 class CategoriesTable extends DataManager
 {
 	/**

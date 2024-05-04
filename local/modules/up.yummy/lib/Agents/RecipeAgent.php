@@ -5,14 +5,14 @@ namespace Up\Yummy\Agents;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\ORM\Query\Query;
 use Up\Yummy\Model\RecipesTable;
-use Up\Yummy\Model\DailyRecipeTable;
 
 class RecipeAgent
 {
 	public static function getDailyRecipe()
 	{
 		$recipeId = null;
-		while ($recipeId === null) {
+		while ($recipeId === null)
+		{
 			$max = RecipesTable::query()
 				->addSelect(Query::expr()->max("ID"), 'MAX')
 				->exec()->fetch();

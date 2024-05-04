@@ -1,6 +1,8 @@
 <div>
-    <div>ЕСЛИ ВЫ ЭТО ВИДИТЕ ЧТО ТО ПОШЛО НЕ ТАК</div>
-    <a href="/">НА ГЛАВНУЮ</a>
+    <div>Ошибка удаления</div>
+    <form action="/" method="get" class="create_btn">
+        <button class="ui-btn ui-btn-success" id="comeback_btn">На главную</button>
+    </form>
 </div>
 
 

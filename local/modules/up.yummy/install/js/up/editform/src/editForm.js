@@ -6,7 +6,6 @@ export class EditForm
 		this.measures = options.measures;
 		this.textareaCount = options.stepsSize;
 		this.selectCount = options.productsSize;
-
 		this.photoStatus = document.getElementById("photo_status");
 		this.body = document.getElementById("container");
 		this.stepContainer = document.getElementById("step_container");
@@ -15,6 +14,22 @@ export class EditForm
 		this.confirmRecipeBtn = document.getElementById("confirm_recipe_btn");
 		this.deletePhotoBtn = document.getElementById("delete_photo");
 		this.form = document.getElementById("form");
+		this.addProductBtn = document.getElementById("add_product_btn");
+		this.removeProductBtn = document.getElementById("remove_product_btn");
+		this.addStepBtn = document.getElementById("add_step_btn");
+		this.removeStepBtn = document.getElementById("remove_step_btn");
+		this.addProductBtn.addEventListener("click", () => {
+			this.createSelect();
+		});
+		this.removeProductBtn.addEventListener("click", () => {
+			this.deleteSelect()
+		});
+		this.addStepBtn.addEventListener("click", () => {
+			this.createStep();
+		});
+		this.removeStepBtn.addEventListener("click", () => {
+			this.deleteStep();
+		});
 	}
 
 	initCreate() {
@@ -106,7 +121,8 @@ export class EditForm
 			&& this.validateProductCount() === true
 			&& this.validateStepCount() === true
 			&& this.validateName() === true
-			&& this.validateDescription() === true) {
+			&& this.validateDescription() === true)
+		{
 			this.confirmRecipeBtn.disabled = true;
 			this.form.submit();
 		}
@@ -116,6 +132,7 @@ export class EditForm
 		if (this.selectCount < 15) {
 			this.selectCount++;
 			this.buttonCheck();
+
 			const select = document.createElement("select");
 			const measure_select = document.createElement("select");
 			const input = document.createElement("input");
@@ -125,6 +142,7 @@ export class EditForm
 			const angleDiv = document.createElement("div");
 			const angleDivMain = document.createElement("div");
 			const container = document.createElement("div");
+
 			angleDiv.className = `ui-ctl-after ui-ctl-icon-angle`;
 			angleDivMain.className = `ui-ctl-after ui-ctl-icon-angle`;
 			select.id = `product_${this.selectCount}`;
@@ -132,14 +150,11 @@ export class EditForm
 			measure_select.id = `measure_${this.selectCount}`;
 			measure_select.name = `MEASURES[]`;
 			measure_select.className = `ui-ctl-element measure_select`;
-
 			input.id = `product_quantity_input_${this.selectCount}`;
 			input.required = true;
 			input.name = `PRODUCTS_QUANTITY[]`;
 			input.type = `number`;
 			input.min = 1;
-
-
 			select.className = `ui-ctl-element`;
 			input.className = `ui-ctl-element product_input`;
 			container.className = `select_container`;
@@ -149,25 +164,26 @@ export class EditForm
 			div3.className = `ui-ctl ui-ctl-textbox product_input`
 			div3.id = `product_quantity_${this.selectCount}`;
 			div2.id = `select_div_${this.selectCount}`;
+
 			div.appendChild(angleDivMain);
 			div.appendChild(select);
 			container.appendChild(div);
 			this.body.appendChild(container);
+
 			let placeholder = document.createElement("option");
 			placeholder.text = "Выберите продукт";
 			select.appendChild(placeholder);
 			this.products.forEach(function (option) {
-				var firstOption = document.createElement("option");
+				let firstOption = document.createElement("option");
 				firstOption.value = option.ID;
 				firstOption.text = option.NAME;
 				select.appendChild(firstOption);
 			});
 			for (let i = 1; i <= this.selectCount; i++) {
-
 				this.buttonCheck();
 				select.addEventListener("change", () => {
-					var selectedValue = select.value;
-					var selectedText = select.options[select.selectedIndex].text;
+					let selectedValue = select.value;
+					let selectedText = select.options[select.selectedIndex].text;
 					measure_select.innerHTML = "";
 					if (selectedText === placeholder.text) {
 						div2.remove();
@@ -180,16 +196,14 @@ export class EditForm
 						div2.appendChild(angleDiv);
 						div2.appendChild(measure_select);
 						container.appendChild(div2);
-
 						this.buttonCheck();
 					}
 					this.measures[selectedValue].forEach(function (option) {
-						var secondOption = document.createElement("option");
+						let secondOption = document.createElement("option");
 						secondOption.value = option.ID;
 						secondOption.text = option.MEASURE_NAME;
 						measure_select.appendChild(secondOption);
 					});
-
 					this.buttonCheck();
 				});
 			}
@@ -202,18 +216,6 @@ export class EditForm
 		element.remove();
 		this.selectCount--;
 		this.buttonCheck();
-	}
-
-	checkArray() {
-		for (let i = 1; i <= this.selectCount; i++) {
-			let productField = document.getElementById(`product_${i}`);
-			let selectedText = productField.options[productField.selectedIndex].text;
-			if (selectedText === "Выберите продукт") {
-				alert("Есть невыбранные продукты");
-				return false;
-			}
-		}
-		return true;
 	}
 
 	createStep() {
@@ -251,6 +253,18 @@ export class EditForm
 
 	buttonCheck() {
 		this.confirmRecipeBtn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
+	}
+
+	validateProductValue() {
+		for (let i = 1; i <= this.selectCount; i++) {
+			let productField = document.getElementById(`product_${i}`);
+			let selectedText = productField.options[productField.selectedIndex].text;
+			if (selectedText === "Выберите продукт") {
+				alert("Есть невыбранные продукты");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	validateFiles() {
@@ -294,7 +308,7 @@ export class EditForm
 			alert("Нет продуктов");
 			this.form.preventDefault();
 			return false;
-		} else if (!this.checkArray()) {
+		} else if (!this.validateProductValue()) {
 			return false;
 		} else {
 			for (let i = 1; i <= this.selectCount; i++) {

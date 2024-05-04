@@ -1,4 +1,5 @@
 <?php
+
 namespace Up\Yummy\Model;
 
 use Bitrix\Main\Localization\Loc,
@@ -6,8 +7,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator,
-	Bitrix\Main\ORM\Data\Internal\UpdateByFilterTrait;
-use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
+	Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
 
 Loc::loadMessages(__FILE__);
 
@@ -24,10 +24,10 @@ Loc::loadMessages(__FILE__);
  *
  * @package Up\Yummy\Model
  **/
-
 class ImagesTable extends DataManager
 {
 	use DeleteByFilterTrait;
+
 	/**
 	 * Returns DB table name for entity.
 	 *

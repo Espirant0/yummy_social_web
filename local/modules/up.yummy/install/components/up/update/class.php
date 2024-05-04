@@ -1,12 +1,10 @@
 <?php
 
-use Up\Yummy\Model\ImagesTable;
-use Up\Yummy\Model\InstructionTable;
-use Up\Yummy\Model\RecipesTable;
-use Up\Yummy\Repository\ImageRepository;
-use Up\Yummy\Repository\InstructionRepository;
-use Up\Yummy\Repository\RecipeRepository;
-use Up\Yummy\Service\ValidationService;
+use Up\Yummy\Model\RecipesTable,
+	Up\Yummy\Repository\ImageRepository,
+	Up\Yummy\Repository\InstructionRepository,
+	Up\Yummy\Repository\RecipeRepository,
+	Up\Yummy\Service\ValidationService;
 
 class UpdateComponent extends CBitrixComponent
 {
@@ -36,7 +34,7 @@ class UpdateComponent extends CBitrixComponent
 			{
 				if (!check_bitrix_sessid())
 				{
-					die('session expired');
+					die('Ошибка отправки формы! Проверьте данные и повторите попытку.');
 				}
 				$title = ValidationService::validateString(request()['NAME'], 50);
 				$description = ValidationService::validateString(request()['DESCRIPTION'], 250);
@@ -44,15 +42,15 @@ class UpdateComponent extends CBitrixComponent
 				$steps = ValidationService::validateSteps(request()['STEPS']);
 				$products = request()['PRODUCTS'];
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
-				$productsValidation=ValidationService::checkForIllegalIDs($products);
+				$productsValidation = ValidationService::checkForIllegalIDs($products);
 				$measures = request()['MEASURES'];
 				$photoStatus = (int)request()['photoStatus'];
-				$checkName = RecipeRepository::checkForDublicates($title);
+				$hasDublicate = RecipeRepository::checkTitleForDublicates($title);
 				if ($recipe['TITLE'] === $title)
 				{
-					$checkName = false;
+					$hasDublicate = false;
 				}
-				if (isset($title, $description, $time, $productsQuantity, $products, $steps) && $checkName === false)
+				if (isset($title, $description, $time, $productsQuantity, $products, $steps) && $hasDublicate === false)
 				{
 					$this->insertRecipe($recipeId, $title, $description, $time, $products, $steps, $productsQuantity, $measures, $photoStatus);
 					LocalRedirect("/detail/{$recipeId}/");
@@ -63,21 +61,23 @@ class UpdateComponent extends CBitrixComponent
 					switch (true)
 					{
 						case($title === null):
-							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ НАЗВАНИЕ";
+							$this->arResult['MESSAGE'][] = "Неправильное название";
+							break;
 						case($description === null):
-							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ОПИСАНИЕ";
+							$this->arResult['MESSAGE'][] = "Неправильное описание";
+							break;
 						case($time === null):
-							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНОЕ ВРЕМЯ";
-						case($productsQuantity === null||$productsValidation===false):
-							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ПРОДУКТЫ";
+							$this->arResult['MESSAGE'][] = "Неправильное время";
+							break;
+						case($productsQuantity === null || $productsValidation === false):
+							$this->arResult['MESSAGE'][] = "Неправильно переданы продукты";
+							break;
 						case($steps === null):
-							$this->arResult['MESSAGE'][] = "НЕПРАВИЛЬНО ПЕРЕДАНЫ ШАГИ";
-						case(RecipeRepository::checkForDublicates($title) !== false):
-							$this->arResult['MESSAGE'][] = "РЕЦЕПТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ";
-
-
+							$this->arResult['MESSAGE'][] = "Неправильно переданы шаги";
+							break;
+						case(RecipeRepository::checkTitleForDublicates($title) !== false):
+							$this->arResult['MESSAGE'][] = "Рецепт с таким названием уже есть";
 					}
-					$this->includeComponentTemplate("test");
 				}
 			}
 			else
@@ -98,11 +98,11 @@ class UpdateComponent extends CBitrixComponent
 		$this->arResult['USED_PRODUCTS'] = RecipeRepository::getRecipeProducts($recipeId);
 		$this->arResult['PRODUCTS'] = RecipeRepository::getProducts();
 		$this->arResult['PRODUCT_MEASURES'] = RecipeRepository::getProductMeasures();
-		$this->arResult['RECIPE'] = $recipe;
 		$this->arResult['STEPS'] = ValidationService::protectStepsOutput(InstructionRepository::getSteps($recipeId));
 		$this->arResult['PRODUCTS_SIZE'] = count($this->arResult['USED_PRODUCTS']);
 		$this->arResult['STEPS_SIZE'] = count($this->arResult['STEPS']);
 		$this->arResult['IMAGE'] = ImageRepository::getRecipeCover($recipeId);
+		$this->arResult['RECIPE'] = $recipe;
 	}
 
 	protected function insertRecipe
@@ -118,8 +118,11 @@ class UpdateComponent extends CBitrixComponent
 		int    $photoStatus
 	): void
 	{
-
-		RecipesTable::update($recipeId, ['TITLE' => $title, 'DESCRIPTION' => $description, 'TIME' => $time]);
+		RecipesTable::update($recipeId, [
+			'TITLE' => $title,
+			'DESCRIPTION' => $description,
+			'TIME' => $time,
+		]);
 		$productsList = array_map(null, $products, $productsQuantity, $measures);
 		$productsList = RecipeRepository::mergeProducts($productsList);
 		RecipeRepository::updateProducts($recipeId, $productsList);

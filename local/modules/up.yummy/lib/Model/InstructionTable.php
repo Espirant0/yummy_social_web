@@ -1,13 +1,13 @@
 <?php
 namespace Up\Yummy\Model;
 
-use Bitrix\Main\Entity\ReferenceField;
-use Bitrix\Main\Localization\Loc,
+use Bitrix\Main\Entity\ReferenceField,
+	Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField,
-	Bitrix\Main\ORM\Fields\TextField;
-use Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait;
-use Bitrix\Main\ORM\Query\Join;
+	Bitrix\Main\ORM\Fields\TextField,
+	Bitrix\Main\ORM\Data\Internal\DeleteByFilterTrait,
+	Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 

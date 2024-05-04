@@ -1,3 +1,5 @@
 <div class="content">
-	<h1><a href="/">НА ГЛАВНУЮ</a></h1>
+	<form action="/" method="get" class="create_btn">
+		<button class="ui-btn ui-btn-success" id="comeback_btn">На главную</button>
+	</form>
 </div>

@@ -1,12 +1,12 @@
 <?php
+
 namespace Up\Yummy\Model;
 
-use Bitrix\Crm\Volume\Product;
-use Bitrix\Main\Entity\ReferenceField;
-use Bitrix\Main\Localization\Loc,
+use Bitrix\Main\Entity\ReferenceField,
+	Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
-	Bitrix\Main\ORM\Fields\IntegerField;
-use Bitrix\Main\ORM\Query\Join;
+	Bitrix\Main\ORM\Fields\IntegerField,
+	Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 
@@ -21,7 +21,6 @@ Loc::loadMessages(__FILE__);
  *
  * @package Up\Yummy\Model
  **/
-
 class ProductMeasuresTable extends DataManager
 {
 	/**

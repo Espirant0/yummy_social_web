@@ -1,7 +1,5 @@
 <?php
 
-use Up\Yummy\Repository\PlannerRepository;
-
 class PlannerComponent extends CBitrixComponent
 {
 	public function executeComponent()

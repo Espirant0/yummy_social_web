@@ -6,6 +6,7 @@ this.BX.Up = this.BX.Up || {};
 
 	var EditForm = /*#__PURE__*/function () {
 	  function EditForm() {
+	    var _this = this;
 	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    babelHelpers.classCallCheck(this, EditForm);
 	    this.products = options.products;
@@ -20,33 +21,49 @@ this.BX.Up = this.BX.Up || {};
 	    this.confirmRecipeBtn = document.getElementById("confirm_recipe_btn");
 	    this.deletePhotoBtn = document.getElementById("delete_photo");
 	    this.form = document.getElementById("form");
+	    this.addProductBtn = document.getElementById("add_product_btn");
+	    this.removeProductBtn = document.getElementById("remove_product_btn");
+	    this.addStepBtn = document.getElementById("add_step_btn");
+	    this.removeStepBtn = document.getElementById("remove_step_btn");
+	    this.addProductBtn.addEventListener("click", function () {
+	      _this.createSelect();
+	    });
+	    this.removeProductBtn.addEventListener("click", function () {
+	      _this.deleteSelect();
+	    });
+	    this.addStepBtn.addEventListener("click", function () {
+	      _this.createStep();
+	    });
+	    this.removeStepBtn.addEventListener("click", function () {
+	      _this.deleteStep();
+	    });
 	  }
 	  babelHelpers.createClass(EditForm, [{
 	    key: "initCreate",
 	    value: function initCreate() {
-	      var _this = this;
+	      var _this2 = this;
 	      this.confirmRecipeBtn.disabled = true;
 	      this.imgInput.onchange = function (evt) {
-	        _this.validateFiles();
-	        var _this$imgInput$files = babelHelpers.slicedToArray(_this.imgInput.files, 1),
-	          file = _this$imgInput$files[0];
+	        _this2.validateFiles();
+	        var _this2$imgInput$files = babelHelpers.slicedToArray(_this2.imgInput.files, 1),
+	          file = _this2$imgInput$files[0];
 	        if (file) {
-	          _this.imgPrevImage.src = URL.createObjectURL(file);
+	          _this2.imgPrevImage.src = URL.createObjectURL(file);
 	        }
 	      };
 	      this.deletePhotoBtn.onclick = function (evt) {
-	        _this.imgPrevImage.src = "#";
-	        _this.imgInput.value = "";
-	        _this.deletePhotoBtn.disabled = true;
+	        _this2.imgPrevImage.src = "#";
+	        _this2.imgInput.value = "";
+	        _this2.deletePhotoBtn.disabled = true;
 	      };
 	      this.confirmRecipeBtn.addEventListener("click", function () {
-	        _this.disableButton();
+	        _this2.disableButton();
 	      });
 	    }
 	  }, {
 	    key: "initUpdate",
 	    value: function initUpdate() {
-	      var _this2 = this;
+	      var _this3 = this;
 	      var _loop = function _loop(i) {
 	        var startSelect = document.getElementById("product_".concat(i));
 	        var input = document.getElementById("product_quantity_".concat(i));
@@ -60,27 +77,27 @@ this.BX.Up = this.BX.Up || {};
 	          var selectedValue = startSelect.value;
 	          var selectedText = startSelect.options[startSelect.selectedIndex].text;
 	          measure_select.innerHTML = "";
-	          _this2.buttonCheck();
+	          _this3.buttonCheck();
 	          if (selectedText === "Выберите продукт") {
 	            document.getElementById("product_quantity_".concat(i)).remove();
 	            document.getElementById("measure_".concat(i)).remove();
 	            measure_select.remove();
 	            document.getElementById("select_div_".concat(i)).remove();
-	            _this2.buttonCheck();
+	            _this3.buttonCheck();
 	          } else {
 	            input.value = "";
 	            document.getElementById("container_".concat(i)).appendChild(input);
 	            div2.appendChild(measure_select);
 	            document.getElementById("container_".concat(i)).appendChild(div2);
-	            _this2.buttonCheck();
+	            _this3.buttonCheck();
 	          }
-	          _this2.measures[selectedValue].forEach(function (option) {
+	          _this3.measures[selectedValue].forEach(function (option) {
 	            var secondOption = document.createElement("option");
 	            secondOption.value = option.ID;
 	            secondOption.text = option.MEASURE_NAME;
 	            measure_select.appendChild(secondOption);
 	          });
-	          _this2.buttonCheck();
+	          _this3.buttonCheck();
 	        });
 	      };
 	      for (var i = 1; i <= this.selectCount; i++) {
@@ -92,22 +109,22 @@ this.BX.Up = this.BX.Up || {};
 	        this.deletePhotoBtn.disabled = true;
 	      }
 	      this.imgInput.onchange = function (evt) {
-	        _this2.validateFiles();
-	        var _this2$imgInput$files = babelHelpers.slicedToArray(_this2.imgInput.files, 1),
-	          file = _this2$imgInput$files[0];
+	        _this3.validateFiles();
+	        var _this3$imgInput$files = babelHelpers.slicedToArray(_this3.imgInput.files, 1),
+	          file = _this3$imgInput$files[0];
 	        if (file) {
-	          _this2.imgPrevImage.src = URL.createObjectURL(file);
-	          _this2.photoStatus.value = 0;
+	          _this3.imgPrevImage.src = URL.createObjectURL(file);
+	          _this3.photoStatus.value = 0;
 	        }
 	      };
 	      this.deletePhotoBtn.onclick = function (evt) {
-	        _this2.photoStatus.value = 1;
-	        _this2.imgPrevImage.src = "#";
-	        _this2.deletePhotoBtn.disabled = true;
+	        _this3.photoStatus.value = 1;
+	        _this3.imgPrevImage.src = "#";
+	        _this3.deletePhotoBtn.disabled = true;
 	      };
 	      this.buttonCheck();
 	      this.confirmRecipeBtn.addEventListener("click", function () {
-	        _this2.disableButton();
+	        _this3.disableButton();
 	      });
 	    }
 	  }, {
@@ -121,7 +138,7 @@ this.BX.Up = this.BX.Up || {};
 	  }, {
 	    key: "createSelect",
 	    value: function createSelect() {
-	      var _this3 = this;
+	      var _this4 = this;
 	      if (this.selectCount < 15) {
 	        this.selectCount++;
 	        this.buttonCheck();
@@ -177,7 +194,7 @@ this.BX.Up = this.BX.Up || {};
 	            if (selectedText === placeholder.text) {
 	              div2.remove();
 	              div3.remove();
-	              _this3.buttonCheck();
+	              _this4.buttonCheck();
 	            } else {
 	              input.value = "";
 	              div3.appendChild(input);
@@ -185,15 +202,15 @@ this.BX.Up = this.BX.Up || {};
 	              div2.appendChild(angleDiv);
 	              div2.appendChild(measure_select);
 	              container.appendChild(div2);
-	              _this3.buttonCheck();
+	              _this4.buttonCheck();
 	            }
-	            _this3.measures[selectedValue].forEach(function (option) {
+	            _this4.measures[selectedValue].forEach(function (option) {
 	              var secondOption = document.createElement("option");
 	              secondOption.value = option.ID;
 	              secondOption.text = option.MEASURE_NAME;
 	              measure_select.appendChild(secondOption);
 	            });
-	            _this3.buttonCheck();
+	            _this4.buttonCheck();
 	          });
 	        }
 	      }
@@ -206,19 +223,6 @@ this.BX.Up = this.BX.Up || {};
 	      element.remove();
 	      this.selectCount--;
 	      this.buttonCheck();
-	    }
-	  }, {
-	    key: "checkArray",
-	    value: function checkArray() {
-	      for (var i = 1; i <= this.selectCount; i++) {
-	        var productField = document.getElementById("product_".concat(i));
-	        var selectedText = productField.options[productField.selectedIndex].text;
-	        if (selectedText === "Выберите продукт") {
-	          alert("Есть невыбранные продукты");
-	          return false;
-	        }
-	      }
-	      return true;
 	    }
 	  }, {
 	    key: "createStep",
@@ -259,6 +263,19 @@ this.BX.Up = this.BX.Up || {};
 	    key: "buttonCheck",
 	    value: function buttonCheck() {
 	      this.confirmRecipeBtn.disabled = !(this.textareaCount > 0 && this.selectCount > 0);
+	    }
+	  }, {
+	    key: "validateProductValue",
+	    value: function validateProductValue() {
+	      for (var i = 1; i <= this.selectCount; i++) {
+	        var productField = document.getElementById("product_".concat(i));
+	        var selectedText = productField.options[productField.selectedIndex].text;
+	        if (selectedText === "Выберите продукт") {
+	          alert("Есть невыбранные продукты");
+	          return false;
+	        }
+	      }
+	      return true;
 	    }
 	  }, {
 	    key: "validateFiles",
@@ -305,7 +322,7 @@ this.BX.Up = this.BX.Up || {};
 	        alert("Нет продуктов");
 	        this.form.preventDefault();
 	        return false;
-	      } else if (!this.checkArray()) {
+	      } else if (!this.validateProductValue()) {
 	        return false;
 	      } else {
 	        for (var i = 1; i <= this.selectCount; i++) {

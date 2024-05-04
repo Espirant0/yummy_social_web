@@ -1,18 +1,9 @@
-import {Type, Tag, Loc} from 'main.core';
-import {Popup} from 'main.popup';
+import {Tag} from 'main.core';
 
 export class Planner {
 	constructor(options = {}) {
-		if (Type.isStringFilled(options.rootNodeId)) {
-			this.rootNodeId = options.rootNodeId;
-		} else {
-			throw new Error('Planner: options.rootNodeId required');
-		}
-
+		this.rootNodeId = options.rootNodeId;
 		this.rootNode = document.getElementById(this.rootNodeId);
-		if (!this.rootNode) {
-			throw new Error(`Planner: element with id "${this.rootNodeId}" not found`);
-		}
 		this.title = options.title;
 		this.currentDate = options.currentDate;
 		this.start = options.start;
@@ -49,7 +40,7 @@ export class Planner {
 	}
 
 	loadList(start) {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			BX.ajax.runAction(
 				'up:yummy.planner.getList',
 				{
@@ -68,9 +59,8 @@ export class Planner {
 		});
 	}
 
-	loadProductList(start)
-	{
-		return new Promise((resolve, reject) => {
+	loadProductList(start) {
+		return new Promise((resolve) => {
 			BX.ajax.runAction(
 				'up:yummy.planner.getProducts',
 				{
@@ -89,9 +79,8 @@ export class Planner {
 		});
 	}
 
-	loadDailyProductList(date)
-	{
-		return new Promise((resolve, reject) => {
+	loadDailyProductList(date) {
+		return new Promise((resolve) => {
 			BX.ajax.runAction(
 				'up:yummy.planner.getDailyProducts',
 				{
@@ -111,7 +100,7 @@ export class Planner {
 	}
 
 	loadCourses() {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			BX.ajax.runAction(
 				'up:yummy.planner.getCourses',
 				{
@@ -130,7 +119,7 @@ export class Planner {
 	}
 
 	loadRecipeList() {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			BX.ajax.runAction(
 				'up:yummy.planner.getRecipeList',
 				{
@@ -150,18 +139,19 @@ export class Planner {
 
 	render() {
 		this.rootNode.innerHTML = '';
-
 		const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 		const currentDate = this.currentDate;
 		const currentDayOfWeek = currentDate.getDay();
 		const firstDayOfWeek = new Date(currentDate);
+
 		firstDayOfWeek.setDate(firstDayOfWeek.getDate() - currentDayOfWeek + 1);
-		const dates = Array.from({ length: 7 }, (_, index) => {
+		const dates = Array.from({length: 7}, (_, index) => {
 			const date = new Date(firstDayOfWeek);
 			date.setDate(date.getDate() + index);
 			const dayOfWeek = daysOfWeek[index];
-			return { date: date.toISOString().split('T')[0], dayOfWeek };
+			return {date: date.toISOString().split('T')[0], dayOfWeek};
 		});
+
 		this.courseList.forEach(courseData => {
 			const recipes = dates.map((dateData, index) => {
 				const matchingRecipes = this.plannerList.filter(plannerData => {
@@ -177,18 +167,17 @@ export class Planner {
 			<tr>
 				<th class="is-info">${courseData.TITLE}</th>
 				${recipes.map((recipe, index) => {
-					let cellContent = '+';
-					if(recipe !=='')
-					{
-						cellContent = recipe;
-					}
-					const date = dates[index].date;
-					return Tag.render`
+				let cellContent = '+';
+				if (recipe !== '') {
+					cellContent = recipe;
+				}
+				const date = dates[index].date;
+				return Tag.render`
 						<td class="table_cell" data-date="${date}" data-target="modal" data-course-name="${courseData.TITLE}" data-course-id="${courseData.ID}">
 						${cellContent}
 						</td>
 					`;
-				})}
+			})}
 			</tr>
 			`;
 			this.rootNode.appendChild(planRow);
@@ -244,18 +233,16 @@ export class Planner {
 		let month = date.getMonth() + 1;
 		let year = date.getFullYear();
 
-		// Добавляем ведущий ноль, если день или месяц состоят из одной цифры
 		if (day < 10) {
 			day = "0" + day;
 		}
 		if (month < 10) {
 			month = "0" + month;
 		}
-
 		return day + "." + month + "." + year;
 	}
-	openProductsView(event, products)
-	{
+
+	openProductsView(event, products) {
 		event.preventDefault();
 		const target = event.target;
 		const table = document.getElementById(`daily_product_table`);
@@ -278,15 +265,15 @@ export class Planner {
 		const popup = new BX.PopupWindow(
 			`products`, target,
 			{
-				autoHide : true,
-				lightShadow : true,
-				closeIcon : true,
-				closeByEsc : true,
+				autoHide: true,
+				lightShadow: true,
+				closeIcon: true,
+				closeByEsc: true,
 				offsetLeft: "auto",
 				offsetTop: "auto",
-				overlay: {backgroundColor: 'black', opacity: '80' },
-				events:{
-					onPopupClose: function() {
+				overlay: {backgroundColor: 'black', opacity: '80'},
+				events: {
+					onPopupClose: function () {
 						table.innerHTML = "";
 					}
 				}
@@ -295,8 +282,8 @@ export class Planner {
 		popup.setContent(BX('daily_product_table'));
 		popup.show();
 	}
-	openEditForm(event, recipes)
-	{
+
+	openEditForm(event, recipes) {
 		event.preventDefault();
 		const target = event.target;
 		const date = target.getAttribute('data-date');
@@ -359,35 +346,33 @@ export class Planner {
 		});
 		popupForm.appendChild(dateInput);
 		popupForm.appendChild(course);
-		if(recipes.length !== 0)
-		{
+		if (recipes.length !== 0) {
 			popupForm.appendChild(recipeDivSelect);
 			buttonsDiv.appendChild(editButton);
-		}
-		else {
+		} else {
 
 			popupForm.appendChild(emptyListMessage);
 		}
 		buttonsDiv.appendChild(deleteButton);
 		popupForm.appendChild(buttonsDiv);
 
-
 		const modal = document.getElementById('modal');
 		const div = document.createElement('modal_content');
+
 		div.appendChild(popupForm);
 		modal.appendChild(div);
 		const popup = new BX.PopupWindow(
 			`add_recipe`, target,
 			{
-				autoHide : true,
-				lightShadow : true,
-				closeIcon : true,
-				closeByEsc : true,
+				autoHide: true,
+				lightShadow: true,
+				closeIcon: true,
+				closeByEsc: true,
 				offsetLeft: "auto",
 				offsetTop: "auto",
-				overlay: {backgroundColor: 'black', opacity: '80' },
-				events:{
-					onPopupClose: function() {
+				overlay: {backgroundColor: 'black', opacity: '80'},
+				events: {
+					onPopupClose: function () {
 						div.remove();
 					}
 				}
@@ -396,7 +381,7 @@ export class Planner {
 		popup.setContent(BX('modal'));
 		popup.show();
 
-		editButton.addEventListener('click', ()=> {
+		editButton.addEventListener('click', () => {
 			BX.ajax.runAction(
 				'up:yummy.planner.editPlan',
 				{
@@ -407,8 +392,7 @@ export class Planner {
 						user: this.user,
 					}
 				})
-				.then((response) => {
-					console.log(`success`);
+				.then(() => {
 					this.reload();
 				})
 				.catch((error) => {
@@ -419,7 +403,7 @@ export class Planner {
 			this.reload();
 		});
 
-		deleteButton.addEventListener('click', ()=> {
+		deleteButton.addEventListener('click', () => {
 			BX.ajax.runAction(
 				'up:yummy.planner.deletePlan',
 				{
@@ -429,8 +413,7 @@ export class Planner {
 						user: this.user,
 					}
 				})
-				.then((response) => {
-					console.log(`success`);
+				.then(() => {
 					this.reload();
 				})
 				.catch((error) => {

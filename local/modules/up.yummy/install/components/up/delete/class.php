@@ -1,18 +1,19 @@
 <?php
 
-use Up\Yummy\Repository\RecipeRepository;
+use Up\Yummy\Repository\RecipeRepository,
+	Up\Yummy\Service\ValidationService;
 
 class DeleteComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$recipeId=(int)request()['deleteId'];
+		$recipeId = (int)request()['deleteId'];
 		global $USER;
-		$userId=(int)$USER->GetID();
-		if(RecipeRepository::validateRecipeAuthor($userId,$recipeId))
+		$userId = (int)$USER->GetID();
+		if (ValidationService::validateRecipeAuthor($userId, $recipeId))
 		{
 			RecipeRepository::deleteRecipe($recipeId);
-			if(RecipeRepository::isRecipeDaily($recipeId))
+			if (RecipeRepository::isRecipeDaily($recipeId))
 			{
 				RecipeRepository::updateDailyRecipe();
 			}

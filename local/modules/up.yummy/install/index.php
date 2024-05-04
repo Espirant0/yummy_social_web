@@ -1,8 +1,7 @@
 <?php
 
-use Bitrix\Main\Localization\Loc;
-use Bitrix\Main\ModuleManager;
-use Bitrix\Main\Config\Option;
+use Bitrix\Main\Localization\Loc,
+	Bitrix\Main\ModuleManager;
 
 Loc::loadMessages(__FILE__);
 
@@ -66,16 +65,17 @@ class up_yummy extends CModule
 			true
 		);
 
+
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/templates',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/templates/yummy',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/routes',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/routes',
 			true,
 			true
 		);
 
 		CopyDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/routes',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/routes',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/js',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/js',
 			true,
 			true
 		);
@@ -86,17 +86,16 @@ class up_yummy extends CModule
 		DeleteDirFiles(
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/components',
 			$_SERVER['DOCUMENT_ROOT'] . '/local/components/up'
-
-		);
-
-		DeleteDirFiles(
-			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/templates',
-			$_SERVER['DOCUMENT_ROOT'] . '/local/templates/yummy',
 		);
 
 		DeleteDirFiles(
 			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/routes',
 			$_SERVER['DOCUMENT_ROOT'] . '/local/routes',
+		);
+
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/local/modules/up.yummy/install/js',
+			$_SERVER['DOCUMENT_ROOT'] . '/local/js',
 		);
 	}
 
