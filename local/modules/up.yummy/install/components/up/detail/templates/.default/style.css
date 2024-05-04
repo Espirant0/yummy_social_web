@@ -119,7 +119,7 @@ html{
 }
 .products{
 	display:flex;
-	flex-direction: column;
+	justify-content: center;
 }
 .products_table{
 	background-color: transparent;
@@ -166,6 +166,7 @@ html{
 .comments_component{
 	background: transparent;
 	width: 80%;
+	margin: 0 7%;
 }
 .bx-layout-inner-inner-top-row{
 	display: none;

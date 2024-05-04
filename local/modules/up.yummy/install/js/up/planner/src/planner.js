@@ -348,19 +348,27 @@ export class Planner {
 		deleteButton.id = "delete_btn";
 		deleteButton.textContent = "Удалить";
 
-		buttonsDiv.appendChild(editButton);
-		buttonsDiv.appendChild(deleteButton);
-
+		const emptyListMessage = document.createElement("div");
+		emptyListMessage.textContent = `У вас нет рецептов в избранном`;
+		emptyListMessage.className = "notification course";
 		recipes.forEach(recipesData => {
 			let option = document.createElement("option");
 			option.value = recipesData.ID;
 			option.textContent = recipesData.TITLE;
 			recipeSelect.appendChild(option);
 		});
-
 		popupForm.appendChild(dateInput);
 		popupForm.appendChild(course);
-		popupForm.appendChild(recipeDivSelect);
+		if(recipes.length !== 0)
+		{
+			popupForm.appendChild(recipeDivSelect);
+			buttonsDiv.appendChild(editButton);
+		}
+		else {
+
+			popupForm.appendChild(emptyListMessage);
+		}
+		buttonsDiv.appendChild(deleteButton);
 		popupForm.appendChild(buttonsDiv);
 
 

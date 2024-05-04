@@ -43,28 +43,30 @@ $recipe = $arResult['RECIPE'];
 						<button class="ui-btn ui-btn-lg ui-btn-wait" id="like_btn" type="button">Мне нравится<i id="likes_counter" class="ui-btn-counter"></i></button>
 					</form>
 			</div>
-			<div class="column is-half is-offset-one-quarter products">
-				<p class="title is-4">Ингредиенты</p>
-				<table class="table products_table notification">
-					<thead>
-					<tr>
-						<th>Продукт</th>
-						<th>Количество</th>
-					</tr>
-					</thead>
-					<tbody>
-					<?php foreach ($arResult['PRODUCTS'] as $product): ?>
+			<div class="column products">
+				<div class="products_table_inner">
+					<p class="title is-4">Ингредиенты</p>
+					<table class="table products_table notification">
+						<thead>
 						<tr>
-							<td><?= $product['TITLE'] ?></td>
-							<?php if ($product['MEASURE_NAME'] === "По вкусу"): ?>
-								<td> <?= $product['MEASURE_NAME'] ?></td>
-							<?php else: ?>
-								<td><?= $product['VALUE'] ?> <?= $product['MEASURE_NAME'] ?></td>
-							<?php endif; ?>
+							<th>Продукт</th>
+							<th>Количество</th>
 						</tr>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+						<?php foreach ($arResult['PRODUCTS'] as $product): ?>
+							<tr>
+								<td><?= $product['TITLE'] ?></td>
+								<?php if ($product['MEASURE_NAME'] === "По вкусу"): ?>
+									<td> <?= $product['MEASURE_NAME'] ?></td>
+								<?php else: ?>
+									<td><?= $product['VALUE'] ?> <?= $product['MEASURE_NAME'] ?></td>
+								<?php endif; ?>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -291,8 +291,9 @@ this.BX.Up = this.BX.Up || {};
 	      deleteButton.type = "button";
 	      deleteButton.id = "delete_btn";
 	      deleteButton.textContent = "Удалить";
-	      buttonsDiv.appendChild(editButton);
-	      buttonsDiv.appendChild(deleteButton);
+	      var emptyListMessage = document.createElement("div");
+	      emptyListMessage.textContent = "\u0423 \u0432\u0430\u0441 \u043D\u0435\u0442 \u0440\u0435\u0446\u0435\u043F\u0442\u043E\u0432 \u0432 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u043C";
+	      emptyListMessage.className = "notification course";
 	      recipes.forEach(function (recipesData) {
 	        var option = document.createElement("option");
 	        option.value = recipesData.ID;
@@ -301,7 +302,13 @@ this.BX.Up = this.BX.Up || {};
 	      });
 	      popupForm.appendChild(dateInput);
 	      popupForm.appendChild(course);
-	      popupForm.appendChild(recipeDivSelect);
+	      if (recipes.length !== 0) {
+	        popupForm.appendChild(recipeDivSelect);
+	        buttonsDiv.appendChild(editButton);
+	      } else {
+	        popupForm.appendChild(emptyListMessage);
+	      }
+	      buttonsDiv.appendChild(deleteButton);
 	      popupForm.appendChild(buttonsDiv);
 	      var modal = document.getElementById('modal');
 	      var div = document.createElement('modal_content');
