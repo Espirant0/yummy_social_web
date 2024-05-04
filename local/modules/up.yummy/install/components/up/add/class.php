@@ -10,6 +10,10 @@ class AddComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		if (!check_bitrix_sessid())
+		{
+			die('session expired');
+		}
 		global $USER;
 		$userId = $USER->GetID();
 		$title = ValidationService::validateString(request()['NAME'], 50);

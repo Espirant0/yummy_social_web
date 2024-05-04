@@ -34,6 +34,10 @@ class UpdateComponent extends CBitrixComponent
 		{
 			if ($method === true)
 			{
+				if (!check_bitrix_sessid())
+				{
+					die('session expired');
+				}
 				$title = ValidationService::validateString(request()['NAME'], 50);
 				$description = ValidationService::validateString(request()['DESCRIPTION'], 250);
 				$time = ValidationService::validatePositiveInteger(request()['TIME']);
