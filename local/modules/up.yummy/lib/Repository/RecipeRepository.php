@@ -324,17 +324,6 @@ class RecipeRepository
 			}
 		}
 
-//		if (isset($filter['MY_RECIPES'])) {
-//			if ($filter['MY_RECIPES'] === 'Y') {
-//				$recipes->addFilter('AUTHOR_ID', $userId);
-//			} else {
-//				$recipes->addFilter('!=AUTHOR_ID', $userId);
-//			}
-//		}
-//
-//		if (isset($filter['AUTHOR_ID'])) {
-//			$recipes->addFilter('=AUTHOR_ID', $filter['AUTHOR_ID']);
-//		}
 		$userArray=[];
 		if(isset($filter['MY_RECIPES'])&&($filter['MY_RECIPES'] === 'Y'))
 		{
@@ -358,7 +347,6 @@ class RecipeRepository
 			{
 				$products[] = (int)$product + 1;
 			}
-			//var_dump($products);
 			$recipeIds = RecipeProductTable::query()->setSelect(['RECIPE_ID'])->whereIn('PRODUCT_ID', $products);
 			$recipes->whereIn('ID', $recipeIds);
 		}
@@ -376,30 +364,6 @@ class RecipeRepository
 		return $recipes;
 	}
 
-	public static function getRecipeStats(int $recipeid)
-	{
-		$stats = ['CALORIES' => 0, 'PROTEINS' => 0, 'CARBS' => 0, 'FATS' => 0];
-		$products = RecipeProductTable::getList([
-			'select' =>
-				['*', 'TITLE' => 'PRODUCT.NAME',
-					'MEASURE_NAME' => 'MEASURE.TITLE',
-					'COEFFICIENT' => 'MEASURE.COEFFICIENT',
-					'CALORIES' => 'PRODUCT.CALORIES',
-					'PROTEINS' => 'PRODUCT.PROTEINS',
-					'CARBS' => 'PRODUCT.CARBS',
-					'FATS' => 'PRODUCT.FATS'],
-			'filter' =>
-				['=RECIPE_ID' => $recipeid]
-		])->fetchAll();
-		foreach ($products as $product)
-		{
-			$stats['CALORIES'] += $product['CALORIES'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
-			$stats['PROTEINS'] += $product['PROTEINS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
-			$stats['FATS'] += $product['FATS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
-			$stats['CARBS'] += $product['CARBS'] * $product['COEFFICIENT'] * $product['VALUE'] / 100;
-		}
-		var_dump($stats);
-	}
 
 	public static function insertRecipeStats(int $recipeId, array $productStats): void
 	{

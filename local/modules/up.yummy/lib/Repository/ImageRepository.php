@@ -9,11 +9,6 @@ class ImageRepository
 {
 	public static function validateImage()
 	{
-		if (!check_bitrix_sessid())
-		{
-			die('session expired');
-		}
-
 		$file = $_FILES['IMAGES'];
 
 		$maxSize = 2 * 1024 * 1024;
@@ -24,9 +19,7 @@ class ImageRepository
 			die('uploading error: ' . $error);
 		}
 
-		$fileId = CFile::SaveFile($file, 'RecipeImages', true);
-
-		return $fileId;
+		return CFile::SaveFile($file, 'RecipeImages', true);
 	}
 
 	public static function getRecipeCover($recipeID)
