@@ -42,7 +42,7 @@ class UpdateComponent extends CBitrixComponent
 				$steps = ValidationService::validateSteps(request()['STEPS']);
 				$products = request()['PRODUCTS'];
 				$productsQuantity = ValidationService::validateProductAmount(request()['PRODUCTS_QUANTITY']);
-				$productsValidation = ValidationService::checkForIllegalIDs($products);
+				$productsValidation = ValidationService::checkForIllegalIDs(array_map(null, request()['PRODUCTS'], $productsQuantity, request()['MEASURES']));
 				$measures = request()['MEASURES'];
 				$photoStatus = (int)request()['photoStatus'];
 				$hasDublicate = RecipeRepository::checkTitleForDublicates($title);
@@ -78,6 +78,7 @@ class UpdateComponent extends CBitrixComponent
 						case(RecipeRepository::checkTitleForDublicates($title) !== false):
 							$this->arResult['MESSAGE'][] = "Рецепт с таким названием уже есть";
 					}
+					$this->includeComponentTemplate("error");
 				}
 			}
 			else
