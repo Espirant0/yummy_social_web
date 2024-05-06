@@ -78,6 +78,7 @@ class UpdateComponent extends CBitrixComponent
 						case(RecipeRepository::checkTitleForDublicates($title) !== false):
 							$this->arResult['MESSAGE'][] = "Рецепт с таким названием уже есть";
 					}
+					$this->arParams['ID'] = $recipeId;
 					$this->includeComponentTemplate("error");
 				}
 			}

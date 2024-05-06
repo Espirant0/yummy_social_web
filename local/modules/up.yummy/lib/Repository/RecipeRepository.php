@@ -197,7 +197,12 @@ class RecipeRepository
 
 	public static function getRecipeTitle(int $recipeId): string
 	{
-		return RecipesTable::getRowById($recipeId)['TITLE'];
+		$title = RecipesTable::getRowById($recipeId)['TITLE'];
+		if(!isset($title))
+		{
+			$title = '';
+		}
+		return $title;
 	}
 
 	public static function getRecipeFeed(int $page, array $filter)
